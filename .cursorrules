@@ -1,0 +1,73 @@
+# Cursor AI Rules for Next.js Project
+
+## Project Context
+This is a Next.js application using TypeScript, Tailwind CSS, and App Router.
+
+## Model Selection Guidelines
+### Use Claude 3.5 Sonnet for:
+- Complex architectural decisions
+- Code refactoring
+- Performance optimizations
+- Security implementations
+
+### Use GPT-4 for:
+- Creative UI/UX solutions
+- Complex business logic
+- API design
+- Documentation
+
+### Use GPT-3.5 for:
+- Simple code fixes
+- Basic CRUD operations
+- Quick syntax questions
+- Formatting and linting
+
+### Use Cursor Small for:
+- Autocomplete
+- Quick inline suggestions
+- Simple completions
+
+## Code Style Rules
+- Always use TypeScript with strict type checking
+- Prefer functional components with hooks over class components
+- Use arrow functions for component definitions
+- Follow Next.js 14 App Router conventions
+
+## Naming Conventions
+- Components: PascalCase (e.g., UserProfile)
+- Files: kebab-case for pages, PascalCase for components
+- Variables/functions: camelCase
+- Constants: UPPER_SNAKE_CASE
+
+## Best Practices
+- Always handle loading and error states
+- Use server components by default, client components only when needed
+- Implement proper TypeScript types, avoid 'any'
+- Follow accessibility best practices (ARIA labels, semantic HTML)
+- Optimize images using Next.js Image component
+
+## Tailwind CSS
+- Use Tailwind utility classes instead of custom CSS
+- Follow mobile-first responsive design
+- Use consistent spacing scale (4, 8, 16, 24, 32)
+
+## File Structure
+- Keep components in app/components/
+- Use co-location for component-specific files
+- Group related features in folders
+
+## Security
+- Validate all user inputs
+- Use environment variables for sensitive data
+- Implement proper authentication checks
+
+## Performance
+- Lazy load components when appropriate
+- Use dynamic imports for large dependencies
+- Implement proper caching strategies
+
+## When generating code:
+1. Always include proper TypeScript types
+2. Add helpful comments for complex logic
+3. Include error handling
+4. Follow the existing project structure 
