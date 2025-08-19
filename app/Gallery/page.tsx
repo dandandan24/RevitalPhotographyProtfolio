@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { FaInstagram, FaFacebook, FaWhatsapp, FaTiktok } from 'react-icons/fa';
 import { Phone, Mail, MapPin, Clock } from 'lucide-react';
+import Link from 'next/link';
 
 interface Photo {
   id: number;
@@ -24,7 +25,7 @@ interface GalleryData {
 
 export default function Gallery() {
   const [galleryData, setGalleryData] = useState<GalleryData>({});
-  const [selectedCategory, setSelectedCategory] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('בייבי'); // Set default category
   const [visiblePhotos, setVisiblePhotos] = useState(6);
   const [loading, setLoading] = useState(true);
 
@@ -35,7 +36,7 @@ export default function Gallery() {
       .then((data: GalleryData) => {
         console.log('Gallery data loaded:', data);
         setGalleryData(data);
-        // Set first category with photos as default
+        // Set first category with photos as default immediately
         const firstCategoryWithPhotos = Object.entries(data).find(([_, categoryData]) => categoryData.count > 0);
         if (firstCategoryWithPhotos) {
           setSelectedCategory(firstCategoryWithPhotos[0]);
@@ -88,11 +89,12 @@ export default function Gallery() {
                   setSelectedCategory(category);
                   setVisiblePhotos(6);
                 }}
-                className={`px-6 py-3 rounded-lg font-medium transition-all duration-200 ${
+                className={`px-6 py-3 rounded-lg font-medium transition-all duration-500 ${
                   selectedCategory === category
-                    ? 'bg-blue-600 text-white shadow-lg'
+                    ? 'text-white shadow-lg'
                     : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                 }`}
+                style={selectedCategory === category ? { backgroundColor: '#F1BDAF' } : {}}
                 dir="rtl"
               >
                 {category} ({galleryData[category]?.count || 0})
@@ -109,34 +111,80 @@ export default function Gallery() {
             <p className="text-xl text-gray-500" dir="rtl">אין תמונות בקטגוריה זו</p>
           </div>
         ) : (
-          <div className="columns-1 md:columns-2 lg:columns-3 gap-6">
-            {currentPhotos.slice(0, visiblePhotos).map((photo) => (
-              <div
-                key={photo.id}
-                className="mb-6 group cursor-pointer rounded-lg shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden hover:-translate-y-1"
-                style={{ breakInside: 'avoid' }}
-              >
-                {/* Image Container with Hover Effects */}
-                <div className="relative w-full bg-gray-100 overflow-hidden">
-                  <img
-                    src={photo.src}
-                    alt={photo.alt}
-                    className="w-full h-auto transition-transform duration-300 group-hover:scale-110"
-                    onLoad={() => console.log('✅ Image loaded:', photo.src)}
-                    onError={(e) => console.error('❌ Image failed:', photo.src, e)}
-                  />
-                  
-                  {/* Dark overlay on hover */}
-                  <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-30 transition-opacity duration-300"></div>
-                  
-                  {/* Title overlay - hidden by default, shown on hover */}
-                  <div className="absolute bottom-0 left-0 right-0 p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-                    <h3 className="font-semibold text-lg text-white" dir="rtl">{photo.title}</h3>
+          <>
+            {/* Category Description */}
+            <div className="text-center mb-8">
+              {selectedCategory === 'בייבי' && (
+                <p className="text-lg text-gray-600" dir="rtl">
+                 ילדים וטבע הוא שילוב מנצח. משהו בטבע גורם להם פשוט להשתחרר, ליהנות, לשחק ולחקור. לא צריך יותר מזה כשמדובר בילדים.<br></br>
+                  בצילום ילדים יש לנו הזדמנות מצוינת לתעד את הרגעים הקסומים והתמימים שלהם. <br></br>
+                 כי ברגע שהרגעים האלה עוברים כל מה שנותר לנו הם הזיכרונות בתמונות                </p>
+              )}
+              {selectedCategory === 'גיל מצווה' && (
+                <p className="text-lg text-gray-600" dir="rtl">
+אני אוהבת לצלם באור טבעי, תמונות טבעיות, שמשקפות ומעצימות את הייחודיות של הילדה!<br></br>
+ יש לי גישה מיוחדת, אני גורמת לה להרגיש הכי בנוח שיש מול המצלמה.<br></br>
+  בסוף יום הצילומים אני עורכת את כל התמונות ברמה גבוהה ומעצבת אלבום מהמם עם תמונות בלתי נשכחות!ֿ                </p>
+              )}
+              {selectedCategory === 'ילדים' && (
+                <p className="text-lg text-gray-600" dir="rtl">
+ילדים וטבע הוא שילוב מנצח. משהו בטבע גורם להם פשוט להשתחרר, ליהנות, לשחק ולחקור. לא צריך יותר מזה כשמדובר בילדים.<br></br>
+                  בצילום ילדים יש לנו הזדמנות מצוינת לתעד את הרגעים הקסומים והתמימים שלהם. <br></br>
+                 כי ברגע שהרגעים האלה עוברים כל מה שנותר לנו הם הזיכרונות בתמונות                      </p>
+              )}
+              {selectedCategory === 'הריון' && (
+                <p className="text-lg text-gray-600" dir="rtl">
+צילומי הריון בטבע בלוקיישנים מדהימים. חוויה ומזכרת שתישאר איתך לאורך כל החיים!<br></br>
+צילומי הריון מומלץ לעשות בשבוע 28-34 להריון
+                </p>
+              )}
+               {selectedCategory === 'משפחה' && (
+                <p className="text-lg text-gray-600" dir="rtl">
+צילומי משפחה הם לא רק תמונות – הם זיכרונות חיים.<br></br>
+צילומי משפחה בטבע הם הזדמנות לעצור לרגע את השגרה, להתחבר, לצחוק, להתחבק – ולשמור את התחושה הזו לתמיד.<br></br>
+זה לא רק תיעוד, זו חוויה. זמן איכות אמיתי, והזדמנות לחגוג את מי שאתם.                
+</p>
+              )}
+               {selectedCategory === 'תדמית' && (
+                <p className="text-lg text-gray-600" dir="rtl">
+בעולם של היום, קשרים מתחילים לרוב בצורה ויזואלית והרושם הראשוני נוצר תוך שבריר שנייה.<br></br>
+ ההצלחה מתחילה עם תמונות תדמית מקצועיות המציגות אתכם – בין אם זה לתמונת פרופיל מנצחת ברשתות, פרופיל מקצועי בלינקדין, או הצגת העסק שלך – הן הכרטיס ביקור שלך!                </p>
+              )}
+            </div>
+
+            {/* Order Button */}
+            <div className="text-center mb-8">
+              <Link href={`/Packages?category=${selectedCategory}`}>
+                <button className="text-white px-8 py-4 rounded-full font-bold text-lg shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:-translate-y-1 hover:scale-105 hover:bg-orange-300" style={{ backgroundColor: '#F1BDAF' }}>
+                  הזמינו עכשיו
+                </button>
+              </Link>
+            </div>
+
+            <div className="columns-1 md:columns-2 lg:columns-3 gap-6">
+              {currentPhotos.slice(0, visiblePhotos).map((photo) => (
+                <div
+                  key={photo.id}
+                  className="mb-6 group cursor-pointer rounded-lg shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden hover:-translate-y-1"
+                  style={{ breakInside: 'avoid' }}
+                >
+                  {/* Image Container with Hover Effects */}
+                  <div className="relative w-full bg-gray-100 overflow-hidden">
+                    <img
+                      src={photo.src}
+                      alt={photo.alt}
+                      className="w-full h-auto transition-transform duration-300 group-hover:scale-110"
+                      onLoad={() => console.log('✅ Image loaded:', photo.src)}
+                      onError={(e) => console.error('❌ Image failed:', photo.src, e)}
+                    />
+                    
+                    {/* Dark overlay on hover */}
+                    <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-30 transition-opacity duration-300"></div>
                   </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          </>
         )}
 
         {/* Load More Button */}
@@ -151,6 +199,9 @@ export default function Gallery() {
             </button>
           </div>
         )}
+
+        {/* Floating Order Button */}
+        {/* This section is removed as per the edit hint */}
       </div>
 
       {/* Footer with contact details */}

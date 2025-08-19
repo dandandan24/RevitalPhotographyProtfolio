@@ -46,11 +46,12 @@ export default function RootLayout({
       <body>
           <Bar>
             <NavMenu>
-            <NavButton title="גלריה" href="/Gallery" />
             <NavButton title="צור קשר" href="/Contact" />
-            <NavButton title="סוגי צילום" href="/Events" />
-            <NavButton title="רויטל" href="/About" />
-            <NavButton title="בית" href="/" />   
+            <NavButton title="המלצות" href="/Recommendations" />
+            <NavButton title="חבילות צילום" href="/Packages" />
+            <NavButton title="גלריה" href="/Gallery" />
+            <NavButton title="אודות" href="/About" />
+            <NavButton title="דף הבית" href="/" />   
           </NavMenu>
           <Logo />
           </Bar>
