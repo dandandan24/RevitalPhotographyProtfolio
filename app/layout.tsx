@@ -38,14 +38,14 @@ function Logo() {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
       <body>
-        <Bar>
-          <NavMenu>
+          <Bar>
+            <NavMenu>
             <NavButton title="גלריה" href="/Gallery" />
             <NavButton title="צור קשר" href="/Contact" />
             <NavButton title="סוגי צילום" href="/Events" />
@@ -53,8 +53,8 @@ export default function RootLayout({
             <NavButton title="בית" href="/" />   
           </NavMenu>
           <Logo />
-        </Bar>
-        {children}
+          </Bar>
+          {children}
       </body>
     </html>
   );

@@ -1,0 +1,10 @@
+how to add new photos to the gallery:
+
+1. Drop images into a category folder under public/ (e.g., public/BatMitzva, public/weddings, public/events, public/portraits).
+2. Run: node scripts/generate-gallery.js (this refreshes public/gallery-data.json).
+3. Refresh the Gallery page in the browser.
+
+Notes:
+1. To add a new category: create public/<folder> and add it to galleryFolders in scripts/generate-gallery.js, then rerun the script.
+2. After deleting/renaming photos, rerun the script.
+3. Optional: add an npm script for convenience: "gallery:gen": "node scripts/generate-gallery.js".
