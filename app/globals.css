@@ -99,12 +99,78 @@ nav a[aria-current="page"] {
   padding-bottom: 2px;
 }
 
+/* Collage photo progressive loading */
+.collage-photo {
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.collage-photo.loaded {
+  opacity: 1;
+}
+
+/* Optimize collage performance */
+.collage-photo img {
+  will-change: opacity;
+  contain: layout style paint;
+}
+
+/* Packages header image progressive loading */
+.packages-header img {
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.packages-header img.loaded {
+  opacity: 1;
+}
+
+/* Optimize packages header performance */
+.packages-header img {
+  will-change: opacity;
+  contain: layout style paint;
+}
+
+/* Smooth category button transitions */
+.category-button {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.category-button:hover {
+  transform: translateY(-1px);
+}
+
+.category-button.active {
+  animation: fadeInActive 0.2s ease-out;
+}
+
+/* Consistent button hover effects for all buttons */
+.btn-hover-effect {
+  transition: all 0.2s ease-in-out;
+}
+
+.btn-hover-effect:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+@keyframes fadeInActive {
+  from {
+    opacity: 0.8;
+    transform: scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
 /* Navigation bar styling for other pages */
 .other-page-nav {
   position: relative;
   background: rgba(255, 255, 255, 0.9);
   backdrop-filter: blur(8px);
-  box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   margin-bottom: 1rem;
 }
 

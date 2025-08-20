@@ -5,6 +5,7 @@ import { CameraIcon, PaletteIcon, EditIcon, AlbumIcon} from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 import ActiveNav from "../Components/active-nav";
+import Link from "next/link";
 
 function ProffesionCard({ title, description, icon: Icon }: { title: string, description: string, icon: React.ComponentType<{className?:string, size?: number}> }) {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -73,11 +74,11 @@ export default function About() {
               className="w-auto 2xl:h-[800px] xl:h-[700px] object-cover shadow-2xl rounded-lg"
             />
           </div>
-          <div className="flex flex-col items-end w-1/2 ml-auto">
-            <h1 className="2xl:text-5xl xl:text-4xl font-bold text-black 2xl:my-10 xl:mt-10 xl:mb-3" dir="rtl">
+          <div className="flex flex-col w-1/2 ml-auto h-full">
+            <h1 className="2xl:text-5xl xl:text-4xl font-bold text-black 2xl:my-10 xl:mt-10 xl:mb-3 text-right" dir="rtl">
               קצת <span className="text-[#F1BDAF]">עליי</span> ועל <span className="text-[#F1BDAF]">הסיפור שלי</span>
             </h1>
-            <h2 className="2xl:text-xl xl:text-lg text-gray-700 mb-5" dir="rtl">
+            <h2 className="2xl:text-xl xl:text-lg text-gray-700 mb-5 text-right" dir="rtl">
             היי, אני רויטל פרצלינה, נשואה לרן ואמא ליעלי וגיאצ'וק המקסימים <br></br>
 לפני מספר שנים הרגשתי שהגיע הרגע לשים את האהבה הגדולה שלי לצילום במרכז חיי המקצועיים. במסגרת הלימודית הרחבתי את הניסיון שלי בצילום ושם הבנתי שאני בעצם הכי אוהבת לעבוד עם אנשים. <br></br>
 מי שמכיר אותי יודע שאני אוהבת לטייל בטבע ולגלות מקומות יפים, שאסתטיקה מאוד חשובה לי בתהליך של הצילום. ההקפדה על הלוקיישן המתאים ביותר, ועל ייעוץ סטיילינג שיאפשרו לייצר הרמוניה ויזואלית, הם חלק בלתי נפרד מהגישה המקצועית שלי. <br></br>
@@ -101,10 +102,14 @@ export default function About() {
                 <ProffesionCard title="אלבום" description="עיצוב והדפסת אלבומים ומגוון של הדפסות תמונות" icon = {AlbumIcon}></ProffesionCard>
               </div>
             </div>
-            <button className="bg-[#F1BDAF] w-40 text-white px-6 py-3 rounded-md mt-auto self-center">
-              התחילו עכשיו
-            </button>
-        </div>
+            <div className="w-full flex justify-center mt-16 relative">
+              <Link href="/Contact" className="absolute bottom-0 left-1/2 transform -translate-x-1/2">
+                <button className="bg-[#F1BDAF] w-40 text-white px-6 py-3 rounded-md btn-hover-effect">
+                  התחילו עכשיו
+                </button>
+              </Link>
+            </div>
+          </div>
 
         </div>
       </Hero>

@@ -4,6 +4,7 @@ import { Camera, Phone, Mail, MapPin, Clock } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import { FaInstagram, FaFacebook, FaWhatsapp, FaTiktok } from 'react-icons/fa';
 import ActiveNav from '../Components/active-nav';
+import Link from 'next/link';
 
 interface PackageOption {
   id: string;
@@ -25,12 +26,12 @@ const categoryPackages: CategoryPackages[] = [
   {
     id: 'בייבי',
     name: 'בייבי',
-    backgroundPhoto: '/baby-background.jpg',
+    backgroundPhoto: '/PackagesImages/PackageHeadImages/baby.jpg',
     packages: [
       {
         id: 'baby-deluxe',
         name: 'חבילה פרימיום',
-        photo: '/baby-deluxe.jpg',
+        photo: '/PackagesImages/PackagesImages/babypremium.jpg',
         title: 'חבילת בייבי פרימיום',
         price: '2300₪',
         offers: [
@@ -44,7 +45,7 @@ const categoryPackages: CategoryPackages[] = [
       {
         id: 'baby-premium',
         name: 'חבילה מתקדמת',
-        photo: '/baby-premium.jpg',
+        photo: '/PackagesImages/PackagesImages/babyexpand.jpg',
         title: 'חבילת בייבי מתקדמת',
         price: '1500₪',
         offers: [
@@ -57,7 +58,7 @@ const categoryPackages: CategoryPackages[] = [
       {
         id: 'baby-basic',
         name: 'חבילה בסיסית',
-        photo: '/baby-basic.jpg',
+        photo: '/PackagesImages/PackagesImages/babyBasic.jpg',
         title: 'חבילת בייבי בסיסית',
         price: '1250₪',
         offers: [
@@ -72,12 +73,12 @@ const categoryPackages: CategoryPackages[] = [
   {
     id: 'גיל מצווה',
     name: 'גיל מצווה',
-    backgroundPhoto: '/bat-mitzva-background.jpg',
+    backgroundPhoto: '/PackagesImages/PackageHeadImages/mitzva.jpg',
     packages: [
       {
         id: 'bat-mitzva-deluxe',
         name: 'חבילה פרימיום',
-        photo: '/bat-mitzva-deluxe.jpg',
+        photo: '/PackagesImages/PackagesImages/mitzvaPremium.jpg',
         title: 'חבילת גיל מצווה פרימיום',
         price: '3250₪',
         offers: [
@@ -92,7 +93,7 @@ const categoryPackages: CategoryPackages[] = [
       {
         id: 'bat-mitzva-premium',
         name: 'חבילה מתקדמת',
-        photo: '/bat-mitzva-premium.jpg',
+        photo: '/PackagesImages/PackagesImages/mitzvaexpand.jpg',
         title: 'חבילת גיל מצווה מתקדמת',
         price: '2650₪',
         offers: [
@@ -105,7 +106,7 @@ const categoryPackages: CategoryPackages[] = [
       {
         id: 'bat-mitzva-basic',
         name: 'חבילה בסיסית',
-        photo: '/bat-mitzva-basic.jpg',
+        photo: '/PackagesImages/PackagesImages/mitzvaBasic.jpg',
         title: 'חבילת גיל מצווה בסיסית',
         price: '2350₪',
         offers: [
@@ -120,12 +121,12 @@ const categoryPackages: CategoryPackages[] = [
   {
     id: 'ילדים',
     name: 'ילדים',
-    backgroundPhoto: '/kids-background.jpg',
+    backgroundPhoto: '/PackagesImages/PackageHeadImages/children.jpg',
     packages: [
       {
         id: 'kids-deluxe',
         name: 'חבילה פרימיום',
-        photo: '/kids-deluxe.jpg',
+        photo: '/PackagesImages/PackagesImages/childrenPremium.jpg',
         title: 'חבילת ילדים פרימיום',
         price: '2350₪',
         offers: [
@@ -139,7 +140,7 @@ const categoryPackages: CategoryPackages[] = [
       {
         id: 'kids-premium',
         name: 'חבילה מתקדמת',
-        photo: '/kids-premium.jpg',
+        photo: '/PackagesImages/PackagesImages/childrenExpand.jpg',
         title: 'חבילת ילדים מתקדמת',
         price: '1500₪',
         offers: [
@@ -152,7 +153,7 @@ const categoryPackages: CategoryPackages[] = [
       {
         id: 'kids-basic',
         name: 'חבילה בסיסית',
-        photo: '/kids-basic.jpg',
+        photo: '/PackagesImages/PackagesImages/childrenBasic.jpg',
         title: 'חבילת ילדים בסיסית',
         price: '1250₪',
         offers: [
@@ -167,12 +168,12 @@ const categoryPackages: CategoryPackages[] = [
   {
     id: 'הריון',
     name: 'הריון',
-    backgroundPhoto: '/pregnancy-background.jpg',
+    backgroundPhoto: '/PackagesImages/PackageHeadImages/pregnancy.jpg',
     packages: [
       {
         id: 'pregnancy-deluxe',
         name: 'חבילה פרימיום',
-        photo: '/pregnancy-deluxe.jpg',
+        photo: '/PackagesImages/PackagesImages/pregnancyPremium.jpg',
         title: 'חבילת הריון פרימיום',
         price: '2600₪',
         offers: [
@@ -186,7 +187,7 @@ const categoryPackages: CategoryPackages[] = [
       {
         id: 'pregnancy-premium',
         name: 'חבילה מתקדמת',
-        photo: '/pregnancy-premium.jpg',
+        photo: '/PackagesImages/PackagesImages/pregnancyExpand.jpg',
         title: 'חבילת הריון מתקדמת',
         price: '1800₪',
         offers: [
@@ -200,7 +201,7 @@ const categoryPackages: CategoryPackages[] = [
       {
         id: 'pregnancy-basic',
         name: 'חבילה בסיסית',
-        photo: '/pregnancy-basic.jpg',
+        photo: '/PackagesImages/PackagesImages/pregnancyBasic.jpg',
         title: 'חבילת הריון בסיסית',
         price: '1500₪',
         offers: [
@@ -215,12 +216,12 @@ const categoryPackages: CategoryPackages[] = [
   {
     id: 'משפחה',
     name: 'משפחה',
-    backgroundPhoto: '/family-background.jpg',
+    backgroundPhoto: '/PackagesImages/PackageHeadImages/family.jpg',
     packages: [
       {
         id: 'family-deluxe',
         name: 'חבילה פרימיום',
-        photo: '/family-deluxe.jpg',
+        photo: '/PackagesImages/PackagesImages/familyPremium.jpg',
         title: 'חבילת משפחה פרימיום',
         price: '2450₪',
         offers: [
@@ -234,7 +235,7 @@ const categoryPackages: CategoryPackages[] = [
       {
         id: 'family-premium',
         name: 'חבילה מתקדמת',
-        photo: '/family-premium.jpg',
+        photo: '/PackagesImages/PackagesImages/familyExpand.jpg',
         title: 'חבילת משפחה מתקדמת',
         price: '1950₪',
         offers: [
@@ -247,7 +248,7 @@ const categoryPackages: CategoryPackages[] = [
       {
         id: 'family-basic',
         name: 'חבילה בסיסית',
-        photo: '/family-basic.jpg',
+        photo: '/PackagesImages/PackagesImages/familyBasic.jpg',
         title: 'חבילת משפחה בסיסית',
         price: '1450₪',
         offers: [
@@ -262,12 +263,12 @@ const categoryPackages: CategoryPackages[] = [
   {
     id: 'תדמית',
     name: 'תדמית',
-    backgroundPhoto: '/business-background.jpg',
+    backgroundPhoto: '/PackagesImages/PackageHeadImages/character.jpg',
     packages: [
       {
         id: 'business-deluxe',
         name: 'חבילה פרימיום',
-        photo: '/business-deluxe.jpg',
+        photo: '/PackagesImages/PackagesImages/characterPremium.jpg',
         title: 'חבילת תדמית פרימיום',
         price: '2500₪',
         offers: [
@@ -282,7 +283,7 @@ const categoryPackages: CategoryPackages[] = [
       {
         id: 'business-premium',
         name: 'חבילה מתקדמת',
-        photo: '/business-premium.jpg',
+        photo: '/PackagesImages/PackagesImages/characterExpand.jpg',
         title: 'חבילת תדמית מתקדמת',
         price: '1500₪',
         offers: [
@@ -296,7 +297,7 @@ const categoryPackages: CategoryPackages[] = [
       {
         id: 'business-basic',
         name: 'חבילה בסיסית',
-        photo: '/business-basic.jpg',
+        photo: '/PackagesImages/PackagesImages/characterBasic.jpg',
         title: 'חבילת תדמית בסיסית',
         price: '1100₪',
         offers: [
@@ -329,37 +330,43 @@ export default function Packages() {
       <ActiveNav href="/Packages" />
       {/* Header with Background Photo */}
       {currentCategory && (
-        <div 
-          className="relative h-96 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: `url(${currentCategory.backgroundPhoto})` }}
-        >
-          {/* Dark overlay for better text readability */}
-          <div className="absolute inset-0 bg-black bg-opacity-40"></div>
-        </div>
-      )}
-
-      {/* Category Navigation */}
-      <div className="bg-white border-b sticky top-0 z-10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-center space-x-8 py-4 overflow-x-auto">
-            {categoryPackages.map((category) => (
-              <button
-                key={category.id}
-                onClick={() => setSelectedCategory(category.id)}
-                className={`px-6 py-3 rounded-lg font-medium transition-all duration-300 whitespace-nowrap ${
-                  selectedCategory === category.id 
-                    ? 'text-white shadow-lg' 
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                }`}
-                style={selectedCategory === category.id ? { backgroundColor: '#F1BDAF' } : {}}
-                dir="rtl"
-              >
-                {category.name}
-              </button>
-            ))}
+        <div className="relative">
+          <img
+            src={currentCategory.backgroundPhoto}
+            alt=""
+            className="absolute inset-0 w-full h-full object-cover object-center"
+            loading="eager"
+            decoding="async"
+            onError={(e) => { (e.currentTarget as HTMLImageElement).src = '/imageforbackgroundhomepage.jpg'; }}
+          />
+          
+          {/* Header Content */}
+          <div className="relative z-10 h-96"></div>
+          
+          {/* Category Navigation */}
+          <div className="relative z-10 border-b">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="flex justify-center space-x-8 py-4 overflow-x-auto">
+                {categoryPackages.map((category) => (
+                  <button
+                    key={category.id}
+                    onClick={() => setSelectedCategory(category.id)}
+                    className={`px-6 py-3 rounded-lg font-medium transition-all duration-300 whitespace-nowrap ${
+                      selectedCategory === category.id 
+                        ? 'text-white shadow-lg' 
+                        : 'bg-white/80 text-gray-700 hover:bg-white'
+                    }`}
+                    style={selectedCategory === category.id ? { backgroundColor: '#F1BDAF' } : {}}
+                    dir="rtl"
+                  >
+                    {category.name}
+                  </button>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
-      </div>
+      )}
 
       {/* Package Cards - Only show selected category */}
       {currentCategory && (
@@ -457,8 +464,8 @@ export default function Packages() {
                   </ul>
 
                   {/* Order Button - Always at bottom */}
-                  <button className="w-full text-white py-3 px-4 rounded-lg font-medium hover:opacity-90 transition-opacity duration-200 mt-auto" style={{ backgroundColor: '#F1BDAF' }}>
-                    הזמינו עכשיו
+                  <button className="w-full text-white py-3 px-4 rounded-lg font-medium hover:opacity-90 transition-opacity duration-200 mt-auto btn-hover-effect" style={{ backgroundColor: '#F1BDAF' }}>
+                    <Link href="/Contact">הזמינו עכשיו</Link>
                   </button>
                 </div>
               </div>

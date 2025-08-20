@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useEffect } from "react";
 import ActiveNav from "./Components/active-nav";
+import Link from "next/link";
 
 export default function Home() {
   useEffect(() => {
@@ -28,9 +29,9 @@ export default function Home() {
         <h1 className="text-3xl font-bold text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]" dir="rtl">תהפכו את האירועים,<br></br>
            החוויות והרגעים שלכם לזכרונות מלאי חיים<br></br>
            שיישארו אתכם שנים רבות</h1>
-           <button className="bg-[#F1BDAF] w-auto text-white px-4 py-2 mt-4 rounded-md hover:bg-[#E8A99A] transition-colors drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)] font-bold" dir="rtl">
-            התחילו עכשיו
-           </button>
+           <button className="bg-[#F1BDAF] text-white px-8 py-4 rounded-full font-bold text-lg shadow-lg hover:bg-[#E8A99A] transition-colors drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)] mt-4 btn-hover-effect">
+          <Link href="/Contact">צור קשר</Link>
+        </button>
       </div>
     </>
   );

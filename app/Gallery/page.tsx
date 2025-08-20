@@ -29,6 +29,7 @@ export default function Gallery() {
   const [selectedCategory, setSelectedCategory] = useState('בייבי'); // Set default category
   const [visiblePhotos, setVisiblePhotos] = useState(6);
   const [loading, setLoading] = useState(true);
+  const [collagePhotos, setCollagePhotos] = useState<Photo[]>([]);
 
   useEffect(() => {
     console.log('Loading gallery data...');
@@ -44,6 +45,25 @@ export default function Gallery() {
           console.log('Selected category:', firstCategoryWithPhotos[0]);
         }
         setLoading(false);
+        
+        // Prepare collage photos - create many low-quality thumbnails for rich collage effect
+        const allPhotos = Object.values(data).flatMap(categoryData => categoryData.photos);
+        // Duplicate photos to create hundreds of small thumbnails
+        const duplicatedPhotos = [];
+        for (let i = 0; i < 200; i++) {
+          duplicatedPhotos.push(allPhotos[i % allPhotos.length]);
+        }
+        setCollagePhotos(duplicatedPhotos);
+        
+        // Start loading collage photos progressively
+        setTimeout(() => {
+          const collageElements = document.querySelectorAll('.collage-photo');
+          collageElements.forEach((el, index) => {
+            setTimeout(() => {
+              el.classList.add('loaded');
+            }, index * 10); // Stagger loading by 10ms per photo
+          });
+        }, 100);
       })
       .catch(err => {
         console.error('Error loading gallery data:', err);
@@ -55,7 +75,7 @@ export default function Gallery() {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-[#F1BDAF] mx-auto mb-4"></div>
           <p className="text-xl" dir="rtl">טוען תמונות...</p>
         </div>
       </div>
@@ -75,40 +95,77 @@ export default function Gallery() {
     <>
       <ActiveNav href="/Gallery" />
       <div className="min-h-screen bg-gray-50">
-        {/* Header */}
-        <div className="text-center py-16 bg-white shadow-sm">
-          <h1 className="text-5xl font-bold text-gray-900 mb-4" dir="rtl">גלריית תמונות</h1>
-          <p className="text-xl text-gray-600" dir="rtl">גלו את העבודות שלי</p>
-        </div>
-
-        {/* Category Navigation */}
-        <div className="bg-white border-b sticky top-0 z-10">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex justify-center space-x-8 py-4">
-              {categories.map((category) => (
-                <button
-                  key={category}
-                  onClick={() => {
-                    setSelectedCategory(category);
-                    setVisiblePhotos(6);
-                  }}
-                  className={`px-6 py-3 rounded-lg font-medium transition-all duration-500 ${
-                    selectedCategory === category
-                      ? 'text-white shadow-lg'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                  }`}
-                  style={selectedCategory === category ? { backgroundColor: '#F1BDAF' } : {}}
-                  dir="rtl"
+        {/* Header and Category Navigation Combined */}
+        <div className="bg-white shadow-sm relative overflow-hidden">
+          {/* Single Photo Collage Background - Rich with Hundreds of Photos */}
+          {/* <div className="absolute inset-0 opacity-10 pointer-events-none">
+            <div className="grid grid-cols-20 gap-0.5">
+              {collagePhotos.map((photo, index) => (
+                <div 
+                  key={`header-${photo.id}-${index}`} 
+                  className="aspect-square overflow-hidden collage-photo opacity-0 transition-opacity duration-300"
                 >
-                  {category} ({galleryData[category]?.count || 0})
-                </button>
+                  <img
+                    src={photo.src}
+                    alt=""
+                    className="w-full h-full object-cover"
+                    loading="lazy"
+                    decoding="async"
+                    fetchPriority="low"
+                    style={{
+                      imageRendering: 'pixelated',
+                      filter: 'blur(0.5px)',
+                      transform: 'scale(1.1)'
+                    }}
+                    onLoad={(e) => {
+                      // Progressive loading - fade in each photo as it loads
+                      const target = e.target as HTMLImageElement;
+                      const container = target.parentElement;
+                      if (container) {
+                        container.classList.add('loaded');
+                      }
+                    }}
+                  />
+                </div>
               ))}
+            </div>
+          </div> */}
+          
+          {/* Header Content */}
+          <div className="text-center py-16 relative z-10">
+            <h1 className="text-5xl font-bold text-gray-900 mb-4" dir="rtl">גלריית תמונות</h1>
+            <p className="text-xl text-gray-600" dir="rtl">גלו את העבודות שלי</p>
+          </div>
+
+          {/* Category Navigation */}
+          <div className="border-b relative z-10">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="flex justify-center space-x-8 py-4">
+                {categories.map((category) => (
+                  <button
+                    key={category}
+                    onClick={() => {
+                      setSelectedCategory(category);
+                      setVisiblePhotos(6);
+                    }}
+                    className={`px-6 py-3 rounded-lg font-medium transition-all duration-500 relative overflow-hidden ${
+                      selectedCategory === category
+                        ? 'text-white shadow-lg'
+                        : 'bg-white/80 backdrop-blur-sm text-gray-700 hover:bg-white/90'
+                    }`}
+                    style={selectedCategory === category ? { backgroundColor: '#F1BDAF' } : {}}
+                    dir="rtl"
+                  >
+                    {category}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
         </div>
 
         {/* Photo Grid */}
-        <div className="w-full mx-auto xl:w-[90%] px-4 sm:px-6 lg:px-8 xl:px-0 py-12">
+        <div className="w-full mx-auto xl:w-[90%] px-4 sm:px-6 lg:px-8 xl:px-0 pt-0 pb-12">
           {currentPhotos.length === 0 ? (
             <div className="text-center py-16">
               <p className="text-xl text-gray-500" dir="rtl">אין תמונות בקטגוריה זו</p>
@@ -116,7 +173,7 @@ export default function Gallery() {
           ) : (
             <>
               {/* Category Description */}
-              <div className="text-center mb-8">
+              <div className="text-center mb-8 mt-8">
                 {selectedCategory === 'בייבי' && (
                   <p className="text-lg text-gray-600" dir="rtl">
                    ילדים וטבע הוא שילוב מנצח. משהו בטבע גורם להם פשוט להשתחרר, ליהנות, לשחק ולחקור. לא צריך יותר מזה כשמדובר בילדים.<br></br>
@@ -158,7 +215,7 @@ export default function Gallery() {
               {/* Order Button */}
               <div className="text-center mb-8">
                 <Link href={`/Packages?category=${selectedCategory}`}>
-                  <button className="text-white px-8 py-4 rounded-full font-bold text-lg shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:-translate-y-1 hover:scale-105 hover:bg-orange-300" style={{ backgroundColor: '#F1BDAF' }}>
+                  <button className="text-white px-8 py-4 rounded-full font-bold text-lg shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:-translate-y-1 hover:scale-105 hover:bg-orange-300 btn-hover-effect" style={{ backgroundColor: '#F1BDAF' }}>
                     הזמינו עכשיו
                   </button>
                 </Link>
@@ -177,6 +234,8 @@ export default function Gallery() {
                         src={photo.src}
                         alt={photo.alt}
                         className="w-full h-auto transition-transform duration-300 group-hover:scale-110"
+                        loading="lazy"
+                        decoding="async"
                         onLoad={() => console.log('✅ Image loaded:', photo.src)}
                         onError={(e) => console.error('❌ Image failed:', photo.src, e)}
                       />
@@ -202,72 +261,68 @@ export default function Gallery() {
               </button>
             </div>
           )}
-
-          {/* Floating Order Button */}
-          {/* This section is removed as per the edit hint */}
         </div>
+      </div>
 
-        {/* Footer with contact details */}
-        <footer className="border-t bg-white">
-          <div className="w-full mx-auto xl:w-[90%] px-4 sm:px-6 lg:px-8 xl:px-0 py-10">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8" dir="rtl">
-              {/* Social */}
-              <div>
-                <h3 className="text-lg font-semibold text-gray-800 mb-4">רשתות חברתיות</h3>
-                <div className="flex flex-row gap-4">
-                  <a href="https://www.instagram.com/revitalphotography/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-                    <FaInstagram className="size-6 hover:text-pink-500 transition-colors" />
-                  </a>
-                  <a href="https://www.facebook.com/revitalphotography" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-                    <FaFacebook className="size-6 hover:text-blue-600 transition-colors" />
-                  </a>
-                  <a href="https://api.whatsapp.com/send?phone=972548788851" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
-                    <FaWhatsapp className="size-6 hover:text-green-500 transition-colors" />
-                  </a>
-                  <a href="https://www.tiktok.com/@revital_photography" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
-                    <FaTiktok className="size-6 hover:text-black transition-colors" />
-                  </a>
+      {/* Footer with contact details - Full width */}
+      <footer className="border-t bg-white w-full">
+        <div className="w-full mx-auto xl:w-[90%] px-4 sm:px-6 lg:px-8 xl:px-0 py-10">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8" dir="rtl">
+            {/* Social */}
+            <div>
+              <h3 className="text-lg font-semibold text-gray-800 mb-4">רשתות חברתיות</h3>
+              <div className="flex flex-row gap-4">
+                <a href="https://www.instagram.com/revitalphotography/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                  <FaInstagram className="size-6 hover:text-pink-500 transition-colors" />
+                </a>
+                <a href="https://www.facebook.com/revitalphotography" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                  <FaFacebook className="size-6 hover:text-blue-600 transition-colors" />
+                </a>
+                <a href="https://api.whatsapp.com/send?phone=972548788851" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+                  <FaWhatsapp className="size-6 hover:text-green-500 transition-colors" />
+                </a>
+                <a href="https://www.tiktok.com/@revital_photography" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
+                  <FaTiktok className="size-6 hover:text-black transition-colors" />
+                </a>
+              </div>
+            </div>
+
+            {/* Contact details */}
+            <div>
+              <h3 className="text-lg font-semibold text-gray-800 mb-4">פרטי התקשרות</h3>
+              <div className="space-y-3 text-gray-700">
+                <div className="flex items-center gap-3">
+                  <Phone size={18} />
+                  <span>054-8788851</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <Mail size={18} />
+                  <a href="mailto:rosenbergdan6@gmail.com" className="hover:underline">rparzelina@gmail.com</a>
                 </div>
               </div>
+            </div>
 
-              {/* Contact details */}
-              <div>
-                <h3 className="text-lg font-semibold text-gray-800 mb-4">פרטי התקשרות</h3>
-                <div className="space-y-3 text-gray-700">
-                  <div className="flex items-center gap-3">
-                    <Phone size={18} />
-                    <span>054-8788851</span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <Mail size={18} />
-                    <a href="mailto:rosenbergdan6@gmail.com" className="hover:underline">rparzelina@gmail.com</a>
-                  </div>
+            {/* Address / Hours */}
+            <div>
+              <h3 className="text-lg font-semibold text-gray-800 mb-4">פרטים נוספים</h3>
+              <div className="space-y-3 text-gray-700">
+                <div className="flex items-center gap-3">
+                  <MapPin size={18} />
+                  <span>יהוד</span>
                 </div>
-              </div>
-
-              {/* Address / Hours */}
-              <div>
-                <h3 className="text-lg font-semibold text-gray-800 mb-4">פרטים נוספים</h3>
-                <div className="space-y-3 text-gray-700">
-                  <div className="flex items-center gap-3">
-                    <MapPin size={18} />
-                    <span>יהוד</span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <Clock size={18} />
-                    <span>ימים א' - ה' : 8:00 - 17:00</span>
-                    <span>ו' : 8:00 - 14:00</span>
-                    
-                  </div>
+                <div className="flex items-center gap-3">
+                  <Clock size={18} />
+                  <span>ימים א' - ה' : 8:00 - 17:00</span>
+                  <span>ו' : 8:00 - 14:00</span>
                 </div>
               </div>
             </div>
           </div>
-          <div className="px-2 sm:px-4 pb-6 text-sm text-gray-500">
-            <span className="block text-left" dir="rtl">כל הזכויות שמורות לרויטל פרצלינה</span>
-          </div>
-        </footer>
-      </div>
+        </div>
+        <div className="px-2 sm:px-4 pb-6 text-sm text-gray-500">
+          <span className="block text-left" dir="rtl">כל הזכויות שמורות לרויטל פרצלינה</span>
+        </div>
+      </footer>
     </>
   );
 }
