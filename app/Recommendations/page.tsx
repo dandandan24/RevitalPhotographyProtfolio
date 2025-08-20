@@ -180,8 +180,7 @@ export default function Recommendations() {
               </h2>
               
               <p className="text-lg text-gray-600 mb-8 text-right" dir="rtl">
-                גלריית התמונות הטובות ביותר שזכו להכרה מקצועית ופרסים בתחרויות צילום בינלאומיות
-              </p>
+אני גאה לשתף אתכם ברגעי הקסם שתפסתי דרך העדשה – מוזמנים לגלול, להתרשם, ולהרגיש את הקסם בכל תמונה.              </p>
               
               <div className="relative max-w-5xl mx-auto">
                 {/* Main Photo Display */}

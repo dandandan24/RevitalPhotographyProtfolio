@@ -10,8 +10,10 @@ import ActiveNav from "../Components/active-nav";
 import { useState } from "react";
 
 function ContactCard() {
+    const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
+    const [message, setMessage] = useState('');
     const [emailError, setEmailError] = useState(false);
     const [phoneError, setPhoneError] = useState(false);
 
@@ -30,8 +32,29 @@ function ContactCard() {
 
         // Only proceed if both fields are filled
         if (email.trim() && phone.trim()) {
-            // TODO: Add your submit function here
-            console.log('Form submitted:', { email, phone });
+            // Create WhatsApp message
+            const whatsappMessage = `שלום! אני ${name || 'לקוח חדש'} ואני מעוניין/ת בשירותי הצילום שלך.
+
+פרטי התקשרות:
+שם: ${name || 'לא צוין'}
+אימייל: ${email}
+טלפון: ${phone}
+
+הודעה: ${message || 'לא צוינה הודעה'}
+
+אשמח לקבל פרטים נוספים על השירותים שלך!`;
+
+            // Encode the message for URL
+            const encodedMessage = encodeURIComponent(whatsappMessage);
+            
+            // WhatsApp API URL
+            const whatsappUrl = `https://api.whatsapp.com/send?phone=972548788851&text=${encodedMessage}`;
+            
+            // Open WhatsApp in new tab
+            window.open(whatsappUrl, '_blank');
+            
+            // Log for debugging
+            console.log('Form submitted:', { name, email, phone, message });
         }
     };
 
@@ -91,7 +114,7 @@ function ContactCard() {
             <div className="w-6/10" dir="rtl">
                 <div className="grid w-3/4 items-center gap-3">
                     <Label htmlFor="Name">שם מלא</Label>
-                    <Input type="Name" id="Name" placeholder="שם מלא"/>
+                    <Input type="Name" id="Name" placeholder="שם מלא" value={name} onChange={(e) => setName(e.target.value)}/>
                     <Label htmlFor="Email">כתובת מייל</Label>
                     <Input 
                         type="Email" 
@@ -113,17 +136,17 @@ function ContactCard() {
                     />
                     {phoneError && <p className="text-red-500 text-sm -mt-2">מספר הטלפון הוא שדה חובה</p>}
                     <Label htmlFor="message">תיאור</Label>
-                    <Textarea placeholder="תאר את הבקשה או השאלה שלך כאן" id="message" className="min-h-32 w-full resize-none" />
+                    <Textarea placeholder="תאר את הבקשה או השאלה שלך כאן" id="message" className="min-h-32 w-full resize-none" value={message} onChange={(e) => setMessage(e.target.value)}/>
                     <button 
                         onClick={handleSubmit}
                         disabled={!isFormValid}
                         className={`w-32 text-white px-4 py-2 my-10 rounded-md transition-colors ${
                             isFormValid 
-                                ? 'bg-[#F1BDAF] hover:bg-[#E8A99A] cursor-pointer' 
+                                ? 'bg-[#F1BDAF] hover:bg-[E8A99A] cursor-pointer' 
                                 : 'bg-gray-400 cursor-not-allowed'
                         }`}
                     >
-                        שליחה
+                        שלח בווצאפ
                     </button>
                     {!isFormValid && (
                         <p className="text-gray-500 text-sm text-center -mt-8 mb-4">
