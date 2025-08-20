@@ -38,9 +38,9 @@ function ContactCard() {
     const isFormValid = email.trim() && phone.trim();
 
     return(
-        <div className="flex flex-row items-start justify-center shadow-[0_-10px_25px_-5px_rgba(0,0,0,0.1),0_10px_25px_-5px_rgba(0,0,0,0.1)] rounded-lg p-8 w-3/4">
+        <div className="flex flex-row items-start justify-center shadow-[0_-10px_25px_-5px_rgba(0,0,0,0.1),0_10px_25px_-5px_rgba(0,0,0,0.1)] rounded-lg p-8 w-3/4 xl:w-11/12 2xl:w-3/4 xl:py-6">
             <div className="w-4/10" dir="rtl">
-                <div className="mb-10">
+                <div className="mb-10 xl:mb-6">
                     <h2 className="text-lg font-semibold mb-2">רשתות חברתיות</h2>
                     <div className="w-16 h-0.5 bg-[#F1BDAF] mb-4"></div>
                     <div className="flex flex-row gap-4">
@@ -58,7 +58,7 @@ function ContactCard() {
                         </a>
                     </div>
                 </div>
-                <div className="mb-10">
+                <div className="mb-10 xl:mb-6">
                     <h2 className="text-lg font-semibold mb-2">פרטי התקשרות</h2>
                     <div className="w-16 h-0.5 bg-[#F1BDAF] mb-4"></div>
                     <div className="flex flex-row gap-3 mb-3">
@@ -70,7 +70,7 @@ function ContactCard() {
                         <h2>rparzelina@gmail.com</h2>
                     </div>
                 </div>
-                <div className="mb-10">
+                <div className="mb-10 xl:mb-6">
                     <h2 className="text-lg font-semibold mb-2">כתובת</h2>
                     <div className="w-16 h-0.5 bg-[#F1BDAF] mb-4"></div>
                     <div className="flex flex-row gap-3">
@@ -78,7 +78,7 @@ function ContactCard() {
                         <h2>יהוד</h2>
                     </div>
                 </div>
-                <div className="mb-10">
+                <div className="mb-10 xl:mb-6">
                     <h2 className="text-lg font-semibold mb-2">שעות עבודה</h2>
                     <div className="w-16 h-0.5 bg-[#F1BDAF] mb-4"></div>
                     <div className="flex flex-row gap-3">
@@ -141,8 +141,8 @@ export default function Contact() {
         <>
             <ActiveNav href="/Contact" />
             <Hero background="bg-white" justify="start" alignment="center">
-                <h1 className="text-5xl font-bold text-black mt-16" dir="rtl">צור <span className="text-[#F1BDAF]">קשר</span></h1>
-                <h2 className="text-2xl text-black mt-4 text-center w-3/4 mb-6" dir="rtl">אני זמינה בשבלכם באימייל, בווצאפ ובטלפון. אתם מוזמנים גם להשתמש בטופס כאן בשביל לשלוח שאלה על השירותים שאני מציעה או על הפרויקטים שעשיתי</h2>
+                <h1 className="text-5xl font-bold text-black 2xl:mt-16 xl:mt-8 2xl:text-5xl xl:text-4xl" dir="rtl">צור <span className="text-[#F1BDAF]">קשר</span></h1>
+                <h2 className="text-2xl text-black mt-4 text-center w-3/4 mb-6 2xl:text-2xl xl:text-xl" dir="rtl">אני זמינה בשבילכם באימייל, בווצאפ ובטלפון. אתם מוזמנים גם להשתמש בטופס כאן בשביל לשלוח שאלה על השירותים שאני מציעה או על הפרויקטים שעשיתי</h2>
                 <ContactCard />
             </Hero>
         </>
