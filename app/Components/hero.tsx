@@ -23,7 +23,7 @@
     };
   
     return (
-      <div className={`min-h-[calc(100vh-4rem)] flex flex-col ${justifies[justify]} ${alignments[alignment]} px-32 ${background}`}>
+      <div className={`min-h-[calc(100vh-4rem)] flex flex-col ${justifies[justify]} ${alignments[alignment]} px-4 sm:px-8 md:px-16 lg:px-24 xl:px-32 ${background}`}>
         {children}
       </div>
     );
