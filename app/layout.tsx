@@ -2,28 +2,13 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
-import { Children } from "react";
-
-function Bar({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="flex justify-between bg-white w-full min-h-16 px-5">
-      {children}
-    </div>
-  );
-}
-
-function NavMenu({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="flex min-w-1/2 space-x-32 px-20">
-      {children}
-    </div>
-  );
-}
 
 function NavButton({ title, href }: { title: string, href: string }) {
   return (
     <button>
-      <Link href={href} className="text-xl font-bold text-gray-800">{title}</Link>
+      <Link href={href} className="text-xl font-bold text-gray-800 hover:border-b-2 hover:border-[#F1BDAF] hover:pb-1 transition-all duration-200">
+        {title}
+      </Link>
     </button>
   );
 }
@@ -44,18 +29,18 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-          <Bar>
-            <NavMenu>
+        <nav className="flex justify-between w-full min-h-16 px-5 z-10 bg-white/90 backdrop-blur-md shadow-md">
+          <Logo />
+          <div className="flex min-w-1/2 space-x-32 px-20">
             <NavButton title="צור קשר" href="/Contact" />
             <NavButton title="המלצות" href="/Recommendations" />
             <NavButton title="חבילות צילום" href="/Packages" />
             <NavButton title="גלריה" href="/Gallery" />
             <NavButton title="אודות" href="/About" />
             <NavButton title="דף הבית" href="/" />   
-          </NavMenu>
-          <Logo />
-          </Bar>
-          {children}
+          </div>
+        </nav>
+        {children}
       </body>
     </html>
   );

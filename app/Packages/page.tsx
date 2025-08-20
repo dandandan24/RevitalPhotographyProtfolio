@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { Camera, Phone, Mail, MapPin, Clock } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import { FaInstagram, FaFacebook, FaWhatsapp, FaTiktok } from 'react-icons/fa';
+import ActiveNav from '../Components/active-nav';
 
 interface PackageOption {
   id: string;
@@ -324,7 +325,8 @@ export default function Packages() {
   }, [searchParams]);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <>
+      <ActiveNav href="/Packages" />
       {/* Header with Background Photo */}
       {currentCategory && (
         <div 
@@ -537,6 +539,6 @@ export default function Packages() {
           <span className="block text-left" dir="rtl">כל הזכויות שמורות לרויטל פרצלינה</span>
         </div>
       </footer>
-    </div>
+    </>
   );
 }
