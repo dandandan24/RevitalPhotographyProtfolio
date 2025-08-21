@@ -144,7 +144,35 @@ export default function Gallery() {
           {/* Category Navigation */}
           <div className="border-b relative z-10">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="flex justify-center space-x-8 py-4">
+              {/* Mobile Dropdown - Only visible on small screens */}
+              <div className="lg:hidden py-4 flex justify-center">
+                <div className="relative w-56">
+                  <select
+                    value={selectedCategory}
+                    onChange={(e) => {
+                      setSelectedCategory(e.target.value);
+                      setVisiblePhotos(6);
+                    }}
+                    className="w-full px-5 py-3 text-base font-medium text-gray-700 bg-white border-2 border-[#F1BDAF] rounded-lg shadow-md appearance-none cursor-pointer hover:bg-gray-50 transition-all duration-200 text-center"
+                    dir="rtl"
+                  >
+                    {categories.map((category) => (
+                      <option key={category} value={category} className="text-center">
+                        {category}
+                      </option>
+                    ))}
+                  </select>
+                  {/* Custom dropdown arrow */}
+                  <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
+                    <svg className="w-4 h-4 text-[#F1BDAF]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Desktop Category Buttons - Only visible on large screens */}
+              <div className="hidden lg:flex justify-center space-x-8 py-4">
                 {categories.map((category) => (
                   <button
                     key={category}

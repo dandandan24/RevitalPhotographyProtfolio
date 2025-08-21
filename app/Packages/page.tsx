@@ -317,7 +317,25 @@ const categoryPackages: CategoryPackages[] = [
 export default function Packages() {
   const searchParams = useSearchParams();
   const [selectedCategory, setSelectedCategory] = useState('בייבי');
+  const [isMobile, setIsMobile] = useState(false);
 
+  useEffect(() => {
+    // Check if we're on mobile
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    // Check on mount
+    checkMobile();
+    
+    // Add resize listener
+    window.addEventListener('resize', checkMobile);
+    
+    // Cleanup
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // Get current category data
   const currentCategory = categoryPackages.find(cat => cat.id === selectedCategory);
 
   useEffect(() => {
@@ -348,7 +366,32 @@ export default function Packages() {
           {/* Category Navigation */}
           <div className="relative z-10 border-b">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="flex justify-center space-x-8 py-4 overflow-x-auto">
+              {/* Mobile Dropdown - Only visible on small screens */}
+              <div className="lg:hidden py-4 flex justify-center">
+                <div className="relative w-56">
+                  <select
+                    value={selectedCategory}
+                    onChange={(e) => setSelectedCategory(e.target.value)}
+                    className="w-full px-5 py-3 text-base font-medium text-white bg-white/10 backdrop-blur-sm border-2 border-[#F1BDAF] rounded-lg shadow-md appearance-none cursor-pointer hover:bg-[#F1BDAF]/10 transition-all duration-200 text-center"
+                    dir="rtl"
+                  >
+                    {categoryPackages.map((category) => (
+                      <option key={category.id} value={category.id} className="text-center text-gray-700 bg-white">
+                        {category.name}
+                      </option>
+                    ))}
+                  </select>
+                  {/* Custom dropdown arrow */}
+                  <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
+                    <svg className="w-4 h-4 text-[#F1BDAF]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Desktop Category Buttons - Only visible on large screens */}
+              <div className="hidden lg:flex justify-center space-x-8 py-4 overflow-x-auto">
                 {categoryPackages.map((category) => (
                   <button
                     key={category.id}
@@ -428,52 +471,62 @@ export default function Packages() {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* Packages display order: Basic (left) | Premium (center) | Deluxe (right) */}
-            {currentCategory.packages.map((pkg) => (
-              <div
-                key={pkg.id}
-                className="bg-white rounded-lg shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 flex flex-col h-full"
-              >
-                {/* Package Photo */}
-                <div className="h-48 overflow-hidden">
-                  <Image
-                    src={pkg.photo}
-                    alt={pkg.title}
-                    width={400}
-                    height={300}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-
-                {/* Package Content */}
-                <div className="p-6 flex flex-col flex-grow" dir="rtl">
-                  <div className="text-center mb-4">
-                    <h3 className="text-xl font-bold text-gray-900 mb-2">
-                      {pkg.title}
-                    </h3>
-                    <div className="text-3xl font-bold" style={{ color: '#F1BDAF' }}>
-                      {pkg.price}
-                    </div>
-                    
+            {/* Packages display order: Mobile: Basic | Premium | Deluxe, Desktop: Basic (left) | Premium (center) | Deluxe (right) */}
+            {(() => {
+              // Reorder packages for mobile: Basic first, then Premium, then Deluxe
+              const sortedPackages = isMobile 
+                ? [...currentCategory.packages].sort((a, b) => {
+                    const order = { 'חבילה בסיסית': 1, 'חבילה מתקדמת': 2, 'חבילה פרימיום': 3 };
+                    return (order[a.name as keyof typeof order] || 0) - (order[b.name as keyof typeof order] || 0);
+                  })
+                : currentCategory.packages;
+              
+              return sortedPackages.map((pkg) => (
+                <div
+                  key={pkg.id}
+                  className="bg-white rounded-lg shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 flex flex-col h-full"
+                >
+                  {/* Package Photo */}
+                  <div className="h-48 overflow-hidden">
+                    <Image
+                      src={pkg.photo}
+                      alt={pkg.title}
+                      width={400}
+                      height={300}
+                      className="w-full h-full object-cover"
+                    />
                   </div>
 
-                  {/* Offers List */}
-                  <ul className="space-y-3 mb-6 flex-grow">
-                    {pkg.offers.map((offer, index) => (
-                      <li key={index} className="flex items-center">
-                        <Camera className="ml-2 mr-1 flex-shrink-0" size={20} style={{ color: '#F1BDAF' }} />
-                        <span className="text-gray-700 text-sm">{offer}</span>
-                      </li>
-                    ))}
-                  </ul>
+                  {/* Package Content */}
+                  <div className="p-6 flex flex-col flex-grow" dir="rtl">
+                    <div className="text-center mb-4">
+                      <h3 className="text-xl font-bold text-gray-900 mb-2">
+                        {pkg.title}
+                      </h3>
+                      <div className="text-3xl font-bold" style={{ color: '#F1BDAF' }}>
+                        {pkg.price}
+                      </div>
+                      
+                    </div>
 
-                  {/* Order Button - Always at bottom */}
-                  <Button asChild variant="standard" className="w-full mt-auto">
-                    <Link href="/Contact">הזמינו עכשיו</Link>
-                  </Button>
+                    {/* Offers List */}
+                    <ul className="space-y-3 mb-6 flex-grow">
+                      {pkg.offers.map((offer, index) => (
+                        <li key={index} className="flex items-center">
+                          <Camera className="ml-2 mr-1 flex-shrink-0" size={20} style={{ color: '#F1BDAF' }} />
+                          <span className="text-gray-700 text-sm">{offer}</span>
+                        </li>
+                      ))}
+                    </ul>
+
+                    {/* Order Button - Always at bottom */}
+                    <Button asChild variant="standard" className="w-full mt-auto">
+                      <Link href="/Contact">הזמינו עכשיו</Link>
+                    </Button>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ));
+            })()}
           </div>
         </div>
       )}

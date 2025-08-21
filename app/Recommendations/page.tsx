@@ -229,7 +229,20 @@ const reviews = [
 export default function Recommendations() {
   const [slidePosition, setSlidePosition] = useState(0);
   const [photoWidths, setPhotoWidths] = useState<number[]>([]);
+  const [isMobile, setIsMobile] = useState(false);
   const photoRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  // Check if we're on mobile
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   // Calculate the total width of all photos
   const getTotalWidth = () => {
@@ -238,12 +251,30 @@ export default function Recommendations() {
 
   // Measure photo widths after component mounts
   useEffect(() => {
-    const widths = photoRefs.current.map(ref => ref?.offsetWidth || 0);
-    setPhotoWidths(widths);
+    const measureWidths = () => {
+      const widths = photoRefs.current.map(ref => ref?.offsetWidth || 0);
+      setPhotoWidths(widths);
+    };
+    
+    // Measure on mount
+    measureWidths();
+    
+    // Reset carousel position on mobile refresh
+    if (window.innerWidth < 768) {
+      setSlidePosition(0);
+    }
+    
+    // Measure on resize for mobile responsiveness
+    window.addEventListener('resize', measureWidths);
+    
+    // Cleanup
+    return () => window.removeEventListener('resize', measureWidths);
   }, []);
 
-  // Continuous sliding motion with infinite loop
+  // Continuous sliding motion with infinite loop (Desktop only)
   useEffect(() => {
+    if (window.innerWidth < 768) return; // Only for desktop
+    
     const totalWidth = getTotalWidth();
     if (totalWidth === 0) return;
 
@@ -258,11 +289,57 @@ export default function Recommendations() {
       const position = -(progress * totalWidth);
       setSlidePosition(position);
       
+      // Continue animation
       requestAnimationFrame(animate);
     };
     
-    requestAnimationFrame(animate);
+    // Start animation
+    const animationId = requestAnimationFrame(animate);
+    
+    // Cleanup function
+    return () => cancelAnimationFrame(animationId);
   }, [photoWidths]);
+
+  // Mobile-specific animation that's completely independent of scroll events
+  useEffect(() => {
+    if (window.innerWidth >= 768) return; // Only for mobile
+    
+    const totalWidth = getTotalWidth();
+    if (totalWidth === 0) return;
+
+    // Always start from beginning on mobile
+    setSlidePosition(0);
+    
+    // Use CSS animation for completely scroll-independent sliding
+    const carouselElement = document.querySelector('.carousel-container .flex');
+    if (carouselElement) {
+      // Remove any existing transform
+      (carouselElement as HTMLElement).style.transform = '';
+      
+      // Add CSS animation class
+      carouselElement.classList.add('mobile-carousel-slide');
+      
+      // Set custom CSS properties for the animation
+      (carouselElement as HTMLElement).style.setProperty('--total-width', `${totalWidth}px`);
+      (carouselElement as HTMLElement).style.setProperty('--animation-duration', '90s');
+    }
+    
+    // Cleanup function
+    return () => {
+      if (carouselElement) {
+        carouselElement.classList.remove('mobile-carousel-slide');
+        (carouselElement as HTMLElement).style.removeProperty('--total-width');
+        (carouselElement as HTMLElement).style.removeProperty('--animation-duration');
+      }
+    };
+  }, [photoWidths]);
+
+  // Debug logging for mobile troubleshooting
+  useEffect(() => {
+    console.log('Photo widths:', photoWidths);
+    console.log('Total width:', getTotalWidth());
+    console.log('Slide position:', slidePosition);
+  }, [photoWidths, slidePosition]);
 
   // Calculate progress percentage for the progress bar
   const getProgress = () => {
@@ -280,28 +357,28 @@ export default function Recommendations() {
       {/* Full-Width Photo Carousel Section */}
       <div className="w-full">
         <div className="max-w-full mx-auto">
-          <div className="text-center py-8">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4" dir="rtl">
+          <div className="text-center py-6 md:py-8">
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3 md:mb-4" dir="rtl">
               תמונות <span className="text-[#F1BDAF]">זוכות פרסים</span>
             </h2>
             
-            <p className="text-lg text-gray-600 mb-8" dir="rtl">
+            <p className="text-base md:text-lg text-gray-600 mb-6 md:mb-8 px-4 md:px-0" dir="rtl">
               אני גאה לשתף אתכם ברגעי הקסם שתפסתי דרך העדשה – מוזמנים לגלול, להתרשם, ולהרגיש את הקסם בכל תמונה.
             </p>
           </div>
-          
+
           <div className="relative w-full mx-auto">
             {/* Main Photo Display - Multiple Photos */}
-            <div className="relative h-96 overflow-hidden">
+            <div className="relative h-64 md:h-96 overflow-hidden carousel-container">
               <div 
-                className="flex w-full h-full"
-                style={{ transform: `translateX(${slidePosition}px)` }}
+                className="flex w-full h-full transition-transform duration-1000 ease-out"
+                style={!isMobile ? { transform: `translateX(${slidePosition}px)` } : {}}
               >
                 {/* Original photos */}
                 {awardPhotos.map((photo, index) => (
                   <div 
                     key={`original-${photo.id}`}
-                    className="flex-shrink-0"
+                    className="flex-shrink-0 h-full"
                     ref={el => { photoRefs.current[index] = el; }}
                   >
                     <Image
@@ -309,7 +386,8 @@ export default function Recommendations() {
                       alt={photo.alt}
                       width={400}
                       height={300}
-                      className="h-full w-auto object-cover"
+                      className="h-full w-auto object-cover min-w-0"
+                      priority={index < 3}
                     />
                   </div>
                 ))}
@@ -317,14 +395,14 @@ export default function Recommendations() {
                 {awardPhotos.map((photo, index) => (
                   <div 
                     key={`duplicate-${photo.id}`}
-                    className="flex-shrink-0"
+                    className="flex-shrink-0 h-full"
                   >
                     <Image
                       src={photo.src}
                       alt={photo.alt}
                       width={400}
                       height={300}
-                      className="h-full w-auto object-cover"
+                      className="h-full w-auto object-cover min-w-0"
                     />
                   </div>
                 ))}
@@ -338,26 +416,26 @@ export default function Recommendations() {
       <div className="w-full bg-white py-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4 text-right" dir="rtl">
+              <h2 className="text-3xl font-bold text-gray-900 mb-4 text-right" dir="rtl">
               המלצות <span className="text-[#F1BDAF]">לקוחות</span>
-            </h2>
-            
+              </h2>
+              
             <p className="text-lg text-gray-600 mb-6 text-right" dir="rtl">
               מה הלקוחות שלנו אומרים על החוויה והתוצאות של צילומים מקצועיים
             </p>
-          </div>
-          
+                </div>
+
           <div className="space-y-8 max-h-[600px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-[#F1BDAF] scrollbar-track-gray-100">
             {reviews.map((review, index) => (
               <ReviewCard 
-                key={index} 
+                      key={index}
                 name={review.name}
                 type={review.type}
                 review={review.review}
                 stars={review.stars}
                 initial={review.initial}
-              />
-            ))}
+                    />
+                  ))}
           </div>
         </div>
       </div>

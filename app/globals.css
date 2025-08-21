@@ -69,6 +69,65 @@
   box-shadow: none !important;
 }
 
+/* Simple mobile menu with high z-index */
+.mobile-menu-container {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  background-color: white !important;
+  z-index: 999999 !important;
+}
+
+/* Fix for home page background image line issue */
+.home-hero-section {
+  background-clip: padding-box !important;
+  background-origin: padding-box !important;
+}
+
+/* Mobile fixed navigation */
+@media (max-width: 1023px) {
+  /* Only add padding-top on non-home pages to account for fixed navbar */
+  body:not(.home-page) {
+    padding-top: 64px !important;
+  }
+  
+  /* Ensure About section has proper spacing when navigated to */
+  #about-section {
+    scroll-margin-top: 64px !important; /* Exactly the navbar height */
+  }
+  
+  /* Target navbar with fixed positioning on mobile */
+  nav[class*="fixed"] {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 50 !important;
+    background-color: white !important; /* Default white background on mobile */
+    backdrop-filter: none !important;
+    box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.1) !important;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease !important;
+  }
+  
+  /* Home page navigation - transparent when at top */
+  nav.home-navbar[class*="fixed"] {
+    background-color: transparent !important;
+    backdrop-filter: none !important;
+    box-shadow: none !important;
+  }
+  
+  /* When scrolled on home page */
+  nav.home-navbar[class*="fixed"].scrolled {
+    background-color: white !important;
+    box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.1) !important;
+  }
+}
+
+
 /* Navigation bar styling for home page */
 .home-page-nav {
   position: absolute;
@@ -307,5 +366,30 @@ nav a[href="/About"]:has(+ .current-page) {
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+/* Mobile carousel CSS animation - completely independent of scroll events */
+@keyframes mobileCarouselSlide {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(-1 * var(--total-width, 0px)));
+  }
+}
+
+.mobile-carousel-slide {
+  animation: mobileCarouselSlide var(--animation-duration, 90s) linear infinite;
+  animation-play-state: running;
+}
+
+/* Ensure animation continues during scroll on mobile */
+@media (max-width: 767px) {
+  .mobile-carousel-slide {
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
   }
 }
