@@ -5,6 +5,8 @@ import { useSearchParams } from 'next/navigation';
 import { FaInstagram, FaFacebook, FaWhatsapp, FaTiktok } from 'react-icons/fa';
 import ActiveNav from '../Components/active-nav';
 import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import Image from 'next/image';
 
 interface PackageOption {
   id: string;
@@ -331,12 +333,12 @@ export default function Packages() {
       {/* Header with Background Photo */}
       {currentCategory && (
         <div className="relative">
-          <img
+          <Image
             src={currentCategory.backgroundPhoto}
             alt=""
+            fill
             className="absolute inset-0 w-full h-full object-cover object-center"
-            loading="eager"
-            decoding="async"
+            priority
             onError={(e) => { (e.currentTarget as HTMLImageElement).src = '/imageforbackgroundhomepage.jpg'; }}
           />
           
@@ -434,9 +436,11 @@ export default function Packages() {
               >
                 {/* Package Photo */}
                 <div className="h-48 overflow-hidden">
-                  <img
+                  <Image
                     src={pkg.photo}
                     alt={pkg.title}
+                    width={400}
+                    height={300}
                     className="w-full h-full object-cover"
                   />
                 </div>
@@ -464,9 +468,9 @@ export default function Packages() {
                   </ul>
 
                   {/* Order Button - Always at bottom */}
-                  <button className="w-full text-white py-3 px-4 rounded-lg font-medium hover:opacity-90 transition-opacity duration-200 mt-auto btn-hover-effect" style={{ backgroundColor: '#F1BDAF' }}>
+                  <Button asChild variant="standard" className="w-full mt-auto">
                     <Link href="/Contact">הזמינו עכשיו</Link>
-                  </button>
+                  </Button>
                 </div>
               </div>
             ))}
@@ -505,7 +509,7 @@ export default function Packages() {
                   <FaWhatsapp className="size-6 hover:text-green-500 transition-colors" />
                 </a>
                 <a href="https://www.tiktok.com/@revital_photography" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
-                  <FaTiktok className="size-6 hover:text-black transition-colors" />
+                  <FaTiktok className="size-6 hover:text-blue-400 transition-colors" />
                 </a>
               </div>
             </div>
@@ -515,11 +519,11 @@ export default function Packages() {
               <h3 className="text-lg font-semibold text-gray-800 mb-4">פרטי התקשרות</h3>
               <div className="space-y-3 text-gray-700">
                 <div className="flex items-center gap-3">
-                  <Phone size={18} />
+                  <Phone size={18} style={{ color: '#F1BDAF' }} />
                   <span>054-8788851</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <Mail size={18} />
+                  <Mail size={18} style={{ color: '#F1BDAF' }} />
                   <a href="mailto:rosenbergdan6@gmail.com" className="hover:underline">rparzelina@gmail.com</a>
                 </div>
               </div>
@@ -530,13 +534,18 @@ export default function Packages() {
               <h3 className="text-lg font-semibold text-gray-800 mb-4">פרטים נוספים</h3>
               <div className="space-y-3 text-gray-700">
                 <div className="flex items-center gap-3">
-                  <MapPin size={18} />
+                  <MapPin size={18} style={{ color: '#F1BDAF' }} />
                   <span>יהוד</span>
                 </div>
-                <div className="flex items-center gap-3">
-                  <Clock size={18} />
-                  <span>ימים א' - ה' : 8:00 - 17:00</span>
-                  <span>ו' : 8:00 - 14:00</span>
+                <div className="space-y-2">
+                  <div className="flex items-center gap-3">
+                    <Clock size={18} style={{ color: '#F1BDAF' }} />
+                    <span>ימים א'-ה': 8:00-17:00</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <Clock size={18} style={{ color: '#F1BDAF' }} />
+                    <span>ו': 8:00-14:00</span>
+                  </div>
                 </div>
               </div>
             </div>

@@ -5,11 +5,9 @@ import Link from "next/link";
 
 function NavButton({ title, href }: { title: string, href: string }) {
   return (
-    <button>
-      <Link href={href} className="text-xl font-bold text-gray-800 hover:border-b-2 hover:border-[#F1BDAF] hover:pb-1 transition-all duration-200">
-        {title}
-      </Link>
-    </button>
+    <Link href={href} className="text-xl font-bold text-gray-800 hover:border-b-2 hover:border-[#F1BDAF] hover:pb-1 transition-all duration-200">
+      {title}
+    </Link>
   );
 }
 
@@ -29,9 +27,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <nav className="flex justify-between w-full min-h-16 px-5 z-10 bg-white/90 backdrop-blur-md shadow-md">
+        <nav className="flex justify-between w-full min-h-16 px-5 z-10 bg-white/90 backdrop-blur-md shadow-md items-center">
           <Logo />
-          <div className="flex min-w-1/2 space-x-32 px-20">
+          <div className="flex justify-end space-x-16 pr-8 items-center min-w-[600px]">
             <NavButton title="צור קשר" href="/Contact" />
             <NavButton title="המלצות" href="/Recommendations" />
             <NavButton title="חבילות צילום" href="/Packages" />

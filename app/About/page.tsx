@@ -6,13 +6,14 @@ import Image from "next/image";
 import { useState } from "react";
 import ActiveNav from "../Components/active-nav";
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 function ProffesionCard({ title, description, icon: Icon }: { title: string, description: string, icon: React.ComponentType<{className?:string, size?: number}> }) {
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
     <div 
-      className={`flex flex-col justify-center items-center border-2 w-full h-32 xl:h-32 2xl:h-64 p-2 rounded-lg shadow-xl bg-white cursor-pointer transition-all duration-300 hover:shadow-2xl overflow-hidden ${isExpanded ? 'xl:h-48' : ''}`}
+      className={`flex flex-col justify-center items-center border-2 w-full h-32 xl:h-32 2xl:h-64 rounded-lg shadow-xl pt-2 pb-2 bg-white cursor-pointer transition-all duration-300 hover:shadow-2xl overflow-hidden ${isExpanded ? 'xl:h-48' : ''}`}
       onClick={() => setIsExpanded(!isExpanded)}
     >
         {/* Show full content on 2xl screens and up */}
@@ -27,33 +28,34 @@ function ProffesionCard({ title, description, icon: Icon }: { title: string, des
         </div>
 
         {/* Show expandable content on xl screens only */}
-        <div className="2xl:hidden flex flex-col justify-center items-center h-full">
+        <div className="2xl:hidden flex flex-col justify-between items-center h-full">
           {!isExpanded ? (
             <>
-              <Icon className="text-[#F1BDAF]" size={40}/>
-              <h2 className="2xl:text-xl xl:text-lg text-black font-bold text-center mt-2" dir="rtl">{title}</h2>
-              <div className="mt-auto mb-2 animate-bounce">
+              <div className="flex flex-col items-center">
+                <Icon className="text-[#F1BDAF]" size={40}/>
+                <h2 className="2xl:text-xl xl:text-lg text-black font-bold text-center mt-2" dir="rtl">{title}</h2>
+              </div>
+              <div className="mb-2 animate-bounce">
                 <div className="w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-t-[8px] border-t-[#F1BDAF] border-t-2"></div>
               </div>
             </>
           ) : (
-            <div className="h-full w-full overflow-y-auto">
-              <p className="2xl:text-lg xl:text-base text-gray-700 text-center leading-relaxed w-full px-0 whitespace-normal max-w-none" dir="rtl" style={{wordBreak: 'normal', overflowWrap: 'normal'}}>
-                {description}
-              </p>
-            </div>
+            <>
+              <div className="flex flex-col items-center mb-2">
+                <h2 className="text-lg text-black font-bold text-center" dir="rtl">{title}</h2>
+              </div>
+              <div className="h-full w-full overflow-y-auto">
+                <p className="2xl:text-lg xl:text-base text-gray-700 text-center leading-relaxed w-full px-0 whitespace-normal max-w-none" dir="rtl" style={{wordBreak: 'normal', overflowWrap: 'normal'}}>
+                  {description}
+                </p>
+              </div>
+              <div className="mt-2">
+                <div className="animate-bounce">
+                  <div className="w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-b-[8px] border-b-[#F1BDAF] border-b-2"></div>
+                </div>
+              </div>
+            </>
           )}
-          <div className={`mt-2 ${isExpanded ? 'opacity-100' : 'opacity-0'}`}>
-            {isExpanded ? (
-              <div className="animate-bounce">
-                <div className="w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-b-[8px] border-b-[#F1BDAF] border-b-2"></div>
-              </div>
-            ) : (
-              <div className="text-xs text-blue-600" dir="rtl">
-                לחץ לפתיחה
-              </div>
-            )}
-          </div>
         </div>
     </div>
   )
@@ -64,7 +66,7 @@ export default function About() {
     <>
       <ActiveNav href="/About" />
       <Hero background="bg-white" justify="start">
-        <div className="flex flex-row justify-end w-full">
+        <div className="flex flex-row justify-end w-full relative">
           <div className="self-start shadow-2xl mt-10 mr-30">
             <Image 
               src="/imageforaboutpage.jpg" 
@@ -74,7 +76,7 @@ export default function About() {
               className="w-auto 2xl:h-[800px] xl:h-[700px] object-cover shadow-2xl rounded-lg"
             />
           </div>
-          <div className="flex flex-col w-1/2 ml-auto h-full">
+          <div className="flex flex-col w-1/2 ml-auto min-h-full">
             <h1 className="2xl:text-5xl xl:text-4xl font-bold text-black 2xl:my-10 xl:mt-10 xl:mb-3 text-right" dir="rtl">
               קצת <span className="text-[#F1BDAF]">עליי</span> ועל <span className="text-[#F1BDAF]">הסיפור שלי</span>
             </h1>
@@ -87,30 +89,28 @@ export default function About() {
             </h2>
             <div className="border-2 border-[#F1BDAF] 2xl:my-5 xl:mt-0 xl:mb-2 w-full">
             </div>
-            <div className="grid grid-cols-4 gap-2 w-full items-start">
+            <div className="grid grid-cols-4 gap-2 w-full items-start 2xl:h-auto xl:h-50">
+              <div className="w-full overflow-hidden shadow-xl rounded-lg p-0" >
+                <ProffesionCard title="אלבום" description="עיצוב והדפסת אלבומים ומגוון של הדפסות תמונות" icon = {AlbumIcon}></ProffesionCard>
+              </div>
               <div className="w-full overflow-hidden shadow-xl rounded-lg">
-                <ProffesionCard title="צילום" description="בעלת תואר הנדסאי בצילום ומדיה דיגיטלית ועם 11 שנות ניסיון" icon = {CameraIcon}>
-                </ProffesionCard>
+                <ProffesionCard title="עריכה" description=" התמונות עוברות עריכה ברמה גבוהה מאוד עם דגש לפרטים" icon = {EditIcon}></ProffesionCard>
               </div>
               <div className="w-full overflow-hidden shadow-xl rounded-lg">
                 <ProffesionCard title="אביזרים" description="מתאימה מגוון אביזרים שגורמים לתמונות להיות יותר מיוחדות" icon = {PaletteIcon}></ProffesionCard>
               </div>
               <div className="w-full overflow-hidden shadow-xl rounded-lg">
-                <ProffesionCard title="עריכה" description="כל תמונה עוברת עריכה ברמה גבוהה מאוד עם דגש לפרטים" icon = {EditIcon}></ProffesionCard>
-              </div>
-              <div className="w-full overflow-hidden shadow-xl rounded-lg">
-                <ProffesionCard title="אלבום" description="עיצוב והדפסת אלבומים ומגוון של הדפסות תמונות" icon = {AlbumIcon}></ProffesionCard>
+                <ProffesionCard title="צילום" description="בעלת תואר הנדסאי בצילום ומדיה דיגיטלית ועם 11 שנות ניסיון" icon = {CameraIcon}>
+                </ProffesionCard>
               </div>
             </div>
-            <div className="w-full flex justify-center mt-16 relative">
-              <Link href="/Contact" className="absolute bottom-0 left-1/2 transform -translate-x-1/2">
-                <button className="bg-[#F1BDAF] w-40 text-white px-6 py-3 rounded-md btn-hover-effect">
-                  התחילו עכשיו
-                </button>
-              </Link>
+            <div className="w-full flex justify-center my-4">
+              <Button asChild variant="standard" size="lg" className="w-50">
+                <Link href="/Contact">ליצירת זכרונות לכל החיים</Link>
+              </Button>
             </div>
           </div>
-
+      
         </div>
       </Hero>
     </>

@@ -2,6 +2,8 @@
 import { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import ActiveNav from '../Components/active-nav';
+import ReviewCard from '../Components/review-card';
+import Image from 'next/image';
 
 // Sample award-winning photos - you can replace these with actual photos
 const awardPhotos = [
@@ -12,7 +14,7 @@ const awardPhotos = [
   },
   {
     id: 2,
-    src: '/AwardWinningImages/Award2.jpg',
+    src: '/AwardWinningImages/Award2.gif',
     alt: 'Award Winning Photo 2',
   },
   {
@@ -23,13 +25,13 @@ const awardPhotos = [
   },
   {
     id: 4,
-    src: '/AwardWinningImages/Award4.gif',
+    src: '/AwardWinningImages/Award4.jpg',
     alt: 'Award Winning Photo 4',
     title: 'תמונה זוכת פרס 4',
   },
   {
     id: 5,
-    src: '/AwardWinningImages/Award5.jpg',
+    src: '/AwardWinningImages/Award5.gif',
     alt: 'Award Winning Photo 5',
   },
   {
@@ -39,12 +41,12 @@ const awardPhotos = [
   },
   {
     id: 7,
-    src: '/AwardWinningImages/Award7.gif',
+    src: '/AwardWinningImages/Award7.jpg',
     alt: 'Award Winning Photo 2',
   },
   {
     id: 8,
-    src: '/AwardWinningImages/Award8.jpg',
+    src: '/AwardWinningImages/Award8.gif',
     alt: 'Award Winning Photo 3',
   },
   {
@@ -54,8 +56,173 @@ const awardPhotos = [
   },
   {
     id: 10,
-    src: '/AwardWinningImages/Award10.gif',
+    src: '/AwardWinningImages/Award10.jpg',
     alt: 'Award Winning Photo 5',
+  },
+  {
+    id: 11,
+    src: '/AwardWinningImages/Award11.jpg',
+    alt: 'Award Winning Photo 5',
+  },
+  {
+    id: 12,
+    src: '/AwardWinningImages/Award12.jpg',
+    alt: 'Award Winning Photo 5',
+  },
+  {
+    id: 13,
+    src: '/AwardWinningImages/Award13.jpg',
+    alt: 'Award Winning Photo 5',
+  },
+  
+  {
+    id: 14,
+    src: '/AwardWinningImages/Award14.jpg',
+    alt: 'Award Winning Photo 5',
+  },
+  {
+    id: 15,
+    src: '/AwardWinningImages/Award8.jpg',
+    alt: 'Award Winning Photo 5',
+  },
+
+
+];
+
+// Reviews data
+const reviews = [
+  {
+    name: 'שירה כהן',
+    type: 'צילומי הריון',
+    review: 'רויטל יצרה עבורנו חוויה מדהימה! התמונות יצאו מושלמות והאווירה הייתה כל כך נעימה. היא מקצועית, יצירתית ויודעת בדיוק איך לתפוס את הרגעים המיוחדים. ממליצה בחום!',
+    stars: 5,
+    initial: 'ש'
+  },
+  {
+    name: 'דן לוי',
+    type: 'צילומי משפחה',
+    review: 'הצילומים המשפחתיים שלנו יצאו פשוט מדהימים! רויטל יודעת איך לגרום לילדים להרגיש בנוח ולכולנו ליהנות מהתהליך. התמונות מלאות חיים ואהבה. תודה רבה!',
+    stars: 5,
+    initial: 'ד'
+  },
+  {
+    name: 'מיכל רוזן',
+    type: 'צילומי בת מצווה',
+    review: 'צילומי בת המצווה של בתי היו חוויה בלתי נשכחת! רויטל יצרה אווירה קסומה והתמונות יצאו מעבר לכל דמיון. היא מקצועית, סבלנית ויודעת בדיוק איך להעצים את הילדה.',
+    stars: 5,
+    initial: 'מ'
+  },
+  {
+    name: 'אבי כהן',
+    type: 'צילומי תדמית',
+    review: 'רויטל עזרה לי ליצור תמונות תדמית מקצועיות ומרשימות. היא יודעת איך להבליט את היתרונות שלי ולתפוס את המבט הנכון. התמונות עזרו לי מאוד בקריירה!',
+    stars: 5,
+    initial: 'א'
+  },
+  {
+    name: 'נועה דוד',
+    type: 'צילומי ילדים',
+    review: 'הצילומים של הילדים שלנו יצאו פשוט מושלמים! רויטל יודעת איך לגרום להם להרגיש בנוח ולהתנהג טבעי. התמונות מלאות שמחה ואנרגיה.',
+    stars: 5,
+    initial: 'נ'
+  },
+  {
+    name: 'יוסי מור',
+    type: 'צילומי אירועים',
+    review: 'רויטל צילמה את החתונה שלנו והיא הייתה פשוט מדהימה! היא תפסה כל רגע מיוחד והתמונות יצאו מעבר לכל דמיון. ממליץ בחום!',
+    stars: 5,
+    initial: 'י'
+  },
+  {
+    name: 'דנה אברהם',
+    type: 'צילומי הריון',
+    review: 'הצילומים שלי בהריון יצאו כל כך יפים ורגישים. רויטל יודעת איך להבליט את היופי הטבעי של הגוף בהריון. חוויה מדהימה!',
+    stars: 5,
+    initial: 'ד'
+  },
+  {
+    name: 'עמיר כהן',
+    type: 'צילומי משפחה',
+    review: 'הצילומים המשפחתיים שלנו יצאו פשוט מושלמים! רויטל יודעת איך ליצור אווירה נעימה ולגרום לכולנו להרגיש בנוח. התמונות מלאות אהבה וחום.',
+    stars: 5,
+    initial: 'ע'
+  },
+  {
+    name: 'מיכל לוי',
+    type: 'צילומי בת מצווה',
+    review: 'צילומי בת המצווה של בתי היו חוויה בלתי נשכחת! רויטל יצרה אווירה קסומה והתמונות יצאו מעבר לכל דמיון. היא מקצועית ויצירתית.',
+    stars: 5,
+    initial: 'מ'
+  },
+  {
+    name: 'רון שפירא',
+    type: 'צילומי תדמית',
+    review: 'רויטל עזרה לי ליצור תמונות תדמית מקצועיות ומרשימות. היא יודעת איך להבליט את היתרונות שלי ולתפוס את המבט הנכון.',
+    stars: 5,
+    initial: 'ר'
+  },
+  {
+    name: 'ליאור כהן',
+    type: 'צילומי ילדים',
+    review: 'הצילומים של הילדים שלנו יצאו פשוט מושלמים! רויטל יודעת איך לגרום להם להרגיש בנוח ולהתנהג טבעי.',
+    stars: 5,
+    initial: 'ל'
+  },
+  {
+    name: 'שרון דוד',
+    type: 'צילומי אירועים',
+    review: 'רויטל צילמה את האירוע שלנו והיא הייתה פשוט מדהימה! היא תפסה כל רגע מיוחד והתמונות יצאו מעבר לכל דמיון.',
+    stars: 5,
+    initial: 'ש'
+  },
+  {
+    name: 'עדי מור',
+    type: 'צילומי הריון',
+    review: 'הצילומים שלי בהריון יצאו כל כך יפים ורגישים. רויטל יודעת איך להבליט את היופי הטבעי של הגוף בהריון.',
+    stars: 5,
+    initial: 'ע'
+  },
+  {
+    name: 'גל כהן',
+    type: 'צילומי משפחה',
+    review: 'הצילומים המשפחתיים שלנו יצאו פשוט מושלמים! רויטל יודעת איך ליצור אווירה נעימה ולגרום לכולנו להרגיש בנוח.',
+    stars: 5,
+    initial: 'ג'
+  },
+  {
+    name: 'נועה לוי',
+    type: 'צילומי בת מצווה',
+    review: 'צילומי בת המצווה של בתי היו חוויה בלתי נשכחת! רויטל יצרה אווירה קסומה והתמונות יצאו מעבר לכל דמיון.',
+    stars: 5,
+    initial: 'נ'
+  },
+  {
+    name: 'יוסי שפירא',
+    type: 'צילומי תדמית',
+    review: 'רויטל עזרה לי ליצור תמונות תדמית מקצועיות ומרשימות. היא יודעת איך להבליט את היתרונות שלי ולתפוס את המבט הנכון.',
+    stars: 5,
+    initial: 'י'
+  },
+  {
+    name: 'דנה כהן',
+    type: 'צילומי ילדים',
+    review: 'הצילומים של הילדים שלנו יצאו פשוט מושלמים! רויטל יודעת איך לגרום להם להרגיש בנוח ולהתנהג טבעי.',
+    stars: 5,
+    initial: 'ד'
+  },
+  {
+    name: 'עמיר לוי',
+    type: 'צילומי אירועים',
+    review: 'רויטל צילמה את האירוע שלנו והיא הייתה פשוט מדהימה! היא תפסה כל רגע מיוחד והתמונות יצאו מעבר לכל דמיון.',
+    stars: 5,
+    initial: 'ע'
+  },
+  {
+    name: 'מיכל שפירא',
+    type: 'צילומי הריון',
+    review: 'הצילומים שלי בהריון יצאו כל כך יפים ורגישים. רויטל יודעת איך להבליט את היופי הטבעי של הגוף בהריון.',
+    stars: 5,
+    initial: 'מ'
   }
 ];
 
@@ -63,15 +230,17 @@ export default function Recommendations() {
   const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
 
   const nextPhoto = () => {
-    setCurrentPhotoIndex((prevIndex) => 
-      prevIndex === awardPhotos.length - 1 ? 0 : prevIndex + 1
-    );
+    setCurrentPhotoIndex((prevIndex) => {
+      const maxIndex = Math.floor((awardPhotos.length - 1) / 3) * 3;
+      return prevIndex >= maxIndex ? 0 : prevIndex + 3;
+    });
   };
 
   const prevPhoto = () => {
-    setCurrentPhotoIndex((prevIndex) => 
-      prevIndex === 0 ? awardPhotos.length - 1 : prevIndex - 1
-    );
+    setCurrentPhotoIndex((prevIndex) => {
+      const maxIndex = Math.floor((awardPhotos.length - 1) / 3) * 3;
+      return prevIndex <= 0 ? maxIndex : prevIndex - 3;
+    });
   };
 
   // Auto-advance carousel every 5 seconds
@@ -87,145 +256,104 @@ export default function Recommendations() {
     <>
       <ActiveNav href="/Recommendations" />
       
-      {/* Award Winning Photos Section */}
-      <div className="min-h-[calc(100vh-4rem)] bg-gradient-to-b from-gray-50 to-white pt-8">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Content Layout - Carousel and Recommendations Side by Side */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 xl:gap-6 2xl:gap-12 items-start">
-            {/* Client Recommendations Section - Left Side */}
-            <div>
-              <h2 className="text-3xl font-bold text-gray-900 mb-4 text-right" dir="rtl">
-                המלצות <span className="text-[#F1BDAF]">לקוחות</span>
-              </h2>
-              
-              <p className="text-lg text-gray-600 mb-6 text-right" dir="rtl">
-                מה הלקוחות שלנו אומרים על החוויה והתוצאות של צילומים מקצועיים
-              </p>
-              
-              <div className="space-y-6 max-h-[500px] xl:max-h-[500px] 2xl:max-h-[700px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-[#F1BDAF] scrollbar-track-gray-100 mt-15">
-                {/* Recommendation 1 */}
-                <div className="bg-white p-6 xl:p-5 2xl:p-8 rounded-xl shadow-lg border-l-4 border-[#F1BDAF]">
-                  <div className="flex items-start space-x-3 space-x-reverse">
-                    <div className="w-12 h-12 xl:w-10 xl:h-10 2xl:w-16 2xl:h-16 bg-[#F1BDAF] rounded-full flex items-center justify-center text-white font-bold text-lg xl:text-base 2xl:text-2xl">
-                      ש
-                    </div>
-                    <div className="flex-1">
-                      <h3 className="font-semibold text-gray-900 mb-2 xl:text-sm 2xl:text-lg" dir="rtl">שירה כהן</h3>
-                      <p className="text-gray-600 text-sm mb-3 xl:text-xs 2xl:text-base" dir="rtl">צילומי הריון</p>
-                      <p className="text-gray-700 leading-relaxed xl:text-sm 2xl:text-lg" dir="rtl">
-                        "רויטל יצרה עבורנו חוויה מדהימה! התמונות יצאו מושלמות והאווירה הייתה כל כך נעימה. 
-                        היא מקצועית, יצירתית ויודעת בדיוק איך לתפוס את הרגעים המיוחדים. ממליצה בחום!"
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Recommendation 2 */}
-                <div className="bg-white p-6 xl:p-5 2xl:p-8 rounded-xl shadow-lg border-l-4 border-[#F1BDAF]">
-                  <div className="flex items-start space-x-3 space-x-reverse">
-                    <div className="w-12 h-12 xl:w-10 xl:h-10 2xl:w-16 2xl:h-16 bg-[#F1BDAF] rounded-full flex items-center justify-center text-white font-bold text-lg xl:text-base 2xl:text-2xl">
-                      ד
-                    </div>
-                    <div className="flex-1">
-                      <h3 className="font-semibold text-gray-900 mb-2 xl:text-sm 2xl:text-lg" dir="rtl">דן לוי</h3>
-                      <p className="text-gray-600 text-sm mb-3 xl:text-xs 2xl:text-base" dir="rtl">צילומי משפחה</p>
-                      <p className="text-gray-700 leading-relaxed xl:text-sm 2xl:text-lg" dir="rtl">
-                        "הצילומים המשפחתיים שלנו יצאו פשוט מדהימים! רויטל יודעת איך לגרום לילדים להרגיש בנוח 
-                        ולכולנו ליהנות מהתהליך. התמונות מלאות חיים ואהבה. תודה רבה!"
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Recommendation 3 */}
-                <div className="bg-white p-6 xl:p-5 2xl:p-8 rounded-xl shadow-lg border-l-4 border-[#F1BDAF]">
-                  <div className="flex items-start space-x-3 space-x-reverse">
-                    <div className="w-12 h-12 xl:w-10 xl:h-10 2xl:w-16 2xl:h-16 bg-[#F1BDAF] rounded-full flex items-center justify-center text-white font-bold text-lg xl:text-base 2xl:text-2xl">
-                      מ
-                    </div>
-                    <div className="flex-1">
-                      <h3 className="font-semibold text-gray-900 mb-2 xl:text-sm 2xl:text-lg" dir="rtl">מיכל רוזן</h3>
-                      <p className="text-gray-600 text-sm mb-3 xl:text-xs 2xl:text-base" dir="rtl">צילומי בת מצווה</p>
-                      <p className="text-gray-700 leading-relaxed xl:text-sm 2xl:text-lg" dir="rtl">
-                        "צילומי בת המצווה של בתי היו חוויה בלתי נשכחת! רויטל יצרה אווירה קסומה 
-                        והתמונות יצאו מעבר לכל דמיון. היא מקצועית, סבלנית ויודעת בדיוק איך להעצים את הילדה."
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Recommendation 4 */}
-                <div className="bg-white p-6 xl:p-5 2xl:p-8 rounded-xl shadow-lg border-l-4 border-[#F1BDAF]">
-                  <div className="flex items-start space-x-3 space-x-reverse">
-                    <div className="w-12 h-12 xl:w-10 xl:h-10 2xl:w-16 2xl:h-16 bg-[#F1BDAF] rounded-full flex items-center justify-center text-white font-bold text-lg xl:text-base 2xl:text-2xl">
-                      א
-                    </div>
-                    <div className="flex-1">
-                      <h3 className="font-semibold text-gray-900 mb-2 xl:text-sm 2xl:text-lg" dir="rtl">אבי כהן</h3>
-                      <p className="text-gray-600 text-sm mb-3 xl:text-xs 2xl:text-base" dir="rtl">צילומי תדמית</p>
-                      <p className="text-gray-700 leading-relaxed xl:text-sm 2xl:text-lg" dir="rtl">
-                        "רויטל עזרה לי ליצור תמונות תדמית מקצועיות ומרשימות. היא יודעת איך להבליט 
-                        את היתרונות שלי ולתפוס את המבט הנכון. התמונות עזרו לי מאוד בקריירה!"
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Photo Carousel - Right Side */}
-            <div>
-              <h2 className="text-3xl font-bold text-gray-900 mb-4 text-right" dir="rtl">
-                תמונות <span className="text-[#F1BDAF]">זוכות פרסים</span>
-              </h2>
-              
-              <p className="text-lg text-gray-600 mb-8 text-right" dir="rtl">
-אני גאה לשתף אתכם ברגעי הקסם שתפסתי דרך העדשה – מוזמנים לגלול, להתרשם, ולהרגיש את הקסם בכל תמונה.              </p>
-              
-              <div className="relative max-w-5xl mx-auto">
-                {/* Main Photo Display */}
-                <div className="relative h-auto rounded-2xl overflow-hidden shadow-2xl">
-                  <img
-                    src={awardPhotos[currentPhotoIndex].src}
-                    alt={awardPhotos[currentPhotoIndex].alt}
-                    className="w-full h-auto object-contain transition-all duration-500 ease-in-out"
-                  />
-                </div>
-
-                {/* Navigation Arrows */}
-                <button
-                  onClick={prevPhoto}
-                  className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/90 hover:bg-white text-gray-800 p-3 xl:p-2 2xl:p-4 rounded-full shadow-lg transition-all duration-200 hover:scale-110 z-10"
-                  aria-label="Previous photo"
-                >
-                  <ChevronLeft size={24} className="xl:w-5 xl:h-5 2xl:w-7 2xl:h-7" />
-                </button>
-                
-                <button
-                  onClick={nextPhoto}
-                  className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/90 hover:bg-white text-gray-800 p-3 xl:p-2 2xl:p-4 rounded-full shadow-lg transition-all duration-200 hover:scale-110 z-10"
-                  aria-label="Next photo"
-                >
-                  <ChevronRight size={24} className="xl:w-5 xl:h-5 2xl:w-7 2xl:h-7" />
-                </button>
-
-                {/* Photo Indicators */}
-                <div className="flex justify-center mt-6 space-x-2">
-                  {awardPhotos.map((_, index) => (
-                    <button
-                      key={index}
-                      onClick={() => setCurrentPhotoIndex(index)}
-                      className={`w-3 h-3 rounded-full transition-all duration-200 ${
-                        index === currentPhotoIndex 
-                          ? 'bg-[#F1BDAF] scale-125' 
-                          : 'bg-gray-300 hover:bg-gray-400'
-                      }`}
-                      aria-label={`Go to photo ${index + 1}`}
+      {/* Full-Width Photo Carousel Section */}
+      <div className="w-full bg-gradient-to-b from-gray-50 to-white">
+        <div className="max-w-full mx-auto">
+          <div className="text-center py-8">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4" dir="rtl">
+              תמונות <span className="text-[#F1BDAF]">זוכות פרסים</span>
+            </h2>
+            
+            <p className="text-lg text-gray-600 mb-8" dir="rtl">
+              אני גאה לשתף אתכם ברגעי הקסם שתפסתי דרך העדשה – מוזמנים לגלול, להתרשם, ולהרגיש את הקסם בכל תמונה.
+            </p>
+          </div>
+          
+          <div className="relative max-w-full mx-auto px-4 sm:px-6 lg:px-8">
+            {/* Main Photo Display - Multiple Photos */}
+            <div className="relative h-80 rounded-2xl overflow-hidden shadow-2xl">
+              <div 
+                className="flex transition-transform duration-500 ease-in-out w-full h-full"
+                style={{ transform: `translateX(-${currentPhotoIndex * 33.333}%)` }}
+              >
+                {awardPhotos.map((photo, index) => (
+                  <div key={photo.id} className="w-1/3 flex-shrink-0">
+                    <Image
+                      src={photo.src}
+                      alt={photo.alt}
+                      width={400}
+                      height={300}
+                      className="w-full h-full object-cover"
                     />
-                  ))}
-                </div>
+                  </div>
+                ))}
               </div>
             </div>
+
+            {/* Navigation Controls - Below Photos */}
+            <div className="flex items-center justify-center mt-8 space-x-8">
+              {/* Previous Button */}
+              <button
+                onClick={prevPhoto}
+                className="bg-white/90 hover:bg-white text-gray-800 p-3 rounded-full shadow-lg transition-all duration-200 hover:scale-110"
+                aria-label="Previous photo"
+              >
+                <ChevronLeft size={24} />
+              </button>
+
+              {/* Photo Indicators */}
+              <div className="flex space-x-3">
+                {Array.from({ length: Math.ceil(awardPhotos.length / 3) }, (_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setCurrentPhotoIndex(index * 3)}
+                    className={`w-4 h-4 rounded-full transition-all duration-200 ${
+                      Math.floor(currentPhotoIndex / 3) === index
+                        ? 'bg-[#F1BDAF] scale-125' 
+                        : 'bg-gray-300 hover:bg-gray-400'
+                    }`}
+                    aria-label={`Go to photo group ${index + 1}`}
+                  />
+                ))}
+              </div>
+
+              {/* Next Button */}
+              <button
+                onClick={nextPhoto}
+                className="bg-white/90 hover:bg-white text-gray-800 p-3 rounded-full shadow-lg transition-all duration-200 hover:scale-110"
+                aria-label="Next photo"
+              >
+                <ChevronRight size={24} />
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Client Recommendations Section - Full Width Below Carousel */}
+      <div className="w-full bg-white py-16">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4" dir="rtl">
+              המלצות <span className="text-[#F1BDAF]">לקוחות</span>
+            </h2>
+            
+            <p className="text-lg text-gray-600 mb-6" dir="rtl">
+              מה הלקוחות שלנו אומרים על החוויה והתוצאות של צילומים מקצועיים
+            </p>
+          </div>
+          
+          <div className="space-y-8 max-h-[600px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-[#F1BDAF] scrollbar-track-gray-100">
+            {reviews.map((review, index) => (
+              <ReviewCard 
+                key={index} 
+                name={review.name}
+                type={review.type}
+                review={review.review}
+                stars={review.stars}
+                initial={review.initial}
+              />
+            ))}
           </div>
         </div>
       </div>

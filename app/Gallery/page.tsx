@@ -5,6 +5,8 @@ import { FaInstagram, FaFacebook, FaWhatsapp, FaTiktok } from 'react-icons/fa';
 import { Phone, Mail, MapPin, Clock } from 'lucide-react';
 import Link from 'next/link';
 import ActiveNav from '../Components/active-nav';
+import { Button } from '@/components/ui/button';
+import Image from 'next/image';
 
 interface Photo {
   id: number;
@@ -26,7 +28,7 @@ interface GalleryData {
 
 export default function Gallery() {
   const [galleryData, setGalleryData] = useState<GalleryData>({});
-  const [selectedCategory, setSelectedCategory] = useState('בייבי'); // Set default category
+  const [selectedCategory, setSelectedCategory] = useState('גיל מצווה'); // Set default category
   const [visiblePhotos, setVisiblePhotos] = useState(6);
   const [loading, setLoading] = useState(true);
   const [collagePhotos, setCollagePhotos] = useState<Photo[]>([]);
@@ -82,7 +84,7 @@ export default function Gallery() {
     );
   }
 
-  const categories = Object.keys(galleryData);
+  const categories = ['כללי', 'הריון', 'תדמית', 'בייבי', 'משפחה', 'ילדים', 'גיל מצווה'];
   const currentPhotos = galleryData[selectedCategory]?.photos || [];
 
   const loadMorePhotos = () => {
@@ -105,9 +107,11 @@ export default function Gallery() {
                   key={`header-${photo.id}-${index}`} 
                   className="aspect-square overflow-hidden collage-photo opacity-0 transition-opacity duration-300"
                 >
-                  <img
+                  <Image
                     src={photo.src}
                     alt=""
+                    width={100}
+                    height={100}
                     className="w-full h-full object-cover"
                     loading="lazy"
                     decoding="async"
@@ -212,14 +216,16 @@ export default function Gallery() {
                 )}
               </div>
 
-              {/* Order Button */}
-              <div className="text-center mb-8">
-                <Link href={`/Packages?category=${selectedCategory}`}>
-                  <button className="text-white px-8 py-4 rounded-full font-bold text-lg shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:-translate-y-1 hover:scale-105 hover:bg-orange-300 btn-hover-effect" style={{ backgroundColor: '#F1BDAF' }}>
-                    הזמינו עכשיו
-                  </button>
-                </Link>
-              </div>
+              {/* Order Button - Hidden for General category */}
+              {selectedCategory !== 'כללי' && (
+                <div className="text-center mb-8">
+                  <Button asChild variant="standard" size="xl" className="text-lg font-bold">
+                    <Link href={`/Packages?category=${selectedCategory}`}>
+                      הזמינו עכשיו
+                    </Link>
+                  </Button>
+                </div>
+              )}
 
               <div className="columns-1 md:columns-2 lg:columns-3 gap-6">
                 {currentPhotos.slice(0, visiblePhotos).map((photo) => (
@@ -230,9 +236,11 @@ export default function Gallery() {
                   >
                     {/* Image Container with Hover Effects */}
                     <div className="relative w-full bg-gray-100 overflow-hidden">
-                      <img
+                      <Image
                         src={photo.src}
                         alt={photo.alt}
+                        width={400}
+                        height={300}
                         className="w-full h-auto transition-transform duration-300 group-hover:scale-110"
                         loading="lazy"
                         decoding="async"
@@ -252,13 +260,15 @@ export default function Gallery() {
           {/* Load More Button */}
           {hasMorePhotos && (
             <div className="text-center mt-12">
-              <button
+              <Button
                 onClick={loadMorePhotos}
-                className="bg-blue-600 text-white px-8 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors duration-200 shadow-lg hover:shadow-xl"
+                variant="standard"
+                size="lg"
+                className="font-medium"
                 dir="rtl"
               >
                 טען עוד תמונות ({currentPhotos.length - visiblePhotos} נותרו)
-              </button>
+              </Button>
             </div>
           )}
         </div>
@@ -282,7 +292,7 @@ export default function Gallery() {
                   <FaWhatsapp className="size-6 hover:text-green-500 transition-colors" />
                 </a>
                 <a href="https://www.tiktok.com/@revital_photography" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
-                  <FaTiktok className="size-6 hover:text-black transition-colors" />
+                  <FaTiktok className="size-6 hover:text-blue-400 transition-colors" />
                 </a>
               </div>
             </div>
@@ -292,11 +302,11 @@ export default function Gallery() {
               <h3 className="text-lg font-semibold text-gray-800 mb-4">פרטי התקשרות</h3>
               <div className="space-y-3 text-gray-700">
                 <div className="flex items-center gap-3">
-                  <Phone size={18} />
+                  <Phone size={18} style={{ color: '#F1BDAF' }} />
                   <span>054-8788851</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <Mail size={18} />
+                  <Mail size={18} style={{ color: '#F1BDAF' }} />
                   <a href="mailto:rosenbergdan6@gmail.com" className="hover:underline">rparzelina@gmail.com</a>
                 </div>
               </div>
@@ -307,13 +317,18 @@ export default function Gallery() {
               <h3 className="text-lg font-semibold text-gray-800 mb-4">פרטים נוספים</h3>
               <div className="space-y-3 text-gray-700">
                 <div className="flex items-center gap-3">
-                  <MapPin size={18} />
+                  <MapPin size={18} style={{ color: '#F1BDAF' }} />
                   <span>יהוד</span>
                 </div>
-                <div className="flex items-center gap-3">
-                  <Clock size={18} />
-                  <span>ימים א' - ה' : 8:00 - 17:00</span>
-                  <span>ו' : 8:00 - 14:00</span>
+                <div className="space-y-2">
+                  <div className="flex items-center gap-3">
+                    <Clock size={18} style={{ color: '#F1BDAF' }} />
+                    <span>ימים א'-ה': 8:00-17:00</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <Clock size={18} style={{ color: '#F1BDAF' }} />
+                    <span>ו': 8:00-14:00</span>
+                  </div>
                 </div>
               </div>
             </div>

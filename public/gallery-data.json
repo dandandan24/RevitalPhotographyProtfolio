@@ -253,9 +253,16 @@
         "src": "/BatMitzva/971A1801.jpg",
         "alt": "גיל מצווה 36",
         "title": "גיל מצווה 36"
+      },
+      {
+        "id": 37,
+        "filename": "971A1878.jpg",
+        "src": "/BatMitzva/971A1878.jpg",
+        "alt": "גיל מצווה 37",
+        "title": "גיל מצווה 37"
       }
     ],
-    "count": 36
+    "count": 37
   },
   "בייבי": {
     "folder": "Baby",
