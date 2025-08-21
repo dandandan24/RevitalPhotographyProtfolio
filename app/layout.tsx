@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
+import Image from "next/image";
 
 function NavButton({ title, href }: { title: string, href: string }) {
   return (
@@ -13,9 +14,9 @@ function NavButton({ title, href }: { title: string, href: string }) {
 
 function Logo() {
   return (
-    <div className="flex items-center">
-      <h1 className="text-3xl font-bold text-gray-800">Revital</h1>
-    </div>
+    <Link href="/" className="flex items-center no-hover">
+      <Image src="/logo.png" alt="Revital Photography" width={180} height={64} priority className="h-12 w-auto" />
+    </Link>
   );
 }
 

@@ -55,6 +55,20 @@
   --color-card-foreground: var(--card-foreground);
 }
 
+/* Remove all effects from logo */
+.no-hover,
+.no-hover:hover,
+.no-hover:focus,
+.no-hover:active,
+.no-hover:visited {
+  border-bottom: none !important;
+  padding-bottom: 0 !important;
+  text-decoration: none !important;
+  outline: none !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
 /* Navigation bar styling for home page */
 .home-page-nav {
   position: absolute;
