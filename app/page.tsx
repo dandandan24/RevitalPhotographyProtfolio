@@ -30,7 +30,17 @@ function ProffesionCard({ title, description, icon: Icon }: { title: string, des
 }
 
 export default function Home() {
+  const [isMobile, setIsMobile] = useState(false);
+
   useEffect(() => {
+    // Check if device is mobile
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
     // Add home page navigation styling
     const nav = document.querySelector('nav');
     if (nav) {
@@ -73,6 +83,7 @@ export default function Home() {
         nav.classList.remove('home-navbar'); // Remove home page class
       }
       document.body.classList.remove('home-page');
+      window.removeEventListener('scroll', checkMobile);
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
@@ -80,8 +91,11 @@ export default function Home() {
   return (
     <>
       <ActiveNav href="/" />
-      <div className="h-screen flex flex-col justify-start md:justify-center items-center md:items-end bg-gray-500 px-8 md:px-16 lg:px-32 bg-cover bg-contain md:bg-cover bg-no-repeat pt-20 md:pt-0 home-hero-section" style={{backgroundImage: "url('/imageforbackgroundhomepage.jpg')", backgroundPosition: "left center"}}>  
-        <h1 className="text-2xl md:text-3xl lg:text-5xl font-bold text-white my-6 md:my-8 lg:my-10 drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)] text-center md:text-right" dir="rtl">ליצור <span className="text-[#F1BDAF] drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]">זכרונות</span> שנשארים</h1>
+      <div className="h-screen flex flex-col justify-start md:justify-center items-center md:items-end bg-gray-500 px-8 md:px-16 lg:px-32 bg-cover bg-contain md:bg-cover bg-no-repeat pt-20 md:pt-0 home-hero-section" style={{
+        backgroundImage: `url('${isMobile ? '/imageforbackgroundhomepagemobile.jpg.jpg' : '/imageforbackgroundhomepage.jpg'}')`, 
+        backgroundPosition: "left center"
+      }}>  
+        <h1 className="text-2xl md:text-3xl lg:text-5xl font-bold text-white my-2 md:my-8 lg:my-10 drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)] text-center md:text-right" dir="rtl">ליצור <span className="text-[#F1BDAF] drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]">זכרונות</span> שנשארים</h1>
         <h1 className="text-lg md:text-xl lg:text-3xl font-bold text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)] text-center md:text-right" dir="rtl">תהפכו את האירועים,<br></br>
            החוויות והרגעים שלכם לזכרונות מלאי חיים<br></br>
            שיישארו אתכם שנים רבות</h1>

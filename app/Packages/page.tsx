@@ -308,7 +308,8 @@ export default function Packages() {
             src={currentCategory.backgroundPhoto}
             alt=""
             fill
-            className="absolute inset-0 w-full h-full object-cover object-center"
+            style={{ objectPosition: 'center 40%' }}
+            className="absolute inset-0 w-full h-full object-cover"
             priority
             onError={(e) => { (e.currentTarget as HTMLImageElement).src = '/imageforbackgroundhomepage.jpg'; }}
           />

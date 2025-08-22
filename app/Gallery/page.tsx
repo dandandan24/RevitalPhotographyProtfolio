@@ -29,7 +29,7 @@ interface GalleryData {
 export default function Gallery() {
   const [galleryData, setGalleryData] = useState<GalleryData>({});
   const [selectedCategory, setSelectedCategory] = useState('גיל מצווה'); // Set default category
-  const [visiblePhotos, setVisiblePhotos] = useState(6);
+  const [visiblePhotos, setVisiblePhotos] = useState(12);
   const [loading, setLoading] = useState(true);
   const [collagePhotos, setCollagePhotos] = useState<Photo[]>([]);
   const [isMobile, setIsMobile] = useState(false);
@@ -183,7 +183,7 @@ export default function Gallery() {
                     value={selectedCategory}
                     onChange={(e) => {
                       setSelectedCategory(e.target.value);
-                      setVisiblePhotos(6);
+                      setVisiblePhotos(12);
                     }}
                     className="w-full px-5 py-3 text-base font-medium text-gray-700 bg-white border-2 border-[#F1BDAF] rounded-lg shadow-md appearance-none cursor-pointer hover:bg-gray-50 transition-all duration-200 text-center"
                     dir="rtl"
@@ -210,7 +210,7 @@ export default function Gallery() {
                     key={category}
                     onClick={() => {
                       setSelectedCategory(category);
-                      setVisiblePhotos(6);
+                      setVisiblePhotos(12);
                     }}
                     className={`px-6 py-3 rounded-lg font-medium transition-all duration-500 relative overflow-hidden ${
                       selectedCategory === category
@@ -280,7 +280,7 @@ export default function Gallery() {
               {selectedCategory !== 'כללי' && (
                 <div className="text-center mb-8">
                   <Button asChild variant="standard" size="xl" className="text-lg font-bold">
-                    <Link href={`/Packages?category=${selectedCategory === 'משפחה'||'ילדים' ? 'משפחה וילדים' : selectedCategory}`}>
+                    <Link href={`/Packages?category=${selectedCategory === 'משפחה'||selectedCategory === 'ילדים' ? 'משפחה וילדים' : selectedCategory}`}>
                       הזמינו עכשיו
                     </Link>
                   </Button>
