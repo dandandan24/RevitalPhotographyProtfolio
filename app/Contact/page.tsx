@@ -9,6 +9,7 @@ import { Instagram, Facebook, Phone, Mail, MapPin, Clock} from "lucide-react";
 import { FaWhatsapp, FaTiktok, FaInstagram, FaFacebook} from "react-icons/fa";
 import ActiveNav from "../Components/active-nav";
 import { useState } from "react";
+import emailjs from '@emailjs/browser';
 
 function ContactCard() {
     const [name, setName] = useState('');
@@ -17,11 +18,14 @@ function ContactCard() {
     const [message, setMessage] = useState('');
     const [emailError, setEmailError] = useState(false);
     const [phoneError, setPhoneError] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
-    const handleSubmit = () => {
-        // Reset previous errors
+    const handleSubmit = async () => {
+        // Reset previous errors and status
         setEmailError(false);
         setPhoneError(false);
+        setSubmitStatus('idle');
 
         // Check if fields are filled
         if (!email.trim()) {
@@ -33,27 +37,42 @@ function ContactCard() {
 
         // Only proceed if both fields are filled
         if (email.trim() && phone.trim()) {
-            // Create email subject and body
-            const emailSubject = `פנייה חדשה - ${name || 'לקוח חדש'}`;
-            const emailBody = `שלום! אני ${name || 'לקוח חדש'} ואני מעוניין/ת בשירותי הצילום שלך.
-
-פרטי התקשרות:
-שם: ${name || 'לא צוין'}
-אימייל: ${email}
-טלפון: ${phone}
-
-הודעה: ${message || 'לא צוינה הודעה'}
-
-אשמח לקבל פרטים נוספים על השירותים שלך!`;
-
-            // Create mailto URL
-            const mailtoUrl = `mailto:rparzelina@gmail.com?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+            setIsSubmitting(true);
             
-            // Open default email client
-            window.location.href = mailtoUrl;
-            
-            // Log for debugging
-            console.log('Form submitted:', { name, email, phone, message });
+            try {
+                // EmailJS configuration - you'll need to update these values
+                const templateParams = {
+                    from_name: name || 'לקוח חדש',
+                    from_email: email,
+                    from_phone: phone,
+                    message: message || 'לא צוינה הודעה',
+                    to_email: 'yaelparzel@gmail.com'
+                };
+
+                // Send email using EmailJS
+                const result = await emailjs.send(
+                    'docome', // Replace with your EmailJS service ID
+                    'docome', // Replace with your EmailJS template ID
+                    templateParams,
+                    'AdaJ7dw4Wmj9bxnQf' // Replace with your EmailJS public key
+                );
+
+                if (result.status === 200) {
+                    setSubmitStatus('success');
+                    // Reset form
+                    setName('');
+                    setEmail('');
+                    setPhone('');
+                    setMessage('');
+                } else {
+                    setSubmitStatus('error');
+                }
+            } catch (error) {
+                console.error('Error sending email:', error);
+                setSubmitStatus('error');
+            } finally {
+                setIsSubmitting(false);
+            }
         }
     };
 
@@ -121,7 +140,7 @@ function ContactCard() {
                     <div className="grid w-3/4 items-center gap-3">
                         <Label htmlFor="Name">שם מלא</Label>
                         <Input type="Name" id="Name" placeholder="שם מלא" value={name} onChange={(e) => setName(e.target.value)}/>
-                        <Label htmlFor="Email">*כתובת מייל</Label>
+                        <Label htmlFor="Email">כתובת מייל<span className="text-[#F1BDAF]">*</span></Label>
                         <Input 
                             type="Email" 
                             id="Email" 
@@ -131,7 +150,7 @@ function ContactCard() {
                             className={emailError ? 'border-red-500 focus:border-red-500' : ''}
                         />
                         {emailError && <p className="text-red-500 text-sm -mt-2">כתובת המייל היא שדה חובה</p>}
-                        <Label htmlFor="Phone">*טלפון</Label>
+                        <Label htmlFor="Phone">טלפון<span className="text-[#F1BDAF]">*</span></Label>
                         <Input 
                             type="Phone" 
                             id="Phone" 
@@ -142,15 +161,21 @@ function ContactCard() {
                         />
                         {phoneError && <p className="text-red-500 text-sm -mt-2">מספר הטלפון הוא שדה חובה</p>}
                         <Label htmlFor="message">תיאור</Label>
-                        <Textarea placeholder="תאר את הבקשה או השאלה שלך כאן" id="message" className="min-h-32 w-full resize-none" value={message} onChange={(e) => setMessage(e.target.value)}/>
+                        <Textarea placeholder="תארו את הבקשה או השאלה שלכם כאן" id="message" className="min-h-32 w-full resize-none" value={message} onChange={(e) => setMessage(e.target.value)}/>
                         <Button 
                             onClick={handleSubmit}
-                            disabled={!isFormValid}
+                            disabled={!isFormValid || isSubmitting}
                             variant={isFormValid ? "standard" : "secondary"}
                             className="w-32 my-10"
                         >
-                           שלח אימייל
+                             {isSubmitting ? 'שולח...' : 'שלחו הודעה'}
                         </Button>
+                        {submitStatus === 'success' && (
+                            <p className="text-green-500 text-sm text-center -mt-8 mb-4">ההודעה נשלחה בהצלחה!</p>
+                        )}
+                        {submitStatus === 'error' && (
+                            <p className="text-red-500 text-sm text-center -mt-8 mb-4">השליחת ההודעה נכשלה. נסה שוב מאוחר יותר.</p>
+                        )}
                         {!isFormValid && (
                             <p className="text-gray-500 text-sm text-center -mt-8 mb-4">
                                 יש למלא את שדות המייל והטלפון כדי לשלוח את ההודעה
@@ -166,7 +191,7 @@ function ContactCard() {
                     <div className="grid w-full items-center gap-3">
                         <Label htmlFor="Name-mobile">שם מלא</Label>
                         <Input type="Name" id="Name-mobile" placeholder="שם מלא" value={name} onChange={(e) => setName(e.target.value)}/>
-                        <Label htmlFor="Email-mobile">*כתובת מייל</Label>
+                        <Label htmlFor="Email-mobile">כתובת מייל<span className="text-[#F1BDAF]">*</span></Label>
                         <Input 
                             type="Email" 
                             id="Email-mobile" 
@@ -176,7 +201,7 @@ function ContactCard() {
                             className={emailError ? 'border-red-500 focus:border-red-500' : ''}
                         />
                         {emailError && <p className="text-red-500 text-sm -mt-2">כתובת המייל היא שדה חובה</p>}
-                        <Label htmlFor="Phone-mobile">*טלפון</Label>
+                        <Label htmlFor="Phone-mobile">טלפון<span className="text-[#F1BDAF]">*</span></Label>
                         <Input 
                             type="Phone" 
                             id="Phone-mobile" 
@@ -187,15 +212,21 @@ function ContactCard() {
                         />
                         {phoneError && <p className="text-red-500 text-sm -mt-2">מספר הטלפון הוא שדה חובה</p>}
                         <Label htmlFor="message-mobile">תיאור</Label>
-                        <Textarea placeholder="תאר את הבקשה או השאלה שלך כאן" id="message-mobile" className="min-h-16 w-full resize-none" value={message} onChange={(e) => setMessage(e.target.value)}/>
+                        <Textarea placeholder="תארו את הבקשה או השאלה שלך כאן" id="message-mobile" className="min-h-16 w-full resize-none" value={message} onChange={(e) => setMessage(e.target.value)}/>
                         <Button 
                             onClick={handleSubmit}
-                            disabled={!isFormValid}
+                            disabled={!isFormValid || isSubmitting}
                             variant={isFormValid ? "standard" : "secondary"}
                             className="w-full my-6"
                         >
-                           שלח אימייל
+                             {isSubmitting ? 'שולח...' : 'שלחו הודעה'}
                         </Button>
+                        {submitStatus === 'success' && (
+                            <p className="text-green-500 text-sm text-center -mt-4 mb-4">ההודעה נשלחה בהצלחה!</p>
+                        )}
+                        {submitStatus === 'error' && (
+                            <p className="text-red-500 text-sm text-center -mt-4 mb-4">השליחת ההודעה נכשלה. נסה שוב מאוחר יותר.</p>
+                        )}
                         {!isFormValid && (
                             <p className="text-gray-500 text-sm text-center -mt-4 mb-4">
                                 יש למלא את שדות המייל והטלפון כדי לשלוח את ההודעה
@@ -251,7 +282,7 @@ export default function Contact() {
                 </div>
                 <div className="flex items-center gap-3">
                   <Mail size={18} style={{ color: '#F1BDAF' }} />
-                  <a href="mailto:rosenbergdan6@gmail.com" className="hover:underline">rparzelina@gmail.com</a>
+                  <a href="mailto:rparzelina@gmail.com" className="hover:underline">rparzelina@gmail.com</a>
                 </div>
               </div>
             </div>

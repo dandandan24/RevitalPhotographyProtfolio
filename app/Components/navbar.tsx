@@ -91,7 +91,7 @@ export default function Navbar() {
       </div>
     </div>
   );
-
+  
   return (
     <nav className="flex justify-between w-full min-h-16 px-5 z-50 bg-white/90 backdrop-blur-md shadow-md items-center fixed top-0 left-0 right-0 lg:relative lg:top-auto lg:left-auto lg:right-auto">
       <Logo />

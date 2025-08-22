@@ -129,7 +129,7 @@ export default function Gallery() {
         {/* Header and Category Navigation Combined */}
         <div className="bg-white shadow-sm relative overflow-hidden">
           {/* Single Photo Collage Background - Rich with Hundreds of Photos */}
-          <div className="absolute inset-0 opacity-15 pointer-events-none z-0">
+          <div className="absolute inset-0 opacity-30 pointer-events-none z-0">
             <div className="grid grid-cols-[repeat(auto-fit,minmax(64px,1fr))] gap-0.5 p-2 h-full w-full">
               {collagePhotos.length > 0 ? collagePhotos.map((photo, index) => (
                 <div 
@@ -319,7 +319,7 @@ export default function Gallery() {
 
           {/* Load More Button */}
           {hasMorePhotos && (
-            <div className="text-center mt-12">
+            <div className="text-center xl:mt-12 mt-5">
               <Button
                 onClick={loadMorePhotos}
                 variant="standard"
