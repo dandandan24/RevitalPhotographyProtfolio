@@ -33,8 +33,9 @@ function ContactCard() {
 
         // Only proceed if both fields are filled
         if (email.trim() && phone.trim()) {
-            // Create WhatsApp message
-            const whatsappMessage = `שלום! אני ${name || 'לקוח חדש'} ואני מעוניין/ת בשירותי הצילום שלך.
+            // Create email subject and body
+            const emailSubject = `פנייה חדשה - ${name || 'לקוח חדש'}`;
+            const emailBody = `שלום! אני ${name || 'לקוח חדש'} ואני מעוניין/ת בשירותי הצילום שלך.
 
 פרטי התקשרות:
 שם: ${name || 'לא צוין'}
@@ -45,14 +46,11 @@ function ContactCard() {
 
 אשמח לקבל פרטים נוספים על השירותים שלך!`;
 
-            // Encode the message for URL
-            const encodedMessage = encodeURIComponent(whatsappMessage);
+            // Create mailto URL
+            const mailtoUrl = `mailto:rparzelina@gmail.com?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
             
-            // WhatsApp API URL
-            const whatsappUrl = `https://api.whatsapp.com/send?phone=972548788851&text=${encodedMessage}`;
-            
-            // Open WhatsApp in new tab
-            window.open(whatsappUrl, '_blank');
+            // Open default email client
+            window.location.href = mailtoUrl;
             
             // Log for debugging
             console.log('Form submitted:', { name, email, phone, message });
@@ -151,7 +149,7 @@ function ContactCard() {
                             variant={isFormValid ? "standard" : "secondary"}
                             className="w-32 my-10"
                         >
-                           שלח מייל
+                           שלח אימייל
                         </Button>
                         {!isFormValid && (
                             <p className="text-gray-500 text-sm text-center -mt-8 mb-4">
@@ -196,7 +194,7 @@ function ContactCard() {
                             variant={isFormValid ? "standard" : "secondary"}
                             className="w-full my-6"
                         >
-                           שלח מייל
+                           שלח אימייל
                         </Button>
                         {!isFormValid && (
                             <p className="text-gray-500 text-sm text-center -mt-4 mb-4">

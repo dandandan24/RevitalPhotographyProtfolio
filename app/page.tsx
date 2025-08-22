@@ -97,7 +97,7 @@ export default function Home() {
         backgroundPosition: "left center"
       }}>  
         <h1 className="text-2xl md:text-3xl lg:text-5xl font-bold text-white my-2 md:my-8 lg:my-10 drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)] text-center md:text-right" dir="rtl">ליצור <span className="text-[#F1BDAF] drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]">זכרונות</span> שנשארים</h1>
-        <h1 className="text-lg md:text-xl lg:text-3xl font-bold text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)] text-center md:text-right" dir="rtl">תהפכו את האירועים,<br></br>
+        <h1 className="text-lg md:text-xl lg:text-3xl font-bold text-white drop-shadow-[0_1px_2px_rgba(0,0,0,1)] text-center md:text-right" dir="rtl">תהפכו את האירועים,<br></br>
            החוויות והרגעים שלכם לזכרונות מלאי חיים<br></br>
            שיישארו אתכם שנים רבות</h1>
         <Button asChild variant="standard" size="xl" className="text-base md:text-lg font-bold drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)] mt-4">
@@ -107,7 +107,7 @@ export default function Home() {
       
       {/* Bouncing Arrow - Only visible on mobile, positioned at bottom */}
       <div className="lg:hidden absolute bottom-20 left-1/2 transform -translate-x-1/2 text-center">
-        <p className="text-white text-sm font-medium mb-2 drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]" dir="rtl">לקריאה עליי</p>
+        <p className="text-white text-sm font-medium mb-2 drop-shadow-[0_1px_2px_rgba(0,0,0,1)]" dir="rtl">לקריאה עליי</p>
         <div className="animate-bounce flex justify-center">
           <div className="w-0 h-0 border-l-[8px] border-l-transparent border-r-[8px] border-r-transparent border-t-[12px] border-t-[#F1BDAF] border-t-2"></div>
         </div>
