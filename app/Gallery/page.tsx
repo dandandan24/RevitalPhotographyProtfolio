@@ -32,6 +32,19 @@ export default function Gallery() {
   const [visiblePhotos, setVisiblePhotos] = useState(6);
   const [loading, setLoading] = useState(true);
   const [collagePhotos, setCollagePhotos] = useState<Photo[]>([]);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    // Check if device is mobile
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   useEffect(() => {
     console.log('Loading gallery data...');
@@ -48,30 +61,46 @@ export default function Gallery() {
         }
         setLoading(false);
         
-        // Prepare collage photos - create many low-quality thumbnails for rich collage effect
-        const allPhotos = Object.values(data).flatMap(categoryData => categoryData.photos);
-        // Duplicate photos to create hundreds of small thumbnails
-        const duplicatedPhotos = [];
-        for (let i = 0; i < 200; i++) {
-          duplicatedPhotos.push(allPhotos[i % allPhotos.length]);
-        }
-        setCollagePhotos(duplicatedPhotos);
+        // Load collage photos from collagePhotos folder dynamically
+        // This will work with any photos in the folder
+        const loadCollagePhotos = async () => {
+          try {
+            // Load different number of photos based on screen size
+            const photoCount = isMobile ? 30 : 113;
+            
+            // Try to load photos with sequential naming (1.jpg to photoCount.jpg)
+            for (let i = 1; i <= photoCount; i++) {
+              collagePhotos.push({
+                id: i,
+                filename: `${i}.jpg`,
+                src: `/collagePhotos/${i}.jpg`,
+                alt: `Collage photo ${i}`,
+                title: `Photo ${i}`
+              });
+            }
+            
+            setCollagePhotos(collagePhotos);
+            console.log(`Loaded ${collagePhotos.length} collage photos:`, collagePhotos.slice(0, 5));
+          } catch (error) {
+            console.log('Using fallback collage photos');
+            // If collagePhotos folder doesn't exist, use some gallery photos as fallback
+            const allPhotos = Object.values(data).flatMap(categoryData => categoryData.photos);
+            const fallbackCollage = allPhotos.slice(0, 20).map((photo, index) => ({
+              ...photo,
+              id: index + 1
+            }));
+            setCollagePhotos(fallbackCollage);
+          }
+        };
         
-        // Start loading collage photos progressively
-        setTimeout(() => {
-          const collageElements = document.querySelectorAll('.collage-photo');
-          collageElements.forEach((el, index) => {
-            setTimeout(() => {
-              el.classList.add('loaded');
-            }, index * 10); // Stagger loading by 10ms per photo
-          });
-        }, 100);
+        // Call the function to load collage photos
+        loadCollagePhotos();
       })
       .catch(err => {
         console.error('Error loading gallery data:', err);
         setLoading(false);
       });
-  }, []);
+  }, [isMobile]);
 
   if (loading) {
     return (
@@ -100,43 +129,46 @@ export default function Gallery() {
         {/* Header and Category Navigation Combined */}
         <div className="bg-white shadow-sm relative overflow-hidden">
           {/* Single Photo Collage Background - Rich with Hundreds of Photos */}
-          {/* <div className="absolute inset-0 opacity-10 pointer-events-none">
-            <div className="grid grid-cols-20 gap-0.5">
-              {collagePhotos.map((photo, index) => (
+          <div className="absolute inset-0 opacity-15 pointer-events-none z-0">
+            <div className="grid grid-cols-[repeat(auto-fit,minmax(64px,1fr))] gap-0.5 p-2 h-full w-full">
+              {collagePhotos.length > 0 ? collagePhotos.map((photo, index) => (
                 <div 
                   key={`header-${photo.id}-${index}`} 
-                  className="aspect-square overflow-hidden collage-photo opacity-0 transition-opacity duration-300"
+                  className="w-full h-16 overflow-hidden rounded-sm"
+                  style={{ aspectRatio: '1/1' }}
                 >
                   <Image
                     src={photo.src}
-                    alt=""
-                    width={100}
-                    height={100}
+                    alt={photo.alt}
+                    width={64}
+                    height={64}
                     className="w-full h-full object-cover"
-                    loading="lazy"
-                    decoding="async"
-                    fetchPriority="low"
-                    style={{
-                      imageRendering: 'pixelated',
-                      filter: 'blur(0.5px)',
-                      transform: 'scale(1.1)'
+                    style={{ objectPosition: 'center 30%' }}
+                    priority={index < 6}
+                    onLoad={() => {
+                      console.log(`Collage photo loaded: ${photo.src}`);
                     }}
-                    onLoad={(e) => {
-                      // Progressive loading - fade in each photo as it loads
+                    onError={(e) => {
+                      console.error(`Failed to load collage photo: ${photo.src}`);
+                      // Hide broken images
                       const target = e.target as HTMLImageElement;
                       const container = target.parentElement;
                       if (container) {
-                        container.classList.add('loaded');
+                        container.style.display = 'none';
                       }
                     }}
                   />
                 </div>
-              ))}
+              )) : (
+                <div className="w-full text-center text-red-500 p-4">
+                  No collage photos found - Array length: {collagePhotos.length}
+                </div>
+              )}
             </div>
-          </div> */}
+          </div>
           
           {/* Header Content */}
-          <div className="text-center py-16 relative z-10">
+          <div className="text-center py-16 relative z-20">
             <h1 className="text-5xl font-bold text-gray-900 mb-4" dir="rtl">גלריית תמונות</h1>
             <p className="text-xl text-gray-600" dir="rtl">גלו את העבודות שלי</p>
           </div>
@@ -248,7 +280,7 @@ export default function Gallery() {
               {selectedCategory !== 'כללי' && (
                 <div className="text-center mb-8">
                   <Button asChild variant="standard" size="xl" className="text-lg font-bold">
-                    <Link href={`/Packages?category=${selectedCategory}`}>
+                    <Link href={`/Packages?category=${selectedCategory === 'משפחה'||'ילדים' ? 'משפחה וילדים' : selectedCategory}`}>
                       הזמינו עכשיו
                     </Link>
                   </Button>

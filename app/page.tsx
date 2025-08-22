@@ -13,37 +13,17 @@ function ProffesionCard({ title, description, icon: Icon }: { title: string, des
 
   return (
     <div 
-      className={`flex flex-col justify-center items-center border-2 w-full h-32 rounded-lg shadow-xl pt-2 pb-2 bg-white cursor-pointer transition-all duration-300 hover:shadow-2xl overflow-hidden ${isExpanded ? 'h-48' : ''}`}
-      onClick={() => setIsExpanded(!isExpanded)}
+      className="flex flex-col justify-center items-center border-2 w-full 2xl:h-64 xl:h-60 rounded-lg shadow-xl pt-2 pb-2 bg-white transition-all duration-300 hover:shadow-2xl overflow-hidden"
     >
-        <div className="flex flex-col justify-between items-center h-full">
-          {!isExpanded ? (
-            <>
-              <div className="flex flex-col items-center">
-                <Icon className="text-[#F1BDAF]" size={40}/>
-                <h2 className="text-lg text-black font-bold text-center mt-2" dir="rtl">{title}</h2>
-              </div>
-              <div className="mb-2 animate-bounce">
-                <div className="w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-t-[8px] border-t-[#F1BDAF] border-t-2"></div>
-              </div>
-            </>
-          ) : (
-            <>
-              <div className="flex flex-col items-center mb-2">
-                <h2 className="text-lg text-black font-bold text-center" dir="rtl">{title}</h2>
-              </div>
-              <div className="h-full w-full overflow-y-auto">
-                <p className="text-base text-gray-700 text-center leading-relaxed w-full px-2" dir="rtl">
-                  {description}
-                </p>
-              </div>
-              <div className="mt-2">
-                <div className="animate-bounce">
-                  <div className="w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-b-[8px] border-b-[#F1BDAF] border-b-2"></div>
-                </div>
-              </div>
-            </>
-          )}
+        {/* Show full content on all screen sizes */}
+        <div className="flex flex-col justify-start items-center h-full 2xl:pt-4 xl:pt-2">
+          <Icon className="text-[#F1BDAF]" size={40}/>
+          <h2 className="text-xl text-black font-bold text-center 2xl:mt-2 xl:mt-1" dir="rtl">{title}</h2>
+          <div className="flex-1 w-full overflow-y-auto 2xl:mt-4 xl:mt-2">
+            <p className="text-lg text-gray-700 text-center leading-relaxed w-full p-1" dir="rtl">
+              {description}
+            </p>
+          </div>
         </div>
     </div>
   )
@@ -108,6 +88,14 @@ export default function Home() {
         <Button asChild variant="standard" size="xl" className="text-base md:text-lg font-bold drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)] mt-4">
           <Link href="/Contact">לחוויה בלתי נשכחת</Link>
         </Button>
+      </div>
+      
+      {/* Bouncing Arrow - Only visible on mobile, positioned at bottom */}
+      <div className="lg:hidden absolute bottom-20 left-1/2 transform -translate-x-1/2 text-center">
+        <p className="text-white text-sm font-medium mb-2 drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]" dir="rtl">לקריאה עליי</p>
+        <div className="animate-bounce flex justify-center">
+          <div className="w-0 h-0 border-l-[8px] border-l-transparent border-r-[8px] border-r-transparent border-t-[12px] border-t-[#F1BDAF] border-t-2"></div>
+        </div>
       </div>
 
       {/* Mobile About Section - Only visible on mobile */}

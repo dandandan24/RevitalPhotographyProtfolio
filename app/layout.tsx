@@ -78,22 +78,7 @@ export default function RootLayout({
         >
           דף הבית
         </Link>
-        <Link 
-          href="#about-section" 
-          className={`text-2xl font-bold text-black !text-black transition-colors ${
-            pathname === "/About" ? 'text-[#F1BDAF] border-b-2 border-[#F1BDAF] pb-1' : 'hover:text-[#F1BDAF]'
-          }`}
-          onClick={() => {
-            setIsMenuOpen(false);
-            // Jump directly to about section on mobile
-            const aboutSection = document.getElementById('about-section');
-            if (aboutSection) {
-              aboutSection.scrollIntoView();
-            }
-          }}
-        >
-          אודות
-        </Link>
+
         <Link 
           href="/Gallery" 
           className={`text-2xl font-bold text-black !text-black transition-colors ${

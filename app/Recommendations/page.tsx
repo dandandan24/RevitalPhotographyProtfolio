@@ -8,83 +8,239 @@ import Image from 'next/image';
 const awardPhotos = [
   {
     id: 1,
-    src: '/AwardWinningImages/Award1.jpg',
+    src: '/AwardWinningImages/1.jpg',
     alt: 'Award Winning Photo 1',
   },
   {
     id: 2,
-    src: '/AwardWinningImages/Award2.gif',
+    src: '/AwardWinningImages/2.jpg',
     alt: 'Award Winning Photo 2',
   },
   {
     id: 3,
-    src: '/AwardWinningImages/Award3.gif',
+    src: '/AwardWinningImages/3.jpg',
     alt: 'Award Winning Photo 3',
     title: 'תמונה זוכת פרס 3',
   },
   {
     id: 4,
-    src: '/AwardWinningImages/Award4.jpg',
+    src: '/AwardWinningImages/4.jpg',
     alt: 'Award Winning Photo 4',
     title: 'תמונה זוכת פרס 4',
   },
   {
     id: 5,
-    src: '/AwardWinningImages/Award5.gif',
+    src: '/AwardWinningImages/5.jpg',
     alt: 'Award Winning Photo 5',
   },
   {
     id: 6,
-    src: '/AwardWinningImages/Award6.jpg',
+    src: '/AwardWinningImages/6.jpg',
     alt: 'Award Winning Photo 1',
   },
   {
     id: 7,
-    src: '/AwardWinningImages/Award7.jpg',
+    src: '/AwardWinningImages/7.jpg',
     alt: 'Award Winning Photo 2',
   },
   {
     id: 8,
-    src: '/AwardWinningImages/Award8.gif',
+    src: '/AwardWinningImages/8.jpg',
     alt: 'Award Winning Photo 3',
   },
   {
     id: 9,
-    src: '/AwardWinningImages/Award9.jpg',
+    src: '/AwardWinningImages/9.jpg',
     alt: 'Award Winning Photo 4',
   },
   {
     id: 10,
-    src: '/AwardWinningImages/Award10.jpg',
+    src: '/AwardWinningImages/10.jpg',
     alt: 'Award Winning Photo 5',
   },
   {
     id: 11,
-    src: '/AwardWinningImages/Award11.jpg',
+    src: '/AwardWinningImages/11.jpg',
     alt: 'Award Winning Photo 5',
   },
   {
     id: 12,
-    src: '/AwardWinningImages/Award12.jpg',
+    src: '/AwardWinningImages/12.jpg',
     alt: 'Award Winning Photo 5',
   },
   {
     id: 13,
-    src: '/AwardWinningImages/Award13.jpg',
+    src: '/AwardWinningImages/13.jpg',
     alt: 'Award Winning Photo 5',
   },
   
   {
     id: 14,
-    src: '/AwardWinningImages/Award14.jpg',
+    src: '/AwardWinningImages/14.jpg',
     alt: 'Award Winning Photo 5',
   },  
   {
     id: 15,
-    src: '/AwardWinningImages/award15.jpg',
+    src: '/AwardWinningImages/15.jpg',
     alt: 'Award Winning Photo 5',
   },
+  {
+    id: 16,
+    src: '/AwardWinningImages/16.jpg',
+    alt: 'Award Winning Photo 5',
+  },
+  
+  {
+    id: 17,
+    src: '/AwardWinningImages/17.jpg',
+    alt: 'Award Winning Photo 5',
+  },
+  
+  {
+    id: 18,
+    src: '/AwardWinningImages/18.gif',
+    alt: 'Award Winning Photo 5',
+  },
+  
+  {
+    id: 19,
+    src: '/AwardWinningImages/19.jpg',
+    alt: 'Award Winning Photo 5',
+  },
+  {
+    id: 20,
+    src: '/AwardWinningImages/20.jpg',
+    alt: 'Award Winning Photo 5',
+  },
+  {
+    id: 21,
+    src: '/AwardWinningImages/21.jpg',
+    alt: 'Award Winning Photo 5',
+  },
+  {
+    id: 22,
+    src: '/AwardWinningImages/22.gif',
+    alt: 'Award Winning Photo 5',
+  },
+  
+  {
+    id: 23,
+    src: '/AwardWinningImages/23.gif',
+    alt: 'Award Winning Photo 5',
+  },
+  {
+    id: 24,
+    src: '/AwardWinningImages/24.jpg',
+    alt: 'Award Winning Photo 5',
+  },
+  {
+    id: 25,
+    src: '/AwardWinningImages/25.gif',
+    alt: 'Award Winning Photo 5',
+  },
+  
+  {
+    id: 26,
+    src: '/AwardWinningImages/26.jpg',
+    alt: 'Award Winning Photo 5',
+  },
+  
 
+  {
+    id: 27,
+    src: '/AwardWinningImages/27.jpg',
+    alt: 'Award Winning Photo 5',
+  },
+  
+  {
+    id: 28,
+    src: '/AwardWinningImages/28.jpg',
+    alt: 'Award Winning Photo 5',
+  },
+  
+
+    {
+      id: 29,
+      src: '/AwardWinningImages/29.gif',
+      alt: 'Award Winning Photo 5',
+    },
+    {
+      id: 30,
+      src: '/AwardWinningImages/30.gif',
+      alt: 'Award Winning Photo 5',
+    },
+    {
+      id: 31,
+      src: '/AwardWinningImages/31.jpg',
+      alt: 'Award Winning Photo 5',
+    },
+    
+    {
+      id: 32,
+      src: '/AwardWinningImages/32.jpg',
+      alt: 'Award Winning Photo 5',
+    },
+    
+    {
+      id: 33,
+      src: '/AwardWinningImages/33.jpg',
+      alt: 'Award Winning Photo 5',
+    },
+    
+    {
+      id: 34,
+      src: '/AwardWinningImages/34.jpg',
+      alt: 'Award Winning Photo 5',
+    },
+    
+    
+    {
+      id: 35,
+      src: '/AwardWinningImages/35.jpg',
+      alt: 'Award Winning Photo 5',
+    },
+    
+    {
+      id: 36,
+      src: '/AwardWinningImages/36.jpg',
+      alt: 'Award Winning Photo 5',
+    },
+    
+    {
+      id: 37,
+      src: '/AwardWinningImages/37.jpg',
+      alt: 'Award Winning Photo 5',
+    },
+    
+    {
+      id: 38,
+      src: '/AwardWinningImages/38.gif',
+      alt: 'Award Winning Photo 5',
+    },
+    
+    {
+      id: 39,
+      src: '/AwardWinningImages/39.jpg',
+      alt: 'Award Winning Photo 5',
+    },
+    
+    {
+      id: 40,
+      src: '/AwardWinningImages/40.gif',
+      alt: 'Award Winning Photo 5',
+    },
+    {
+      id: 41,
+      src: '/AwardWinningImages/41.jpg',
+      alt: 'Award Winning Photo 5',
+    },
+    {
+      id: 42,
+      src: '/AwardWinningImages/42.gif',
+      alt: 'Award Winning Photo 5',
+    },
+    
+      
 
 
 ];
