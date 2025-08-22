@@ -5,8 +5,9 @@ import { useEffect } from "react";
 import ActiveNav from "./Components/active-nav";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { CameraIcon, PaletteIcon, EditIcon, AlbumIcon} from "lucide-react";
+import { CameraIcon, PaletteIcon, EditIcon, AlbumIcon, Clock, MapPin, Mail, Phone} from "lucide-react";
 import { useState } from "react";
+import { FaInstagram, FaFacebook, FaWhatsapp, FaTiktok } from "react-icons/fa";
 
 function ProffesionCard({ title, description, icon: Icon }: { title: string, description: string, icon: React.ComponentType<{className?:string, size?: number}> }) {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -162,6 +163,70 @@ export default function Home() {
             </Button>
           </div>
         </div>
+                    {/* Mobile Footer with Contact Details */}
+                    <footer className="border-t bg-white w-full mt-8 md:hidden">
+        <div className="w-full mx-auto xl:w-[90%] px-4 sm:px-6 lg:px-8 xl:px-0 py-10">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8" dir="rtl">
+            {/* Social */}
+            <div>
+              <h3 className="text-lg font-semibold text-gray-800 mb-4">רשתות חברתיות</h3>
+              <div className="flex flex-row gap-4">
+                <a href="https://www.instagram.com/revitalphotography/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                  <FaInstagram className="size-6 hover:text-pink-500 transition-colors" />
+                </a>
+                <a href="https://www.facebook.com/revitalphotography" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                  <FaFacebook className="size-6 hover:text-blue-600 transition-colors" />
+                </a>
+                <a href="https://api.whatsapp.com/send?phone=972548788851" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+                  <FaWhatsapp className="size-6 hover:text-green-500 transition-colors" />
+                </a>
+                <a href="https://www.tiktok.com/@revital_photography" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
+                  <FaTiktok className="size-6 hover:text-blue-400 transition-colors" />
+                </a>
+              </div>
+            </div>
+
+            {/* Contact details */}
+            <div>
+              <h3 className="text-lg font-semibold text-gray-800 mb-4">פרטי התקשרות</h3>
+              <div className="space-y-3 text-gray-700">
+                <div className="flex items-center gap-3">
+                  <Phone size={18} style={{ color: '#F1BDAF' }} />
+                  <span>054-8788851</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <Mail size={18} style={{ color: '#F1BDAF' }} />
+                  <a href="mailto:rosenbergdan6@gmail.com" className="hover:underline">rparzelina@gmail.com</a>
+                </div>
+              </div>
+            </div>
+
+            {/* Address / Hours */}
+            <div>
+              <h3 className="text-lg font-semibold text-gray-800 mb-4">פרטים נוספים</h3>
+              <div className="space-y-3 text-gray-700">
+                <div className="flex items-center gap-3">
+                  <MapPin size={18} style={{ color: '#F1BDAF' }} />
+                  <span>יהוד</span>
+                </div>
+                <div className="space-y-2">
+                  <div className="flex items-center gap-3">
+                    <Clock size={18} style={{ color: '#F1BDAF' }} />
+                    <span>ימים א'-ה': 8:00-17:00</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <Clock size={18} style={{ color: '#F1BDAF' }} />
+                    <span>ו': 8:00-14:00</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="px-2 sm:px-4 pb-6 text-sm text-gray-500">
+          <span className="block text-left" dir="rtl">כל הזכויות שמורות לרויטל פרצלינה</span>
+        </div>
+      </footer>
       </div>
     </>
   );

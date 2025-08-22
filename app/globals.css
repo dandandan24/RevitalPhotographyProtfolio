@@ -380,7 +380,7 @@ nav a[href="/About"]:has(+ .current-page) {
 }
 
 .mobile-carousel-slide {
-  animation: mobileCarouselSlide var(--animation-duration, 90s) linear infinite;
+  animation: mobileCarouselSlide var(--animation-duration, 150s) linear infinite;
   animation-play-state: running;
 }
 
