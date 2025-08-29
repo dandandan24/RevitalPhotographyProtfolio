@@ -14,6 +14,7 @@ interface Photo {
   src: string;
   alt: string;
   title: string;
+  category?: string; // Optional category for collage photos
 }
 
 interface CategoryData {
@@ -61,40 +62,58 @@ export default function Gallery() {
         }
         setLoading(false);
         
-        // Load collage photos from collagePhotos folder dynamically
-        // This will work with any photos in the folder
-        const loadCollagePhotos = async () => {
+        // Create dynamic collage from gallery photos instead of static collagePhotos folder
+        const createDynamicCollage = () => {
           try {
-            // Load different number of photos based on screen size
-            const photoCount = isMobile ? 30 : 113;
+            const allPhotos: Photo[] = [];
             
-            // Try to load photos with sequential naming (1.jpg to photoCount.jpg)
-            for (let i = 1; i <= photoCount; i++) {
-              collagePhotos.push({
-                id: i,
-                filename: `${i}.jpg`,
-                src: `/collagePhotos/${i}.jpg`,
-                alt: `Collage photo ${i}`,
-                title: `Photo ${i}`
-              });
-            }
+            // Collect photos from all categories
+            Object.entries(data).forEach(([categoryName, categoryData]) => {
+              if (categoryData.photos && categoryData.photos.length > 0) {
+                // Add category name to each photo for better organization
+                const photosWithCategory = categoryData.photos.map(photo => ({
+                  ...photo,
+                  category: categoryName
+                }));
+                allPhotos.push(...photosWithCategory);
+              }
+            });
             
-            setCollagePhotos(collagePhotos);
-            console.log(`Loaded ${collagePhotos.length} collage photos:`, collagePhotos.slice(0, 5));
-          } catch (error) {
-            console.log('Using fallback collage photos');
-            // If collagePhotos folder doesn't exist, use some gallery photos as fallback
-            const allPhotos = Object.values(data).flatMap(categoryData => categoryData.photos);
-            const fallbackCollage = allPhotos.slice(0, 20).map((photo, index) => ({
-              ...photo,
-              id: index + 1
+            // Shuffle the photos to get random selection
+            const shuffledPhotos = allPhotos.sort(() => Math.random() - 0.5);
+            
+            // Select photos based on screen size
+            const photoCount = isMobile ? 30 : 140;
+            const selectedPhotos = shuffledPhotos.slice(0, photoCount);
+            
+            // Create collage photos array
+            const collagePhotosArray = selectedPhotos.map((photo, index) => ({
+              id: index + 1,
+              filename: photo.filename,
+              src: photo.src,
+              alt: photo.alt,
+              title: photo.title,
+              category: photo.category
             }));
-            setCollagePhotos(fallbackCollage);
+            
+            setCollagePhotos(collagePhotosArray);
+            console.log(`Created dynamic collage with ${collagePhotosArray.length} photos from gallery categories`);
+          } catch (error) {
+            console.log('Error creating dynamic collage, using fallback:', error);
+            // Fallback: use photos from first available category
+            const firstCategory = Object.values(data).find(categoryData => categoryData.count > 0);
+            if (firstCategory && firstCategory.photos.length > 0) {
+              const fallbackCollage = firstCategory.photos.slice(0, 20).map((photo, index) => ({
+                ...photo,
+                id: index + 1
+              }));
+              setCollagePhotos(fallbackCollage);
+            }
           }
         };
         
-        // Call the function to load collage photos
-        loadCollagePhotos();
+        // Create the dynamic collage
+        createDynamicCollage();
       })
       .catch(err => {
         console.error('Error loading gallery data:', err);
@@ -134,8 +153,9 @@ export default function Gallery() {
               {collagePhotos.length > 0 ? collagePhotos.map((photo, index) => (
                 <div 
                   key={`header-${photo.id}-${index}`} 
-                  className="w-full h-16 overflow-hidden rounded-sm"
+                  className="w-full h-16 overflow-hidden rounded-sm relative group"
                   style={{ aspectRatio: '1/1' }}
+                  title={`${photo.title} - ${photo.category || 'Unknown Category'}`}
                 >
                   <Image
                     src={photo.src}
@@ -146,7 +166,7 @@ export default function Gallery() {
                     style={{ objectPosition: 'center 30%' }}
                     priority={index < 6}
                     onLoad={() => {
-                      console.log(`Collage photo loaded: ${photo.src}`);
+                      console.log(`Collage photo loaded: ${photo.src} from ${photo.category || 'Unknown Category'}`);
                     }}
                     onError={(e) => {
                       console.error(`Failed to load collage photo: ${photo.src}`);
@@ -158,6 +178,14 @@ export default function Gallery() {
                       }
                     }}
                   />
+                  {/* Category indicator on hover */}
+                  {photo.category && (
+                    <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
+                      <span className="text-white text-xs font-medium text-center px-1" dir="rtl">
+                        {photo.category}
+                      </span>
+                    </div>
+                  )}
                 </div>
               )) : (
                 <div className="w-full text-center text-red-500 p-4">
@@ -170,7 +198,42 @@ export default function Gallery() {
           {/* Header Content */}
           <div className="text-center py-16 relative z-20">
             <h1 className="text-5xl font-bold text-gray-900 mb-4" dir="rtl">גלריית תמונות</h1>
-            <p className="text-xl text-gray-600" dir="rtl">גלו את העבודות שלי</p>
+            <p className="text-xl text-gray-600 mb-4" dir="rtl">גלו את העבודות שלי</p>
+            <Button 
+              onClick={() => {
+                // Refresh collage with new random photos
+                if (galleryData && Object.keys(galleryData).length > 0) {
+                  const allPhotos: Photo[] = [];
+                  Object.entries(galleryData).forEach(([categoryName, categoryData]) => {
+                    if (categoryData.photos && categoryData.photos.length > 0) {
+                      const photosWithCategory = categoryData.photos.map(photo => ({
+                        ...photo,
+                        category: categoryName
+                      }));
+                      allPhotos.push(...photosWithCategory);
+                    }
+                  });
+                  const shuffledPhotos = allPhotos.sort(() => Math.random() - 0.5);
+                  const photoCount = isMobile ? 30 : 140;
+                  const selectedPhotos = shuffledPhotos.slice(0, photoCount);
+                  const collagePhotosArray = selectedPhotos.map((photo, index) => ({
+                    id: index + 1,
+                    filename: photo.filename,
+                    src: photo.src,
+                    alt: photo.alt,
+                    title: photo.title,
+                    category: photo.category
+                  }));
+                  setCollagePhotos(collagePhotosArray);
+                }
+              }}
+              variant="outline"
+              size="sm"
+              className="bg-[#F1BDAF] text-white border-[#F1BDAF] hover:bg-[#F1BDAF]/90 transition-all duration-200"
+              dir="rtl"
+            >
+              רענן קולאז'
+            </Button>
           </div>
 
           {/* Category Navigation */}
