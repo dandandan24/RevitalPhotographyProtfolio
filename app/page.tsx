@@ -21,7 +21,7 @@ function ProffesionCard({ title, description, icon: Icon }: { title: string, des
           <Icon className="text-[#F1BDAF]" size={40}/>
           <h2 className="text-xl text-black font-bold text-center 2xl:mt-2 xl:mt-1" dir="rtl">{title}</h2>
           <div className="flex-1 w-full overflow-y-auto 2xl:mt-4 xl:mt-2">
-            <p className="text-lg text-gray-700 text-center leading-relaxed w-full p-1" dir="rtl">
+            <p className="text-md text-gray-700 text-center leading-relaxed w-full p-1" dir="rtl">
               {description}
             </p>
           </div>
