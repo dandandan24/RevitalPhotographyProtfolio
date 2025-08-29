@@ -124,11 +124,11 @@ export default function Home() {
           {/* About Image */}
           <div className="flex justify-center mb-8">
             <Image 
-              src="/imageforaboutpage.jpg" 
+              src="/StudioAboutImage.jpg" 
               alt="about" 
               width={300}
               height={300}
-              className="w-auto h-64 object-cover shadow-2xl rounded-lg"
+              className="w-auto h-64 object-cover shadow-xl rounded-lg"
             />
           </div>
           

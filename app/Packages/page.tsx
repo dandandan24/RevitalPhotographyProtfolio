@@ -21,6 +21,7 @@ interface CategoryPackages {
   id: string;
   name: string;
   backgroundPhoto: string;
+  backgroundPhotoMobile: string; // Add mobile-specific background photo
   packages: PackageOption[];
 }
 
@@ -29,6 +30,7 @@ const categoryPackages: CategoryPackages[] = [
     id: 'בייבי',
     name: 'בייבי',
     backgroundPhoto: '/PackagesImages/PackageHeadImages/baby.jpg',
+    backgroundPhotoMobile: '/PackagesImages/PackageHeadImagesMobile/baby.jpg', // Mobile-optimized version
     packages: [
       {
         id: 'baby-deluxe',
@@ -76,6 +78,7 @@ const categoryPackages: CategoryPackages[] = [
     id: 'גיל מצווה',
     name: 'גיל מצווה',
     backgroundPhoto: '/PackagesImages/PackageHeadImages/mitzva.jpg',
+    backgroundPhotoMobile: '/PackagesImages/PackageHeadImagesMobile/mitzva.jpg', // You'll need to add this mobile image
     packages: [
       {
         id: 'bat-mitzva-deluxe',
@@ -124,6 +127,7 @@ const categoryPackages: CategoryPackages[] = [
     id: 'הריון',
     name: 'הריון',
     backgroundPhoto: '/PackagesImages/PackageHeadImages/pregnancy.jpg',
+    backgroundPhotoMobile: '/PackagesImages/PackageHeadImagesMobile/pregnancy.jpg', // You'll need to add this mobile image
     packages: [
       {
         id: 'pregnancy-deluxe',
@@ -172,6 +176,7 @@ const categoryPackages: CategoryPackages[] = [
     id: 'משפחה וילדים',
     name: 'משפחה וילדים',
     backgroundPhoto: '/PackagesImages/PackageHeadImages/family.jpg',
+    backgroundPhotoMobile: '/PackagesImages/PackageHeadImagesMobile/family.jpg', // You'll need to add this mobile image
     packages: [
       {
         id: 'family-deluxe',
@@ -219,6 +224,7 @@ const categoryPackages: CategoryPackages[] = [
     id: 'תדמית',
     name: 'תדמית',
     backgroundPhoto: '/PackagesImages/PackageHeadImages/character.jpg',
+    backgroundPhotoMobile: '/PackagesImages/PackageHeadImagesMobile/character.jpg', // You'll need to add this mobile image
     packages: [
       {
         id: 'business-deluxe',
@@ -305,13 +311,20 @@ export default function Packages() {
       {currentCategory && (
         <div className="relative">
           <Image
-            src={currentCategory.backgroundPhoto}
+            src={isMobile ? currentCategory.backgroundPhotoMobile : currentCategory.backgroundPhoto}
             alt=""
             fill
             style={{ objectPosition: 'center 40%' }}
             className="absolute inset-0 w-full h-full object-cover"
             priority
-            onError={(e) => { (e.currentTarget as HTMLImageElement).src = '/imageforbackgroundhomepage.jpg'; }}
+            onError={(e) => { 
+              // If mobile image fails, fall back to desktop image, then to default
+              if (isMobile && e.currentTarget.src === currentCategory.backgroundPhotoMobile) {
+                (e.currentTarget as HTMLImageElement).src = currentCategory.backgroundPhoto;
+              } else {
+                (e.currentTarget as HTMLImageElement).src = '/imageforbackgroundhomepage.jpg';
+              }
+            }}
           />
           
           {/* Header Content */}

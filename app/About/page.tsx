@@ -11,14 +11,14 @@ import { Button } from "@/components/ui/button";
 function ProffesionCard({ title, description, icon: Icon }: { title: string, description: string, icon: React.ComponentType<{className?:string, size?: number}> }) {
   return (
     <div 
-      className="flex flex-col justify-center items-center border-2 w-full 2xl:h-64 xl:h-60 rounded-lg shadow-xl pt-2 pb-2 bg-white transition-all duration-300 hover:shadow-2xl overflow-hidden"
+      className="flex flex-col justify-center items-center border-2 w-full 2xl:h-64 xl:h-55 rounded-lg shadow-xl pt-2 pb-2 bg-white transition-all duration-300 hover:shadow-2xl overflow-hidden"
     >
         {/* Show full content on all screen sizes */}
         <div className="flex flex-col justify-start items-center h-full 2xl:pt-4 xl:pt-2">
           <Icon className="text-[#F1BDAF]" size={40}/>
           <h2 className="text-xl text-black font-bold text-center 2xl:mt-2 xl:mt-1" dir="rtl">{title}</h2>
-          <div className="flex-1 w-full overflow-y-auto 2xl:mt-4 xl:mt-2">
-            <p className="text-lg text-gray-700 text-center leading-relaxed w-full p-1" dir="rtl">
+          <div className="flex-1 w-full overflow-y-auto 2xl:mt-4 xl:mt-0">
+            <p className="2xl:text-lg xl:text-md text-gray-700 text-center leading-relaxed w-full p-1" dir="rtl">
               {description}
             </p>
           </div>
@@ -33,9 +33,9 @@ export default function About() {
       <ActiveNav href="/About" />
       <Hero background="bg-white" justify="start">
         <div className="flex flex-row justify-end w-full relative">
-          <div className="self-start shadow-2xl mt-10 mr-15">
+          <div className="self-start shadow-xl mt-10 mr-15 -ml-15">
             <Image 
-              src="/imageforaboutpage.jpg" 
+              src="/StudioAboutImage.jpg" 
               alt="about" 
               width={500}
               height={500}
@@ -48,9 +48,9 @@ export default function About() {
             </h1>
             <h2 className="2xl:text-xl xl:text-lg text-gray-700 mb-2 text-right" dir="rtl">
             היי, אני רויטל פרצלינה, נשואה לרן ואמא ליעלי וגיאצ'וק המקסימים. <br></br>
-לפני מספר שנים הרגשתי שהגיע הרגע לשים את האהבה הגדולה שלי לצילום במרכז חיי המקצועיים.<br></br><br className="2xl:block xl:hidden" />
+לפני מספר שנים הרגשתי שהגיע הרגע לשים את האהבה הגדולה שלי לצילום במרכז חיי המקצועיים.<br></br><br className="2xl:block " />
  בלימודיי הרחבתי את הניסיון שלי בצילום ושם הבנתי שאני הכי אוהבת לעבוד עם אנשים.
-ההקפדה על הלוקיישן המתאים ועל ייעוץ סטיילינג שמייצרים הרמוניה ויזואלית הם חלק בלתי נפרד מהגישה המקצועית שלי. <br></br><br className="2xl:block xl:hidden" />
+ההקפדה על הלוקיישן המתאים ועל ייעוץ סטיילינג שמייצרים הרמוניה ויזואלית הם חלק בלתי נפרד מהגישה המקצועית שלי. <br></br><br className="2xl:block" />
 בצילום אני אוהבת להתבונן על העולם מזווית שונה, לתפוס רגעים קסומים ולהעניק לכם זיכרונות שילוו אתכם לכל החיים. 
 אני מזמינה אתכם לחלוק איתי את הרגעים השמחים והמרגשים של חייכם, להפוך כל רגע לזיכרון ולתת לעצמכם ולקרובים לכם מתנה ייחודית ונצחית.
             </h2>
@@ -71,7 +71,7 @@ export default function About() {
                 </ProffesionCard>
               </div>
             </div>
-            <div className="w-full flex justify-center 2xl:mt-20 xl:mt-25">
+            <div className="w-full flex justify-center 2xl:mt-20 xl:mt-14">
               <Button asChild variant="standard" size="lg" className="w-50">
                 <Link href="/Contact">ליצירת זכרונות לכל החיים</Link>
               </Button>
