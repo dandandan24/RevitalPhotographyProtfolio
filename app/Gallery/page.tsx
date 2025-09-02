@@ -29,14 +29,15 @@ interface GalleryData {
 
 export default function Gallery() {
   const [galleryData, setGalleryData] = useState<GalleryData>({});
-  const [selectedCategory, setSelectedCategory] = useState('גיל מצווה'); // Set default category
-  // Removed visiblePhotos state - showing all photos from start
+  const [selectedCategory, setSelectedCategory] = useState(''); // Start with empty, will be set by useEffect
   const [loading, setLoading] = useState(true);
   const [collagePhotos, setCollagePhotos] = useState<Photo[]>([]);
   const [isMobile, setIsMobile] = useState(false);
   const [imagesLoaded, setImagesLoaded] = useState(false);
   const [loadedImages, setLoadedImages] = useState<Set<string>>(new Set());
   const [categoryChanging, setCategoryChanging] = useState(false);
+  const [visiblePhotosCount, setVisiblePhotosCount] = useState(10); // Start with 10 photos
+  const [newlyLoadedImages, setNewlyLoadedImages] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     // Check if device is mobile
@@ -50,23 +51,52 @@ export default function Gallery() {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  // No pagination – show all photos
-
+  // Fetch gallery data and set initial category based on code's categories array
   useEffect(() => {
     console.log('Loading gallery data...');
-    fetch(`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/gallery-data.json`)
-      .then(response => response.json())
+    const fetchUrl = `${process.env.NEXT_PUBLIC_BASE_PATH || ''}/gallery-data.json`;
+    console.log('Fetching from URL:', fetchUrl);
+    
+    fetch(fetchUrl)
+      .then(response => {
+        console.log('Response status:', response.status);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+      })
       .then((data: GalleryData) => {
         console.log('Gallery data loaded:', data);
+        console.log('Available categories in JSON:', Object.keys(data));
         setGalleryData(data);
-        // Set first category with photos as default immediately
-        const firstCategoryWithPhotos = Object.entries(data).find(([_, categoryData]) => categoryData.count > 0);
+        
+        // Set first category from code's categories array that has photos in JSON
+        const categories = ['הריון', 'תדמית', 'בייבי', 'משפחה', 'ילדים', 'גיל מצווה'];
+        console.log('Code categories:', categories);
+        
+        const firstCategoryWithPhotos = categories.find(category => 
+          data[category] && data[category].photos && data[category].photos.length > 0
+        );
+        
         if (firstCategoryWithPhotos) {
-          setSelectedCategory(firstCategoryWithPhotos[0]);
-          console.log('Selected category:', firstCategoryWithPhotos[0]);
+          setSelectedCategory(firstCategoryWithPhotos);
+          console.log('Selected category:', firstCategoryWithPhotos);
+          console.log('Category photos count:', data[firstCategoryWithPhotos].photos.length);
+        } else {
+          console.log('No categories with photos found, using first available category');
+          // Fallback to first available category
+          const firstCategory = Object.keys(data)[0];
+          if (firstCategory) {
+            setSelectedCategory(firstCategory);
+            console.log('Fallback to first category:', firstCategory);
+          } else {
+            // Ultimate fallback
+            setSelectedCategory('גיל מצווה');
+            console.log('Ultimate fallback to גיל מצווה');
+          }
         }
         setLoading(false);
-        
+        /*
         // Create dynamic collage from gallery photos instead of static collagePhotos folder
         const createDynamicCollage = () => {
           try {
@@ -125,7 +155,7 @@ export default function Gallery() {
         };
         
         // Create the dynamic collage
-        createDynamicCollage();
+        createDynamicCollage();*/
       })
       .catch(err => {
         console.error('Error loading gallery data:', err);
@@ -134,20 +164,58 @@ export default function Gallery() {
   }, [isMobile]);
 
   const categories = ['הריון', 'תדמית', 'בייבי', 'משפחה', 'ילדים', 'גיל מצווה'];
-  const currentPhotos = galleryData[selectedCategory]?.photos || [];
+  const allPhotos = galleryData[selectedCategory]?.photos || [];
+  const currentPhotos = allPhotos; // Show all photos in category
+  const visiblePhotos = currentPhotos.slice(0, visiblePhotosCount); // Show only visible count
   
-  console.log('🎯 Current category:', selectedCategory);
+  // Distribute photos across responsive columns
+  const distributePhotos = (photos: Photo[]) => {
+    // For mobile, just return all photos in a single array
+    if (isMobile) {
+      return [photos];
+    }
+    
+    // For desktop/tablet, distribute across 3 columns
+    const columns = [[], [], []];
+    photos.forEach((photo, index) => {
+      columns[index % 3].push(photo);
+    });
+    return columns;
+  };
+  
+  const photoColumns = distributePhotos(visiblePhotos);
+  
+  console.log('📸 Selected category:', selectedCategory);
+  console.log('📸 Gallery data keys:', Object.keys(galleryData));
+  console.log('📸 All photos count:', allPhotos.length);
   console.log('📸 Current photos count:', currentPhotos.length);
-  console.log('📸 First few photos:', currentPhotos.slice(0, 3));
+  console.log('📸 Visible photos count:', visiblePhotos.length);
+  console.log('📸 First photo:', allPhotos[0]);
+  
+
 
   const handleImageLoad = (uniquePhotoId: string) => {
-    console.log('🖼️ Image loaded with ID:', uniquePhotoId);
     setLoadedImages(prev => {
       const newSet = new Set(prev);
       newSet.add(uniquePhotoId);
-      console.log('📊 Updated loaded images set:', Array.from(newSet));
       return newSet;
     });
+    
+    // Mark as newly loaded for fade-in effect
+    setNewlyLoadedImages(prev => {
+      const newSet = new Set(prev);
+      newSet.add(uniquePhotoId);
+      return newSet;
+    });
+    
+    // Remove from newly loaded after animation completes
+    setTimeout(() => {
+      setNewlyLoadedImages(prev => {
+        const newSet = new Set(prev);
+        newSet.delete(uniquePhotoId);
+        return newSet;
+      });
+    }, 600); // Match animation duration
   };
 
   // Check if all images are loaded
@@ -155,10 +223,8 @@ export default function Gallery() {
     if (currentPhotos.length > 0) {
       const currentCategoryImageIds = currentPhotos.map(photo => `${selectedCategory}-${photo.id}`);
       const loadedCurrentCategoryImages = currentCategoryImageIds.filter(id => loadedImages.has(id));
-      
-      console.log(`Category: ${selectedCategory}, Total photos: ${currentPhotos.length}, Loaded: ${loadedCurrentCategoryImages.length}`);
-      console.log('Current category image IDs:', currentCategoryImageIds);
-      console.log('Loaded images:', Array.from(loadedImages));
+    
+
       
       if (loadedCurrentCategoryImages.length === currentPhotos.length) {
         setImagesLoaded(true);
@@ -170,11 +236,27 @@ export default function Gallery() {
     }
   }, [currentPhotos.length, loadedImages.size, selectedCategory, loadedImages]);
 
-  // Reset loaded images when category changes
+  // Reset loaded images and visible count when category changes
   useEffect(() => {
     setLoadedImages(new Set());
     setImagesLoaded(false);
+    setVisiblePhotosCount(10); // Reset to 10 photos
+    setNewlyLoadedImages(new Set()); // Reset newly loaded images
   }, [selectedCategory]);
+
+  // Load more photos when scrolling
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 1000) {
+        if (visiblePhotosCount < currentPhotos.length) {
+          setVisiblePhotosCount(prev => Math.min(prev + 10, currentPhotos.length));
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [visiblePhotosCount, currentPhotos.length]);
 
   // Function to handle category change with immediate hiding
   const handleCategoryChange = (newCategory: string) => {
@@ -192,7 +274,7 @@ export default function Gallery() {
     }
   }, [categoryChanging]);
 
-  if (loading) {
+  if (loading || !selectedCategory) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
@@ -335,48 +417,58 @@ export default function Gallery() {
                 </a>
               </div>
               
-              {(!imagesLoaded || categoryChanging) && currentPhotos.length > 0 && (
-                <div className="text-center py-16">
-                  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#F1BDAF] mx-auto mb-4"></div>
-                  <p className="text-lg text-gray-600" dir="rtl">טוען תמונות...</p>
-                </div>
-              )}
-              
-              <div className={`columns-1 md:columns-2 lg:columns-3 gap-6 transition-opacity duration-300 ${(!imagesLoaded || categoryChanging) ? 'gallery-loading opacity-0 pointer-events-none' : 'gallery-loaded opacity-100'}`}>
-                {currentPhotos.map((photo) => (
-                  <div
-                    key={photo.id}
-                    className="gallery-photo mb-6 group cursor-pointer rounded-lg shadow-lg hover:shadow-2xl overflow-hidden hover:-translate-y-1"
-                    style={{ breakInside: 'avoid' }}
-                  >
-                    {/* Image Container with Hover Effects */}
-                    <div className="relative w-full bg-gray-100 overflow-hidden rounded-lg">
-                      <Image
-                        src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}${photo.src}`}
-                        alt={photo.alt}
-                        width={400}
-                        height={300}
-                        className="w-full h-auto group-hover:scale-110 transition-transform duration-300"
-                        loading="eager"
-                        decoding="sync"
-                        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                        placeholder="blur"
-                        blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
-                        onLoad={() => {
-                          console.log('✅ Image loaded:', photo.src);
-                          handleImageLoad(`${selectedCategory}-${photo.id}`);
-                        }}
-                        onError={(e) => console.error('❌ Image failed:', photo.src, e)}
-                      />
-                      
-                      {/* Dark overlay on hover */}
-                      <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-30 transition-opacity duration-300"></div>
-                    </div>
+              {/* Independent Grid Columns - No Layout Jumping */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {photoColumns.map((column, columnIndex) => (
+                  <div key={columnIndex} className="flex flex-col gap-6">
+                    {column.map((photo) => (
+                      <div
+                        key={photo.id}
+                        className={`gallery-photo group cursor-pointer rounded-lg shadow-lg overflow-hidden transition-all duration-600 ${
+                          loadedImages.has(`${selectedCategory}-${photo.id}`) 
+                            ? (newlyLoadedImages.has(`${selectedCategory}-${photo.id}`) ? 'animate-fade-in' : 'opacity-100')
+                            : 'opacity-0'
+                        }`}
+                      >
+                        {/* Image Container with Hover Effects */}
+                        <div className="relative w-full bg-gray-100 overflow-hidden rounded-lg">
+                          <Image
+                            src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}${photo.src}`}
+                            alt={photo.alt}
+                            width={400}
+                            height={300}
+                            className="w-full h-auto"
+                            loading="lazy"
+                            decoding="async"
+                            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                            placeholder="blur"
+                            blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
+                            onLoad={() => {
+                              console.log('✅ Image loaded:', photo.src);
+                              handleImageLoad(`${selectedCategory}-${photo.id}`);
+                            }}
+                            onError={(e) => {
+                              console.error('❌ Image failed:', photo.src, e);
+                              console.error('❌ Full image path:', `${process.env.NEXT_PUBLIC_BASE_PATH || ''}${photo.src}`);
+                            }}
+                          />
+                          
+                          {/* Dark overlay on hover */}
+                          <div className="hover-overlay absolute inset-0 bg-black opacity-0 group-hover:opacity-30"></div>
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 ))}
               </div>
 
-              {/* No Load More – show all photos */}
+              {/* Show loading indicator if more photos are available */}
+              {visiblePhotosCount < currentPhotos.length && (
+                <div className="text-center py-8">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#F1BDAF] mx-auto mb-2"></div>
+                  <p className="text-sm text-gray-500" dir="rtl">טוען עוד תמונות...</p>
+                </div>
+              )}
             </>
           )}
 

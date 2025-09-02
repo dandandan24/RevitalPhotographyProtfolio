@@ -404,6 +404,8 @@ nav a[href="/About"]:has(+ .current-page) {
   display: inline-block;
   width: 100%;
   transition: opacity 0.3s ease-in-out;
+  transform: translateZ(0); /* Force hardware acceleration */
+  backface-visibility: hidden; /* Prevent flickering */
 }
 
 .gallery-photo img {
@@ -412,7 +414,17 @@ nav a[href="/About"]:has(+ .current-page) {
   display: block;
   width: 100%;
   height: auto;
-  transition: opacity 0.3s ease-in-out;
+  transition: opacity 0.3s ease-in-out, transform 0.5s ease-in-out;
+  transform: scale(1);
+}
+
+.gallery-photo:hover img {
+  transform: scale(1.1);
+}
+
+/* Synchronized hover overlay */
+.gallery-photo .hover-overlay {
+  transition: opacity 0.5s ease-in-out;
 }
 
 /* Hide images during loading to prevent position changes */
@@ -426,11 +438,41 @@ nav a[href="/About"]:has(+ .current-page) {
   visibility: visible;
 }
 
-/* Stabilize the masonry container */
+/* Stabilize the masonry container and reduce jumping */
 .columns-1, .columns-2, .columns-3 {
+  contain: layout;
+  transform: translateZ(0);
+  backface-visibility: hidden;
   column-fill: balance;
   column-gap: 1.5rem;
-  contain: layout;
+  break-inside: avoid;
+}
+
+/* Fade-in animation for newly loaded images */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.6s ease-out forwards;
+  opacity: 0; /* Start invisible */
+}
+
+/* Ensure images start invisible until loaded */
+.gallery-photo {
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.gallery-photo.opacity-100 {
+  opacity: 1;
 }
 
 .mobile-carousel-slide {

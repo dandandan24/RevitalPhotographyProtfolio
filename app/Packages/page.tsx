@@ -394,21 +394,15 @@ function PackagesContent() {
           <Image
             src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}${isMobile ? currentCategory.backgroundPhotoMobile : currentCategory.backgroundPhoto}`}
             alt=""
-            fill
+            height = {1000}
+            width = {3000}
             style={{ objectPosition: 'center 40%' }}
             className="absolute inset-0 w-full h-full object-cover"
             priority
-            onError={(e) => { 
-              // If mobile image fails, fall back to desktop image, then to default
-              const base = process.env.NEXT_PUBLIC_BASE_PATH || '';
-              (e.currentTarget as HTMLImageElement).src = isMobile
-                ? `${base}${currentCategory.backgroundPhoto}`
-                : `${base}/imageforbackgroundhomepage.jpg`;
-            }}
           />
           
           {/* Header Content */}
-          <div className="relative z-10 h-96"></div>
+          <div className="relative z-10 h-96 2xl:h-[60vh]"></div>
           
           {/* Category Navigation */}
           <div className="relative z-10 border-b">

@@ -9,7 +9,6 @@ const galleryFolders = {
   'משפחה': 'Family',
   'הריון': 'Pregnancy',
   'ילדים': 'Kids',
-  'כללי': 'General',
 };
 
 function scanPhotos() {
