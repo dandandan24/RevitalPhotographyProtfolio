@@ -438,7 +438,7 @@ function PackagesContent() {
               </div>
               
               {/* Desktop Category Buttons - Only visible on large screens */}
-              <div className="hidden lg:flex justify-center space-x-8 py-4 overflow-x-auto">
+              <div className="hidden lg:flex justify-center gap-8 py-4 overflow-x-auto">
                 {categoryPackages.slice().reverse().map((category) => (
                   <button
                     key={category.id}

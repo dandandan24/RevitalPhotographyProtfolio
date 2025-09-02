@@ -211,37 +211,7 @@ export default function Gallery() {
       <div className="min-h-screen bg-gray-50 animate-in fade-in duration-700">
         {/* Header and Category Navigation Combined */}
         <div className="bg-white shadow-sm relative overflow-hidden">
-          {/* Single Photo Collage Background - Rich with Hundreds of Photos */}
-          <div className="absolute inset-0 opacity-30 pointer-events-none z-0">
-            <div className="grid grid-cols-[repeat(auto-fit,minmax(64px,1fr))] gap-0.5 p-2 h-full w-full">
-              {collagePhotos.length > 0 ? collagePhotos.map((photo, index) => (
-                <div 
-                  key={`header-${photo.id}-${index}`} 
-                  className="w-full h-16 overflow-hidden rounded-sm relative group"
-                  style={{ aspectRatio: '1/1' }}
-                  title={`${photo.title} - ${photo.category || 'Unknown Category'}`}
-                >
-                  <Image
-                    src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}${photo.src}`}
-                    alt={photo.alt}
-                    width={64}
-                    height={64}
-                    className="w-full h-full object-cover"
-                    style={{ objectPosition: 'center 30%' }}
-                    priority={index < 6}
-                  />
-                  {/* Category indicator on hover */}
-                  {photo.category && (
-                    <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
-                      <span className="text-white text-xs font-medium text-center px-1" dir="rtl">
-                        {photo.category}
-                      </span>
-                    </div>
-                  )}
-                </div>
-              )) : null}
-            </div>
-          </div>
+          {/* Collage disabled per request to improve mobile performance */}
           
           {/* Header Content */}
           <div className="text-center py-16 relative z-20">
@@ -282,7 +252,7 @@ export default function Gallery() {
               </div>
               
               {/* Desktop Category Buttons - Only visible on large screens */}
-              <div className="hidden lg:flex justify-center space-x-8 py-4">
+              <div className="hidden lg:flex justify-center gap-8 py-4">
                 {categories.map((category) => (
                   <button
                     key={category}
