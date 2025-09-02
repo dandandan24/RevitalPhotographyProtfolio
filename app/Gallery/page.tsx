@@ -37,7 +37,6 @@ export default function Gallery() {
   const [imagesLoaded, setImagesLoaded] = useState(false);
   const [loadedImages, setLoadedImages] = useState<Set<string>>(new Set());
   const [categoryChanging, setCategoryChanging] = useState(false);
-  const [visibleCount, setVisibleCount] = useState(10);
 
   useEffect(() => {
     // Check if device is mobile
@@ -51,10 +50,7 @@ export default function Gallery() {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  // Adjust initial visible count when device type changes
-  useEffect(() => {
-    setVisibleCount(10);
-  }, [isMobile]);
+  // No pagination – show all photos
 
   useEffect(() => {
     console.log('Loading gallery data...');
@@ -139,7 +135,6 @@ export default function Gallery() {
 
   const categories = ['הריון', 'תדמית', 'בייבי', 'משפחה', 'ילדים', 'גיל מצווה'];
   const currentPhotos = galleryData[selectedCategory]?.photos || [];
-  const visiblePhotos = currentPhotos.slice(0, visibleCount);
   
   console.log('🎯 Current category:', selectedCategory);
   console.log('📸 Current photos count:', currentPhotos.length);
@@ -155,17 +150,17 @@ export default function Gallery() {
     });
   };
 
-  // Check if all visible images are loaded
+  // Check if all images are loaded
   useEffect(() => {
-    if (visiblePhotos.length > 0) {
-      const currentCategoryImageIds = visiblePhotos.map(photo => `${selectedCategory}-${photo.id}`);
+    if (currentPhotos.length > 0) {
+      const currentCategoryImageIds = currentPhotos.map(photo => `${selectedCategory}-${photo.id}`);
       const loadedCurrentCategoryImages = currentCategoryImageIds.filter(id => loadedImages.has(id));
       
-      console.log(`Category: ${selectedCategory}, Visible photos: ${visiblePhotos.length}, Loaded: ${loadedCurrentCategoryImages.length}`);
+      console.log(`Category: ${selectedCategory}, Total photos: ${currentPhotos.length}, Loaded: ${loadedCurrentCategoryImages.length}`);
       console.log('Current category image IDs:', currentCategoryImageIds);
       console.log('Loaded images:', Array.from(loadedImages));
       
-      if (loadedCurrentCategoryImages.length === visiblePhotos.length) {
+      if (loadedCurrentCategoryImages.length === currentPhotos.length) {
         setImagesLoaded(true);
       } else {
         setImagesLoaded(false);
@@ -173,13 +168,12 @@ export default function Gallery() {
     } else {
       setImagesLoaded(false);
     }
-  }, [visiblePhotos.length, loadedImages.size, selectedCategory, loadedImages]);
+  }, [currentPhotos.length, loadedImages.size, selectedCategory, loadedImages]);
 
   // Reset loaded images when category changes
   useEffect(() => {
     setLoadedImages(new Set());
     setImagesLoaded(false);
-    setVisibleCount(10);
   }, [selectedCategory]);
 
   // Function to handle category change with immediate hiding
@@ -217,7 +211,37 @@ export default function Gallery() {
       <div className="min-h-screen bg-gray-50 animate-in fade-in duration-700">
         {/* Header and Category Navigation Combined */}
         <div className="bg-white shadow-sm relative overflow-hidden">
-          {/* Collage temporarily disabled for GitHub Pages performance */}
+          {/* Single Photo Collage Background - Rich with Hundreds of Photos */}
+          <div className="absolute inset-0 opacity-30 pointer-events-none z-0">
+            <div className="grid grid-cols-[repeat(auto-fit,minmax(64px,1fr))] gap-0.5 p-2 h-full w-full">
+              {collagePhotos.length > 0 ? collagePhotos.map((photo, index) => (
+                <div 
+                  key={`header-${photo.id}-${index}`} 
+                  className="w-full h-16 overflow-hidden rounded-sm relative group"
+                  style={{ aspectRatio: '1/1' }}
+                  title={`${photo.title} - ${photo.category || 'Unknown Category'}`}
+                >
+                  <Image
+                    src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}${photo.src}`}
+                    alt={photo.alt}
+                    width={64}
+                    height={64}
+                    className="w-full h-full object-cover"
+                    style={{ objectPosition: 'center 30%' }}
+                    priority={index < 6}
+                  />
+                  {/* Category indicator on hover */}
+                  {photo.category && (
+                    <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
+                      <span className="text-white text-xs font-medium text-center px-1" dir="rtl">
+                        {photo.category}
+                      </span>
+                    </div>
+                  )}
+                </div>
+              )) : null}
+            </div>
+          </div>
           
           {/* Header Content */}
           <div className="text-center py-16 relative z-20">
@@ -341,7 +365,7 @@ export default function Gallery() {
                 </a>
               </div>
               
-              {(!imagesLoaded || categoryChanging) && visiblePhotos.length > 0 && (
+              {(!imagesLoaded || categoryChanging) && currentPhotos.length > 0 && (
                 <div className="text-center py-16">
                   <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#F1BDAF] mx-auto mb-4"></div>
                   <p className="text-lg text-gray-600" dir="rtl">טוען תמונות...</p>
@@ -349,7 +373,7 @@ export default function Gallery() {
               )}
               
               <div className={`columns-1 md:columns-2 lg:columns-3 gap-6 transition-opacity duration-300 ${(!imagesLoaded || categoryChanging) ? 'gallery-loading opacity-0 pointer-events-none' : 'gallery-loaded opacity-100'}`}>
-                {visiblePhotos.map((photo) => (
+                {currentPhotos.map((photo) => (
                   <div
                     key={photo.id}
                     className="gallery-photo mb-6 group cursor-pointer rounded-lg shadow-lg hover:shadow-2xl overflow-hidden hover:-translate-y-1"
@@ -382,18 +406,7 @@ export default function Gallery() {
                 ))}
               </div>
 
-              {/* Load More */}
-              {visibleCount < currentPhotos.length && (
-                <div className="flex justify-center mt-8">
-                  <button
-                    type="button"
-                    className="px-6 py-3 rounded-lg font-medium bg-white/80 text-gray-800 border border-[#F1BDAF] hover:bg-[#F1BDAF] hover:text-white transition-colors duration-300 shadow-sm"
-                    onClick={() => setVisibleCount(prev => Math.min(prev + (isMobile ? 20 : 30), currentPhotos.length))}
-                  >
-                    טען עוד
-                  </button>
-                </div>
-              )}
+              {/* No Load More – show all photos */}
             </>
           )}
 

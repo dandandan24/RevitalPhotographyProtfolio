@@ -32,6 +32,20 @@ function ProffesionCard({ title, description, icon: Icon }: { title: string, des
 
 export default function Home() {
   const [isMobile, setIsMobile] = useState(false);
+  const [bgIndex, setBgIndex] = useState(0);
+  const [nextBgIndex, setNextBgIndex] = useState(1);
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
+  const desktopBackgrounds = [
+    `${basePath}/imageforbackgroundhomepage.jpg`,
+    `${basePath}/imageforbackgroundhomepage2.jpg`,
+    `${basePath}/imageforbackgroundhomepage3.jpg`,
+  ];
+  const mobileBackgrounds = [
+    `${basePath}/imageforbackgroundhomepagemobile.jpg`,
+    `${basePath}/imageforbackgroundhomepagemobile2.jpg`,
+    `${basePath}/imageforbackgroundhomepagemobile3.jpg`,
+  ];
+  const [isFading, setIsFading] = useState(false);
 
   useEffect(() => {
     // Check if device is mobile
@@ -89,13 +103,40 @@ export default function Home() {
     };
   }, []);
 
+  // Rotate background every 10 seconds (desktop and mobile)
+  useEffect(() => {
+    const list = isMobile ? mobileBackgrounds : desktopBackgrounds;
+    const timer = setInterval(() => {
+      // Compute next index once and crossfade to it
+      setNextBgIndex((bgIndex + 1) % list.length);
+      setIsFading(true);
+      const to = setTimeout(() => {
+        setBgIndex((prev) => (prev + 1) % list.length);
+        setIsFading(false);
+      }, 800);
+      return () => clearTimeout(to);
+    }, 10000);
+    return () => clearInterval(timer);
+  }, [isMobile, bgIndex]);
+
   return (
     <>
       <ActiveNav href="/" />
-      <div className="h-screen flex flex-col justify-start md:justify-center items-center md:items-end bg-gray-500 px-8 md:px-16 lg:px-32 bg-cover bg-contain md:bg-cover bg-no-repeat pt-20 md:pt-0 home-hero-section" style={{
-        backgroundImage: `url('${process.env.NEXT_PUBLIC_BASE_PATH || ''}${isMobile ? '/imageforbackgroundhomepagemobile.jpg' : '/imageforbackgroundhomepage.jpg'}')`, 
+      <div className="relative h-screen flex flex-col justify-start md:justify-center items-center md:items-end bg-gray-500 px-8 md:px-16 lg:px-32 bg-cover bg-contain md:bg-cover bg-no-repeat pt-20 md:pt-0 home-hero-section" style={{
+        backgroundImage: `url('${(isMobile ? mobileBackgrounds : desktopBackgrounds)[bgIndex]}')`,
         backgroundPosition: "left center"
-      }}>  
+      }}>
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 bg-no-repeat"
+          style={{
+            backgroundImage: `url('${(isMobile ? mobileBackgrounds : desktopBackgrounds)[nextBgIndex]}')`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'left center',
+            transition: 'opacity 800ms ease',
+            opacity: isFading ? 1 : 0,
+          }}
+        />
         <h1 className="text-2xl md:text-3xl lg:text-5xl font-bold text-white my-2 md:my-8 lg:my-10 drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)] text-center md:text-right" dir="rtl">ליצור <span className="text-[#F1BDAF] drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]">זכרונות</span> שנשארים</h1>
         <h1 className="text-lg md:text-xl lg:text-3xl font-bold text-white drop-shadow-[0_1px_2px_rgba(0,0,0,1)] text-center md:text-right " dir="rtl">תהפכו את האירועים,<br></br>
            החוויות והרגעים שלכם לזכרונות מלאי חיים<br></br>
