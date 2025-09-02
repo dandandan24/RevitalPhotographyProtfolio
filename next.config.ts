@@ -1,16 +1,20 @@
 import type { NextConfig } from "next";
 
 const isProd = process.env.NODE_ENV === 'production';
-const BASE_PATH = isProd ? '/RevitalPhotographyProtfolio' : '';
+const isGhPages = process.env.NEXT_PUBLIC_DEPLOY_TARGET === 'gh-pages';
+const BASE_PATH = isGhPages ? '/RevitalPhotographyProtfolio' : '';
 
 const nextConfig: NextConfig = {
-  output: isProd ? 'export' : undefined,
+  // Only export for GitHub Pages; use server mode on Vercel/local
+  output: isGhPages ? 'export' : undefined,
   trailingSlash: true,
   images: {
-    unoptimized: isProd,
+    // Disable optimizer only on GitHub Pages static export
+    unoptimized: isGhPages,
   },
-  basePath: BASE_PATH,
-  assetPrefix: isProd ? `${BASE_PATH}/` : undefined,
+  // Prefix paths only on GitHub Pages
+  basePath: isGhPages ? BASE_PATH : undefined,
+  assetPrefix: isGhPages ? `${BASE_PATH}/` : undefined,
   env: {
     NEXT_PUBLIC_BASE_PATH: BASE_PATH,
   },
