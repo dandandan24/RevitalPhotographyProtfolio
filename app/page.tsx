@@ -122,6 +122,7 @@ export default function Home() {
   return (
     <>
       <ActiveNav href="/" />
+      <div className="animate-in fade-in duration-700">
       <div className="relative h-screen flex flex-col justify-start md:justify-center items-center md:items-end bg-gray-500 px-8 md:px-16 lg:px-32 bg-cover bg-contain md:bg-cover bg-no-repeat pt-20 md:pt-0 home-hero-section" style={{
         backgroundImage: `url('${(isMobile ? mobileBackgrounds : desktopBackgrounds)[bgIndex]}')`,
         backgroundPosition: "left center"
@@ -268,6 +269,7 @@ export default function Home() {
           <span className="block text-left" dir="rtl">© כל הזכויות שמורות לרויטל פרצלינה</span>
         </div>
       </footer>
+      </div>
       </div>
     </>
   );

@@ -18,25 +18,58 @@ function ContactCard() {
     const [message, setMessage] = useState('');
     const [emailError, setEmailError] = useState(false);
     const [phoneError, setPhoneError] = useState(false);
+    const [emailErrorMessage, setEmailErrorMessage] = useState('');
+    const [phoneErrorMessage, setPhoneErrorMessage] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+
+    const validateEmail = (email: string) => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    };
+
+    const validatePhone = (phone: string) => {
+        // Israeli phone number validation (supports various formats)
+        const phoneRegex = /^(\+972|0)([23489]|5[012345689]|77)[0-9]{7}$/;
+        // Also allow international formats
+        const internationalRegex = /^\+[1-9]\d{1,14}$/;
+        return phoneRegex.test(phone.replace(/[\s-]/g, '')) || internationalRegex.test(phone.replace(/[\s-]/g, ''));
+    };
 
     const handleSubmit = async () => {
         // Reset previous errors and status
         setEmailError(false);
         setPhoneError(false);
+        setEmailErrorMessage('');
+        setPhoneErrorMessage('');
         setSubmitStatus('idle');
 
-        // Check if fields are filled
+        let hasErrors = false;
+
+        // Validate email
         if (!email.trim()) {
             setEmailError(true);
-        }
-        if (!phone.trim()) {
-            setPhoneError(true);
+            setEmailErrorMessage('כתובת המייל היא שדה חובה');
+            hasErrors = true;
+        } else if (!validateEmail(email.trim())) {
+            setEmailError(true);
+            setEmailErrorMessage('כתובת המייל אינה תקינה');
+            hasErrors = true;
         }
 
-        // Only proceed if both fields are filled
-        if (email.trim() && phone.trim()) {
+        // Validate phone
+        if (!phone.trim()) {
+            setPhoneError(true);
+            setPhoneErrorMessage('מספר הטלפון הוא שדה חובה');
+            hasErrors = true;
+        } else if (!validatePhone(phone.trim())) {
+            setPhoneError(true);
+            setPhoneErrorMessage('מספר הטלפון אינו תקין (נדרש מספר ישראלי או בינלאומי)');
+            hasErrors = true;
+        }
+
+        // Only proceed if no validation errors
+        if (!hasErrors) {
             setIsSubmitting(true);
             
             try {
@@ -146,20 +179,34 @@ function ContactCard() {
                             id="Email" 
                             placeholder="כתובת מייל" 
                             value={email}
-                            onChange={(e) => setEmail(e.target.value)}
+                            onChange={(e) => {
+                                setEmail(e.target.value);
+                                // Clear error when user starts typing
+                                if (emailError) {
+                                    setEmailError(false);
+                                    setEmailErrorMessage('');
+                                }
+                            }}
                             className={emailError ? 'border-red-500 focus:border-red-500' : ''}
                         />
-                        {emailError && <p className="text-red-500 text-sm -mt-2">כתובת המייל היא שדה חובה</p>}
+                        {emailError && <p className="text-red-500 text-sm -mt-2">{emailErrorMessage}</p>}
                         <Label htmlFor="Phone">טלפון<span className="text-[#F1BDAF]">*</span></Label>
                         <Input 
                             type="Phone" 
                             id="Phone" 
                             placeholder="טלפון" 
                             value={phone}
-                            onChange={(e) => setPhone(e.target.value)}
+                            onChange={(e) => {
+                                setPhone(e.target.value);
+                                // Clear error when user starts typing
+                                if (phoneError) {
+                                    setPhoneError(false);
+                                    setPhoneErrorMessage('');
+                                }
+                            }}
                             className={phoneError ? 'border-red-500 focus:border-red-500' : ''}
                         />
-                        {phoneError && <p className="text-red-500 text-sm -mt-2">מספר הטלפון הוא שדה חובה</p>}
+                        {phoneError && <p className="text-red-500 text-sm -mt-2">{phoneErrorMessage}</p>}
                         <Label htmlFor="message">תיאור</Label>
                         <Textarea placeholder="תארו את הבקשה או השאלה שלכם כאן" id="message" className="min-h-32 w-full resize-none" value={message} onChange={(e) => setMessage(e.target.value)}/>
                         <Button 
@@ -197,20 +244,34 @@ function ContactCard() {
                             id="Email-mobile" 
                             placeholder="כתובת מייל" 
                             value={email}
-                            onChange={(e) => setEmail(e.target.value)}
+                            onChange={(e) => {
+                                setEmail(e.target.value);
+                                // Clear error when user starts typing
+                                if (emailError) {
+                                    setEmailError(false);
+                                    setEmailErrorMessage('');
+                                }
+                            }}
                             className={emailError ? 'border-red-500 focus:border-red-500' : ''}
                         />
-                        {emailError && <p className="text-red-500 text-sm -mt-2">כתובת המייל היא שדה חובה</p>}
+                        {emailError && <p className="text-red-500 text-sm -mt-2">{emailErrorMessage}</p>}
                         <Label htmlFor="Phone-mobile">טלפון<span className="text-[#F1BDAF]">*</span></Label>
                         <Input 
                             type="Phone" 
                             id="Phone-mobile" 
                             placeholder="טלפון" 
                             value={phone}
-                            onChange={(e) => setPhone(e.target.value)}
+                            onChange={(e) => {
+                                setPhone(e.target.value);
+                                // Clear error when user starts typing
+                                if (phoneError) {
+                                    setPhoneError(false);
+                                    setPhoneErrorMessage('');
+                                }
+                            }}
                             className={phoneError ? 'border-red-500 focus:border-red-500' : ''}
                         />
-                        {phoneError && <p className="text-red-500 text-sm -mt-2">מספר הטלפון הוא שדה חובה</p>}
+                        {phoneError && <p className="text-red-500 text-sm -mt-2">{phoneErrorMessage}</p>}
                         <Label htmlFor="message-mobile">תיאור</Label>
                         <Textarea placeholder="תארו את הבקשה או השאלה שלך כאן" id="message-mobile" className="min-h-16 w-full resize-none" value={message} onChange={(e) => setMessage(e.target.value)}/>
                         <Button 
@@ -243,11 +304,13 @@ export default function Contact() {
     return (
         <>
             <ActiveNav href="/Contact" />
+            <div className="animate-in fade-in duration-700">
             <Hero background="bg-white" justify="start" alignment="center">
                 <h1 className="font-bold text-black 2xl:mt-16 xl:mt-8 mt-4 2xl:text-5xl xl:text-4xl text-4xl" dir="rtl">צור <span className="text-[#F1BDAF]">קשר</span></h1>
                 <h2 className="text-black mt-4 text-center xl:w-3/4 2xl:w-3/4 2xl:mb-6 xl:mb-6 mb-2 2xl:text-2xl xl:text-xl text-lg md:w-full" dir="rtl">אני זמינה בשבילכם באימייל, בווטצאפ ובטלפון. אתם מוזמנים גם להשתמש בטופס כאן בשביל לשלוח שאלה על השירותים שאני מציעה או על הפרויקטים שעשיתי</h2>
                 <ContactCard />
             </Hero>
+            </div>
 
             {/* Mobile Footer with Contact Details */}
             <footer className="border-t bg-white w-full mt-8 md:hidden">

@@ -510,7 +510,7 @@ export default function Recommendations() {
   return (
     <>
       <ActiveNav href="/Recommendations" />
-      
+      <div className="animate-in fade-in duration-700">
       {/* Full-Width Photo Carousel Section */}
       <div className="w-full">
         <div className="max-w-full mx-auto">
@@ -660,6 +660,7 @@ export default function Recommendations() {
           <span className="block text-left" dir="rtl">כל הזכויות שמורות לרויטל פרצלינה</span>
         </div>
       </footer>
+      </div>
     </>
   );
 }

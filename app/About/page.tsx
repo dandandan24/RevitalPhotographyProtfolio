@@ -32,6 +32,7 @@ export default function About() {
     <>
       <ActiveNav href="/About" />
       <Hero background="bg-white" justify="start">
+        <div className="animate-in fade-in duration-700">
         <div className="flex flex-row justify-end w-full relative">
           <div className="self-start mt-10 mr-15 -ml-15">
             <Image 
@@ -78,6 +79,7 @@ export default function About() {
             </div>
           </div>
       
+        </div>
         </div>
       </Hero>
     </>
