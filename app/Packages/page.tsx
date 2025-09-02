@@ -44,17 +44,17 @@ const categoryPackages: CategoryPackages[] = [
           'כולל צילומי משפחה',
          'לוקיישן לבחירה',
          'מתאים למשפחה עד 5 נפשות',
-         'אלבום מודפס מעוצב עם כריכת תמונה בגודל 25*50 (30 עמודים)',
          'ליווי וייעוץ סטיילינג טרום הצילומים – בשווי 300 ₪ - במתנה!',
+         'אלבום מודפס מעוצב עם כריכת תמונה בגודל 25*50 (30 עמודים)',
          'תמונה ממוסגרת ומודפסת 20×20',
          'גלריה דיגיטלית מעוצבת לשיתוף עם המשפחה והחברים',
         ]
       },
       {
         id: 'baby-premium',
-        name: 'חבילה מתקדמת',
+        name: 'חבילה מורחבת',
         photo: '/PackagesImages/PackagesImages/babyexpand.jpg',
-        title: 'חבילת בייבי מתקדמת',
+        title: 'חבילת בייבי מורחבת',
         price: '1550₪',
         offers: [
           'מגוון רחב של אביזרים',
@@ -99,18 +99,18 @@ const categoryPackages: CategoryPackages[] = [
           '100 תמונות באיכות גבוהה',
           'צילום אחים ומשפחה',
           'אלבום מעוצב ומודפס 30x60 ס"מ',
+          'ליווי וייעוץ סטיילינג טרום הצילומים – בשווי 300 ₪ - במתנה!',
           'הזמנה מעוצבת לאירוע',
           'מצגת הכוללת תמונות מסשן הצילומים',
-          'ליווי וייעוץ סטיילינג טרום הצילומים – בשווי 300 ₪ - במתנה!',
           'תמונה ממוסגרת ומודפסת 20×20',
           'גלריה דיגיטלית מעוצבת לשיתוף עם המשפחה והחברים',
         ]
       },
       {
         id: 'bat-mitzva-premium',
-        name: 'חבילה מתקדמת',
+        name: 'חבילה מורחבת',
         photo: '/PackagesImages/PackagesImages/mitzvaexpand.jpg',
-        title: 'חבילת גיל מצווה מתקדמת',
+        title: 'חבילת גיל מצווה מורחבת',
         price: '2650₪',
         offers: [
           'צילומי חוץ ב-2 לוקיישנים',
@@ -152,7 +152,6 @@ const categoryPackages: CategoryPackages[] = [
           'ניתן לשלב 2 לוקיישן לבחירה',
           'כולל צילומים עם בן/ בת הזוג',  
           '75 תמונות ערוכות ברמה גבוהה',
-          'כולל 4 תמונות ערוכות באיכות גבוהה',
           'ליווי וייעוץ סטיילינג טרום הצילומים – בשווי 300 ₪ - במתנה!',
           'אלבום מעוצב ומודפס בגודל 25*50 ס"מ (30 עמודים)',
           'תמונה ממוסגרת ומודפסת 20×20',
@@ -162,9 +161,9 @@ const categoryPackages: CategoryPackages[] = [
       },
       {
         id: 'pregnancy-premium',
-        name: 'חבילה מתקדמת',
+        name: 'חבילה מורחבת',
         photo: '/PackagesImages/PackagesImages/pregnancyExpand.jpg',
-        title: 'חבילת הריון מתקדמת',
+        title: 'חבילת הריון מורחבת',
         price: '1800₪',
         offers: [
           'לוקיישן לבחירה',
@@ -205,8 +204,8 @@ const categoryPackages: CategoryPackages[] = [
           'לוקיישן לבחירה',
           '80 תמונות ערוכות באיכות גבוהה',
           'מתאים למשפחה עד 5 נפשות',
+          'ליווי וייעוץ סטיילינג טרום הצילומים – בשווי 300 ₪ - במתנה!',
           'אלבום מודפס מעוצב עם כריכת תמונה בגודל 25*50 (30 עמודים)',
-         'ליווי וייעוץ סטיילינג טרום הצילומים – בשווי 300 ₪ - במתנה!',
           'אלבום מודפס מעוצב עם כריכת תמונה בגודל 25*50 (30 עמודים)',
           'תמונה ממוסגרת ומודפסת 20×20',
           'גלריה דיגיטלית מעוצבת לשיתוף עם המשפחה והחברים',
@@ -214,9 +213,9 @@ const categoryPackages: CategoryPackages[] = [
       },
       {
         id: 'family-premium',
-        name: 'חבילה מתקדמת',
+        name: 'חבילה מורחבת',
         photo: '/PackagesImages/PackagesImages/familyExpand.jpg',
-        title: 'חבילת משפחה מתקדמת',
+        title: 'חבילת משפחה מורחבת',
         price: '1950₪',
         offers: [
           'מגוון רחב של אביזרים',
@@ -262,16 +261,16 @@ const categoryPackages: CategoryPackages[] = [
           'הצילומים יכללו צילומי תדמית אישיים וכן תמונות אווירה',
           'ייעוץ סטיילניג טרם הצילומים',
           '40 תמונות ערוכות באיכות גבוהה',
+          'ליווי וייעוץ סטיילינג טרום הצילומים – בשווי 300 ₪ - במתנה!',
           'מאפרת מקצועית ומעצבת שיער',
-          'ליווי וייעוץ סטיילינג טרום הצילומים – בשווי 300 ₪ - במתנה!'
 
         ]
       },
       {
         id: 'business-premium',
-        name: 'חבילה מתקדמת',
+        name: 'חבילה מורחבת',
         photo: '/PackagesImages/PackagesImages/characterExpand.jpg',
-        title: 'חבילת תדמית מתקדמת',
+        title: 'חבילת תדמית מורחבת',
         price: '1500₪',
         offers: [
           'צילומי סטילס הכולל כשעה וחצי של צילומים',
@@ -325,9 +324,9 @@ const categoryPackages: CategoryPackages[] = [
       },
       {
         id: 'generations-premium',
-        name: 'חבילה מתקדמת',
+        name: 'חבילה מורחבת',
         photo: '/PackagesImages/PackagesImages/generationsExpand.jpg',
-        title: 'חבילת דורות מתקדמת',
+        title: 'חבילת דורות מורחבת',
         price: '2200₪',
         offers: [
           'לוקיישן לבחירה',
@@ -353,7 +352,10 @@ const categoryPackages: CategoryPackages[] = [
 
 export default function Packages() {
   const searchParams = useSearchParams();
-  const [selectedCategory, setSelectedCategory] = useState('בייבי');
+  const [selectedCategory, setSelectedCategory] = useState(() => {
+    const category = searchParams.get('category');
+    return category && categoryPackages.find(cat => cat.id === category) ? category : 'בייבי';
+  });
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -375,6 +377,7 @@ export default function Packages() {
   // Get current category data
   const currentCategory = categoryPackages.find(cat => cat.id === selectedCategory);
 
+  // Handle URL parameter changes (for browser back/forward navigation)
   useEffect(() => {
     const category = searchParams.get('category');
     if (category && categoryPackages.find(cat => cat.id === category)) {
@@ -387,7 +390,7 @@ export default function Packages() {
       <ActiveNav href="/Packages" />
       {/* Header with Background Photo */}
       {currentCategory && (
-        <div className="relative">
+        <div className="relative animate-in fade-in duration-700">
           <Image
             src={isMobile ? currentCategory.backgroundPhotoMobile : currentCategory.backgroundPhoto}
             alt=""
@@ -420,7 +423,7 @@ export default function Packages() {
                     className="w-full px-5 py-3 text-base font-medium text-white bg-white/10 backdrop-blur-sm border-2 border-[#F1BDAF] rounded-lg shadow-md appearance-none cursor-pointer hover:bg-[#F1BDAF]/10 transition-all duration-200 text-center"
                     dir="rtl"
                   >
-                    {categoryPackages.map((category) => (
+                    {categoryPackages.slice().reverse().map((category) => (
                       <option key={category.id} value={category.id} className="text-center text-gray-700 bg-white">
                         {category.name}
                       </option>
@@ -437,7 +440,7 @@ export default function Packages() {
               
               {/* Desktop Category Buttons - Only visible on large screens */}
               <div className="hidden lg:flex justify-center space-x-8 py-4 overflow-x-auto">
-                {categoryPackages.map((category) => (
+                {categoryPackages.slice().reverse().map((category) => (
                   <button
                     key={category.id}
                     onClick={() => setSelectedCategory(category.id)}
@@ -570,7 +573,7 @@ export default function Packages() {
                 {/* Desktop text */}
                 <p className="hidden lg:block text-lg text-gray-600 mt-4" dir="rtl">
                   בעולם של היום, קשרים מתחילים לרוב בצורה ויזואלית והרושם הראשוני נוצר תוך שבריר שנייה.<br></br>
-                  ההצלחה מתחילה עם תמונות תדמית מקצועיות המציגות אתכם <br></br>
+                  ההצלחה מתחילה עם תמונות תדמית מקצועיות המציגות אתכם. <br></br>
                   בין אם זה לתמונת פרופיל מנצחת ברשתות, פרופיל מקצועי בלינקדין, או הצגת העסק שלך – הן הכרטיס ביקור שלך!
                 </p>
                 {/* Mobile text */}
@@ -603,7 +606,7 @@ export default function Packages() {
               // Reorder packages for mobile: Basic first, then Premium, then Deluxe
               const sortedPackages = isMobile 
                 ? [...currentCategory.packages].sort((a, b) => {
-                    const order = { 'חבילה בסיסית': 1, 'חבילה מתקדמת': 2, 'חבילה פרימיום': 3 };
+                    const order = { 'חבילה בסיסית': 1, 'חבילה מורחבת': 2, 'חבילה פרימיום': 3 };
                     return (order[a.name as keyof typeof order] || 0) - (order[b.name as keyof typeof order] || 0);
                   })
                 : currentCategory.packages;
@@ -666,6 +669,7 @@ export default function Packages() {
         <div className="text-center">
           {/* Additional Information */}
           <div className="mt-4 text-sm text-gray-500" dir="rtl">
+            <p className="mb-2">תוספות</p>
             <p className="mb-2">אלבום בגודל 25*50 (מצב פתוח) 30 עמודים במחיר 600 ₪</p>
             <p className="mb-2">אלבום בגודל 30*60 (מצב פתוח) 30 עמודים במחיר 800 ₪</p>
             <p>מצולם נוסף בתוספת של 150₪</p>
@@ -736,7 +740,7 @@ export default function Packages() {
           </div>
         </div>
         <div className="px-2 sm:px-4 pb-6 text-sm text-gray-500">
-          <span className="block text-left" dir="rtl">כל הזכויות שמורות לרויטל פרצלינה</span>
+          <span className="block text-left" dir="rtl">© כל הזכויות שמורות לרויטל פרצלינה</span>
         </div>
       </footer>
     </>

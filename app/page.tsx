@@ -32,6 +32,20 @@ function ProffesionCard({ title, description, icon: Icon }: { title: string, des
 
 export default function Home() {
   const [isMobile, setIsMobile] = useState(false);
+  const [currentBgIndex, setCurrentBgIndex] = useState(0);
+  
+  // Background images array
+  const backgroundImages = [
+    '/imageforbackgroundhomepage.jpg',
+    '/imageforbackgroundhomepage2.jpg', 
+    '/imageforbackgroundhomepage3.jpg'
+  ];
+  
+  const mobileBackgroundImages = [
+    '/imageforbackgroundhomepagemobile.jpg.jpg',
+    '/imageforbackgroundhomepagemobile2.jpg.jpg',
+    '/imageforbackgroundhomepagemobile3.jpg.jpg'
+  ];
 
   useEffect(() => {
     // Check if device is mobile
@@ -77,6 +91,11 @@ export default function Home() {
 
     window.addEventListener('scroll', handleScroll);
 
+    // Background image rotation
+    const rotationInterval = setInterval(() => {
+      setCurrentBgIndex((prevIndex) => (prevIndex + 1) % backgroundImages.length);
+    }, 10000); // 30 seconds
+
     // Cleanup function to remove the class when leaving the page
     return () => {
       if (nav) {
@@ -86,18 +105,19 @@ export default function Home() {
       document.body.classList.remove('home-page');
       window.removeEventListener('scroll', checkMobile);
       window.removeEventListener('scroll', handleScroll);
+      clearInterval(rotationInterval);
     };
   }, []);
 
   return (
     <>
       <ActiveNav href="/" />
-      <div className="h-screen flex flex-col justify-start md:justify-center items-center md:items-end bg-gray-500 px-8 md:px-16 lg:px-32 bg-cover bg-contain md:bg-cover bg-no-repeat pt-20 md:pt-0 home-hero-section" style={{
-        backgroundImage: `url('${isMobile ? '/imageforbackgroundhomepagemobile.jpg.jpg' : '/imageforbackgroundhomepage.jpg'}')`, 
+      <div className="h-screen flex flex-col justify-start md:justify-center items-center md:items-end bg-gray-500 px-8 md:px-16 lg:px-32 bg-cover bg-contain md:bg-cover bg-no-repeat pt-20 md:pt-0 home-hero-section transition-all duration-1000" style={{
+        backgroundImage: `url('${isMobile ? mobileBackgroundImages[currentBgIndex] : backgroundImages[currentBgIndex]}')`, 
         backgroundPosition: "left center"
       }}>  
         <h1 className="text-2xl md:text-3xl lg:text-5xl font-bold text-white my-2 md:my-8 lg:my-10 drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)] text-center md:text-right" dir="rtl">ליצור <span className="text-[#F1BDAF] drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]">זכרונות</span> שנשארים</h1>
-        <h1 className="text-lg md:text-xl lg:text-3xl font-bold text-white drop-shadow-[0_1px_2px_rgba(0,0,0,1)] text-center md:text-right" dir="rtl">תהפכו את האירועים,<br></br>
+        <h1 className="text-lg md:text-xl lg:text-3xl font-bold text-white drop-shadow-[0_1px_2px_rgba(0,0,0,1)] text-center md:text-right " dir="rtl">תהפכו את האירועים,<br></br>
            החוויות והרגעים שלכם לזכרונות מלאי חיים<br></br>
            שיישארו אתכם שנים רבות</h1>
         <Button asChild variant="standard" size="xl" className="text-base md:text-lg font-bold drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)] mt-4">
@@ -224,7 +244,7 @@ export default function Home() {
           </div>
         </div>
         <div className="px-2 sm:px-4 pb-6 text-sm text-gray-500">
-          <span className="block text-left" dir="rtl">כל הזכויות שמורות לרויטל פרצלינה</span>
+          <span className="block text-left" dir="rtl">© כל הזכויות שמורות לרויטל פרצלינה</span>
         </div>
       </footer>
       </div>

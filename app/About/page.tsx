@@ -33,7 +33,7 @@ export default function About() {
       <ActiveNav href="/About" />
       <Hero background="bg-white" justify="start">
         <div className="flex flex-row justify-end w-full relative">
-          <div className="self-start shadow-xl mt-10 mr-15 -ml-15">
+          <div className="self-start mt-10 mr-15 -ml-15">
             <Image 
               src="/StudioAboutImage.jpg" 
               alt="about" 
@@ -46,7 +46,7 @@ export default function About() {
             <h1 className="2xl:text-5xl xl:text-4xl font-bold text-black 2xl:my-10 xl:mt-10 xl:mb-3 text-right" dir="rtl">
               קצת <span className="text-[#F1BDAF]">עליי</span> ועל <span className="text-[#F1BDAF]">הסיפור שלי</span>
             </h1>
-            <h2 className="2xl:text-xl xl:text-lg text-gray-700 mb-2 text-right" dir="rtl">
+            <h2 className="2xl:text-xl xl:text-lg text-gray-700 mb-2 text-center text-justify" dir="rtl">
             היי, אני רויטל פרצלינה, נשואה לרן ואמא ליעלי וגיאצ'וק המקסימים. <br></br>
 לפני מספר שנים הרגשתי שהגיע הרגע לשים את האהבה הגדולה שלי לצילום במרכז חיי המקצועיים.<br></br><br className="2xl:block " />
  בלימודיי הרחבתי את הניסיון שלי בצילום ושם הבנתי שאני הכי אוהבת לעבוד עם אנשים.

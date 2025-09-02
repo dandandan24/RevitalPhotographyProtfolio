@@ -30,10 +30,13 @@ interface GalleryData {
 export default function Gallery() {
   const [galleryData, setGalleryData] = useState<GalleryData>({});
   const [selectedCategory, setSelectedCategory] = useState('גיל מצווה'); // Set default category
-  const [visiblePhotos, setVisiblePhotos] = useState(12);
+  // Removed visiblePhotos state - showing all photos from start
   const [loading, setLoading] = useState(true);
   const [collagePhotos, setCollagePhotos] = useState<Photo[]>([]);
   const [isMobile, setIsMobile] = useState(false);
+  const [imagesLoaded, setImagesLoaded] = useState(false);
+  const [loadedImages, setLoadedImages] = useState<Set<string>>(new Set());
+  const [categoryChanging, setCategoryChanging] = useState(false);
 
   useEffect(() => {
     // Check if device is mobile
@@ -67,27 +70,34 @@ export default function Gallery() {
           try {
             const allPhotos: Photo[] = [];
             
-            // Collect photos from all categories
-            Object.entries(data).forEach(([categoryName, categoryData]) => {
-              if (categoryData.photos && categoryData.photos.length > 0) {
-                // Add category name to each photo for better organization
-                const photosWithCategory = categoryData.photos.map(photo => ({
+                          // Collect photos from each category - fewer for mobile, more for desktop
+              const photosPerCategory = isMobile ? 5 : 24; // 24 * 6 categories = 144 photos (close to 140)
+              Object.entries(data).forEach(([categoryName, categoryData]) => {
+                if (categoryData.photos && categoryData.photos.length > 0) {
+                  // Take photos based on device type
+                  const categoryPhotos = categoryData.photos.slice(0, photosPerCategory).map(photo => ({
                   ...photo,
                   category: categoryName
                 }));
-                allPhotos.push(...photosWithCategory);
+                allPhotos.push(...categoryPhotos);
               }
             });
             
-            // Shuffle the photos to get random selection
-            const shuffledPhotos = allPhotos.sort(() => Math.random() - 0.5);
+            // Shuffle photos to distribute categories evenly (consistent order, not random)
+            const shuffleArray = (array: Photo[]) => {
+              const shuffled = [...array];
+              // Use a simple algorithm that creates consistent distribution
+              for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor((i * 7 + 3) % (i + 1)); // Consistent pseudo-random
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+              }
+              return shuffled;
+            };
+
+            const shuffledPhotos = shuffleArray(allPhotos);
             
-            // Select photos based on screen size
-            const photoCount = isMobile ? 30 : 140;
-            const selectedPhotos = shuffledPhotos.slice(0, photoCount);
-            
-            // Create collage photos array
-            const collagePhotosArray = selectedPhotos.map((photo, index) => ({
+            // Create collage photos array with shuffled order
+            const collagePhotosArray = shuffledPhotos.map((photo, index) => ({
               id: index + 1,
               filename: photo.filename,
               src: photo.src,
@@ -97,7 +107,7 @@ export default function Gallery() {
             }));
             
             setCollagePhotos(collagePhotosArray);
-            console.log(`Created dynamic collage with ${collagePhotosArray.length} photos from gallery categories`);
+              console.log(`Created dynamic collage with ${collagePhotosArray.length} photos (first ${photosPerCategory} from each category)`);
           } catch (error) {
             console.log('Error creating dynamic collage, using fallback:', error);
             // Fallback: use photos from first available category
@@ -121,6 +131,65 @@ export default function Gallery() {
       });
   }, [isMobile]);
 
+  const categories = ['הריון', 'תדמית', 'בייבי', 'משפחה', 'ילדים', 'גיל מצווה'];
+  const currentPhotos = galleryData[selectedCategory]?.photos || [];
+  
+  console.log('🎯 Current category:', selectedCategory);
+  console.log('📸 Current photos count:', currentPhotos.length);
+  console.log('📸 First few photos:', currentPhotos.slice(0, 3));
+
+  const handleImageLoad = (uniquePhotoId: string) => {
+    console.log('🖼️ Image loaded with ID:', uniquePhotoId);
+    setLoadedImages(prev => {
+      const newSet = new Set(prev);
+      newSet.add(uniquePhotoId);
+      console.log('📊 Updated loaded images set:', Array.from(newSet));
+      return newSet;
+    });
+  };
+
+  // Check if all images are loaded
+  useEffect(() => {
+    if (currentPhotos.length > 0) {
+      const currentCategoryImageIds = currentPhotos.map(photo => `${selectedCategory}-${photo.id}`);
+      const loadedCurrentCategoryImages = currentCategoryImageIds.filter(id => loadedImages.has(id));
+      
+      console.log(`Category: ${selectedCategory}, Total photos: ${currentPhotos.length}, Loaded: ${loadedCurrentCategoryImages.length}`);
+      console.log('Current category image IDs:', currentCategoryImageIds);
+      console.log('Loaded images:', Array.from(loadedImages));
+      
+      if (loadedCurrentCategoryImages.length === currentPhotos.length) {
+        setImagesLoaded(true);
+      } else {
+        setImagesLoaded(false);
+      }
+    } else {
+      setImagesLoaded(false);
+    }
+  }, [currentPhotos.length, loadedImages.size, selectedCategory, loadedImages]);
+
+  // Reset loaded images when category changes
+  useEffect(() => {
+    setLoadedImages(new Set());
+    setImagesLoaded(false);
+  }, [selectedCategory]);
+
+  // Function to handle category change with immediate hiding
+  const handleCategoryChange = (newCategory: string) => {
+    setCategoryChanging(true);
+    setSelectedCategory(newCategory);
+  };
+  
+  useEffect(() => {
+    if (categoryChanging) {
+      const timer = setTimeout(() => {
+        setCategoryChanging(false);
+      }, 100); // Brief delay to ensure smooth transition
+      
+      return () => clearTimeout(timer);
+    }
+  }, [categoryChanging]);
+
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -132,19 +201,12 @@ export default function Gallery() {
     );
   }
 
-  const categories = ['כללי', 'הריון', 'תדמית', 'בייבי', 'משפחה', 'ילדים', 'גיל מצווה'];
-  const currentPhotos = galleryData[selectedCategory]?.photos || [];
-
-  const loadMorePhotos = () => {
-    setVisiblePhotos(prev => Math.min(prev + 6, currentPhotos.length));
-  };
-
-  const hasMorePhotos = visiblePhotos < currentPhotos.length;
+  // Removed load more functionality - showing all photos
 
   return (
     <>
       <ActiveNav href="/Gallery" />
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-gray-50 animate-in fade-in duration-700">
         {/* Header and Category Navigation Combined */}
         <div className="bg-white shadow-sm relative overflow-hidden">
           {/* Single Photo Collage Background - Rich with Hundreds of Photos */}
@@ -199,41 +261,6 @@ export default function Gallery() {
           <div className="text-center py-16 relative z-20">
             <h1 className="text-5xl font-bold text-gray-900 mb-4" dir="rtl">גלריית תמונות</h1>
             <p className="text-xl text-gray-600 mb-4" dir="rtl">גלו את העבודות שלי</p>
-            <Button 
-              onClick={() => {
-                // Refresh collage with new random photos
-                if (galleryData && Object.keys(galleryData).length > 0) {
-                  const allPhotos: Photo[] = [];
-                  Object.entries(galleryData).forEach(([categoryName, categoryData]) => {
-                    if (categoryData.photos && categoryData.photos.length > 0) {
-                      const photosWithCategory = categoryData.photos.map(photo => ({
-                        ...photo,
-                        category: categoryName
-                      }));
-                      allPhotos.push(...photosWithCategory);
-                    }
-                  });
-                  const shuffledPhotos = allPhotos.sort(() => Math.random() - 0.5);
-                  const photoCount = isMobile ? 30 : 140;
-                  const selectedPhotos = shuffledPhotos.slice(0, photoCount);
-                  const collagePhotosArray = selectedPhotos.map((photo, index) => ({
-                    id: index + 1,
-                    filename: photo.filename,
-                    src: photo.src,
-                    alt: photo.alt,
-                    title: photo.title,
-                    category: photo.category
-                  }));
-                  setCollagePhotos(collagePhotosArray);
-                }
-              }}
-              variant="outline"
-              size="sm"
-              className="bg-[#F1BDAF] text-white border-[#F1BDAF] hover:bg-[#F1BDAF]/90 transition-all duration-200"
-              dir="rtl"
-            >
-              רענן קולאז'
-            </Button>
           </div>
 
           {/* Category Navigation */}
@@ -245,14 +272,16 @@ export default function Gallery() {
                   <select
                     value={selectedCategory}
                     onChange={(e) => {
-                      setSelectedCategory(e.target.value);
-                      setVisiblePhotos(12);
+                      handleCategoryChange(e.target.value);
                     }}
-                    className="w-full px-5 py-3 text-base font-medium text-gray-700 bg-white border-2 border-[#F1BDAF] rounded-lg shadow-md appearance-none cursor-pointer hover:bg-gray-50 transition-all duration-200 text-center"
+                    className="w-full px-5 py-3 text-base font-bold text-white bg-white/10 backdrop-blur-sm border-2 border-[#F1BDAF] rounded-lg shadow-md appearance-none cursor-pointer hover:bg-[#F1BDAF]/10 transition-all duration-200 text-center"
                     dir="rtl"
+                    style={{
+                      textShadow: '0 1px 2px rgba(0, 0, 0, 0.5)'
+                    }}
                   >
                     {categories.map((category) => (
-                      <option key={category} value={category} className="text-center">
+                      <option key={category} value={category} className="text-center text-gray-700 bg-white">
                         {category}
                       </option>
                     ))}
@@ -272,8 +301,7 @@ export default function Gallery() {
                   <button
                     key={category}
                     onClick={() => {
-                      setSelectedCategory(category);
-                      setVisiblePhotos(12);
+                      handleCategoryChange(category);
                     }}
                     className={`px-6 py-3 rounded-lg font-medium transition-all duration-500 relative overflow-hidden ${
                       selectedCategory === category
@@ -315,9 +343,10 @@ export default function Gallery() {
                 )}
                 {selectedCategory === 'ילדים' && (
                   <p className="text-lg text-gray-600" dir="rtl">
-ילדים וטבע הוא שילוב מנצח. משהו בטבע גורם להם פשוט להשתחרר, ליהנות, לשחק ולחקור. לא צריך יותר מזה כשמדובר בילדים.<br></br>
-                    בצילום ילדים יש לנו הזדמנות מצוינת לתעד את הרגעים הקסומים והתמימים שלהם. <br></br>
-                   כי ברגע שהרגעים האלה עוברים כל מה שנותר לנו הם הזיכרונות בתמונות                      </p>
+                    הילדים גדלים מהר יותר ממה שנדמה ודווקא הרגעים הקטנים של הצחוק, המשחק והחיבוק הם אלו שהכי שווה לנצור. <br></br>
+צילומי ילדים הם חלק מסשן משפחתי שבו כולכם נכנסים לפריים, ביחד, ויוצרים מזכרת אמיתית שמספרת את הסיפור שלכם. <br></br>
+מזמינה אתכם לשריין כבר עכשיו סשן צילומים חוויתי!
+                  </p>
                 )}
                 {selectedCategory === 'הריון' && (
                   <p className="text-lg text-gray-600" dir="rtl">
@@ -338,36 +367,49 @@ export default function Gallery() {
  ההצלחה מתחילה עם תמונות תדמית מקצועיות המציגות אתכם – בין אם זה לתמונת פרופיל מנצחת ברשתות, פרופיל מקצועי בלינקדין, או הצגת העסק שלך – הן הכרטיס ביקור שלך!                </p>
                 )}
               </div>
-
-              {/* Order Button - Hidden for General category */}
-              {selectedCategory !== 'כללי' && (
-                <div className="text-center mb-8">
-                  <Button asChild variant="standard" size="xl" className="text-lg font-bold">
-                    <Link href={`/Packages?category=${selectedCategory === 'משפחה'||selectedCategory === 'ילדים' ? 'משפחה וילדים' : selectedCategory}`}>
-                      הזמינו עכשיו
-                    </Link>
-                  </Button>
+              
+              {/* Order Button */}
+              <div className="text-center mb-8">
+                <a 
+                  href={`/Packages?category=${selectedCategory === 'משפחה' || selectedCategory === 'ילדים' ? 'משפחה וילדים' : selectedCategory}`}
+                  className="inline-flex items-center px-8 py-3 bg-[#F1BDAF] text-white font-semibold rounded-lg hover:bg-[#E8A896] transition-colors duration-300 shadow-lg hover:shadow-xl"
+                  dir="rtl"
+                >
+                  הזמינו עכשיו
+                </a>
+              </div>
+              
+              {(!imagesLoaded || categoryChanging) && currentPhotos.length > 0 && (
+                <div className="text-center py-16">
+                  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#F1BDAF] mx-auto mb-4"></div>
+                  <p className="text-lg text-gray-600" dir="rtl">טוען תמונות...</p>
                 </div>
               )}
-
-              <div className="columns-1 md:columns-2 lg:columns-3 gap-6">
-                {currentPhotos.slice(0, visiblePhotos).map((photo) => (
+              
+              <div className={`columns-1 md:columns-2 lg:columns-3 gap-6 transition-opacity duration-300 ${(!imagesLoaded || categoryChanging) ? 'gallery-loading opacity-0 pointer-events-none' : 'gallery-loaded opacity-100'}`}>
+                {currentPhotos.map((photo) => (
                   <div
                     key={photo.id}
-                    className="mb-6 group cursor-pointer rounded-lg shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden hover:-translate-y-1"
+                    className="gallery-photo mb-6 group cursor-pointer rounded-lg shadow-lg hover:shadow-2xl overflow-hidden hover:-translate-y-1"
                     style={{ breakInside: 'avoid' }}
                   >
                     {/* Image Container with Hover Effects */}
-                    <div className="relative w-full bg-gray-100 overflow-hidden">
+                    <div className="relative w-full bg-gray-100 overflow-hidden rounded-lg">
                       <Image
                         src={photo.src}
                         alt={photo.alt}
                         width={400}
                         height={300}
-                        className="w-full h-auto transition-transform duration-300 group-hover:scale-110"
-                        loading="lazy"
-                        decoding="async"
-                        onLoad={() => console.log('✅ Image loaded:', photo.src)}
+                        className="w-full h-auto group-hover:scale-110 transition-transform duration-300"
+                        loading="eager"
+                        decoding="sync"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                        placeholder="blur"
+                        blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
+                        onLoad={() => {
+                          console.log('✅ Image loaded:', photo.src);
+                          handleImageLoad(`${selectedCategory}-${photo.id}`);
+                        }}
                         onError={(e) => console.error('❌ Image failed:', photo.src, e)}
                       />
                       
@@ -380,20 +422,7 @@ export default function Gallery() {
             </>
           )}
 
-          {/* Load More Button */}
-          {hasMorePhotos && (
-            <div className="text-center xl:mt-12 mt-5">
-              <Button
-                onClick={loadMorePhotos}
-                variant="standard"
-                size="lg"
-                className="font-medium"
-                dir="rtl"
-              >
-                טען עוד תמונות ({currentPhotos.length - visiblePhotos} נותרו)
-              </Button>
-            </div>
-          )}
+          {/* Load More Button removed - showing all photos */}
         </div>
       </div>
 
@@ -458,7 +487,7 @@ export default function Gallery() {
           </div>
         </div>
         <div className="px-2 sm:px-4 pb-6 text-sm text-gray-500">
-          <span className="block text-left" dir="rtl">כל הזכויות שמורות לרויטל פרצלינה</span>
+          <span className="block text-left" dir="rtl">© כל הזכויות שמורות לרויטל פרצלינה</span>
         </div>
       </footer>
     </>

@@ -577,7 +577,7 @@ export default function Recommendations() {
               המלצות <span className="text-[#F1BDAF]">לקוחות</span>
               </h2>
               
-            <p className="text-lg text-gray-600 mb-6 text-right" dir="rtl">
+            <p className="text-lg text-gray-600 -mb-5 text-right" dir="rtl">
               מה הלקוחות שלנו אומרים על החוויה והתוצאות של צילומים מקצועיים
             </p>
                 </div>
@@ -657,7 +657,7 @@ export default function Recommendations() {
           </div>
         </div>
         <div className="px-2 sm:px-4 pb-6 text-sm text-gray-500">
-          <span className="block text-left" dir="rtl">כל הזכויות שמורות לרויטל פרצלינה</span>
+          <span className="block text-left" dir="rtl">© כל הזכויות שמורות לרויטל פרצלינה</span>
         </div>
       </footer>
     </>

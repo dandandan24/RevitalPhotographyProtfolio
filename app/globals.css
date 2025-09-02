@@ -379,6 +379,60 @@ nav a[href="/About"]:has(+ .current-page) {
   }
 }
 
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Stabilize masonry layout */
+.columns-1, .columns-2, .columns-3 {
+  column-fill: balance;
+  column-gap: 1.5rem;
+}
+
+/* Prevent layout shifts during image loading */
+.gallery-photo {
+  contain: layout style paint;
+  will-change: auto;
+  min-height: 200px;
+  display: inline-block;
+  width: 100%;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.gallery-photo img {
+  contain: layout style paint;
+  will-change: auto;
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: opacity 0.3s ease-in-out;
+}
+
+/* Hide images during loading to prevent position changes */
+.gallery-loading .gallery-photo {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.gallery-loaded .gallery-photo {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Stabilize the masonry container */
+.columns-1, .columns-2, .columns-3 {
+  column-fill: balance;
+  column-gap: 1.5rem;
+  contain: layout;
+}
+
 .mobile-carousel-slide {
   animation: mobileCarouselSlide var(--animation-duration, 150s) linear infinite;
   animation-play-state: running;
