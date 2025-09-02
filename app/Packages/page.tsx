@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { Camera, Phone, Mail, MapPin, Clock } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import { FaInstagram, FaFacebook, FaWhatsapp, FaTiktok } from 'react-icons/fa';
@@ -350,7 +350,7 @@ const categoryPackages: CategoryPackages[] = [
   }
 ];
 
-export default function Packages() {
+function PackagesContent() {
   const searchParams = useSearchParams();
   const [selectedCategory, setSelectedCategory] = useState(() => {
     const category = searchParams.get('category');
@@ -744,5 +744,13 @@ export default function Packages() {
         </div>
       </footer>
     </>
+  );
+}
+
+export default function Packages() {
+  return (
+    <Suspense fallback={<div />}> 
+      <PackagesContent />
+    </Suspense>
   );
 }
