@@ -539,7 +539,7 @@ export default function Recommendations() {
                     ref={el => { photoRefs.current[index] = el; }}
                   >
                     <Image
-                      src={photo.src}
+                      src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}${photo.src}`}
                       alt={photo.alt}
                       width={400}
                       height={300}
@@ -555,7 +555,7 @@ export default function Recommendations() {
                     className="flex-shrink-0 h-full"
                   >
                     <Image
-                      src={photo.src}
+                      src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}${photo.src}`}
                       alt={photo.alt}
                       width={400}
                       height={300}

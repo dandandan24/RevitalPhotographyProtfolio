@@ -52,7 +52,7 @@ export default function Gallery() {
 
   useEffect(() => {
     console.log('Loading gallery data...');
-    fetch('/gallery-data.json')
+    fetch(`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/gallery-data.json`)
       .then(response => response.json())
       .then((data: GalleryData) => {
         console.log('Gallery data loaded:', data);
@@ -220,7 +220,7 @@ export default function Gallery() {
                   title={`${photo.title} - ${photo.category || 'Unknown Category'}`}
                 >
                   <Image
-                    src={photo.src}
+                    src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}${photo.src}`}
                     alt={photo.alt}
                     width={64}
                     height={64}
@@ -396,7 +396,7 @@ export default function Gallery() {
                     {/* Image Container with Hover Effects */}
                     <div className="relative w-full bg-gray-100 overflow-hidden rounded-lg">
                       <Image
-                        src={photo.src}
+                        src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}${photo.src}`}
                         alt={photo.alt}
                         width={400}
                         height={300}

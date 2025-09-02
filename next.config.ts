@@ -4,10 +4,10 @@ const isProd = process.env.NODE_ENV === 'production';
 const BASE_PATH = isProd ? '/RevitalPhotographyProtfolio' : '';
 
 const nextConfig: NextConfig = {
-  output: 'export',
+  output: isProd ? 'export' : undefined,
   trailingSlash: true,
   images: {
-    unoptimized: true,
+    unoptimized: isProd,
   },
   basePath: BASE_PATH,
   assetPrefix: isProd ? `${BASE_PATH}/` : undefined,

@@ -392,7 +392,7 @@ function PackagesContent() {
       {currentCategory && (
         <div className="relative animate-in fade-in duration-700">
           <Image
-            src={isMobile ? currentCategory.backgroundPhotoMobile : currentCategory.backgroundPhoto}
+            src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}${isMobile ? currentCategory.backgroundPhotoMobile : currentCategory.backgroundPhoto}`}
             alt=""
             fill
             style={{ objectPosition: 'center 40%' }}
@@ -400,11 +400,10 @@ function PackagesContent() {
             priority
             onError={(e) => { 
               // If mobile image fails, fall back to desktop image, then to default
-              if (isMobile && e.currentTarget.src === currentCategory.backgroundPhotoMobile) {
-                (e.currentTarget as HTMLImageElement).src = currentCategory.backgroundPhoto;
-              } else {
-                (e.currentTarget as HTMLImageElement).src = `${process.env.NEXT_PUBLIC_BASE_PATH || ''}/imageforbackgroundhomepage.jpg`;
-              }
+              const base = process.env.NEXT_PUBLIC_BASE_PATH || '';
+              (e.currentTarget as HTMLImageElement).src = isMobile
+                ? `${base}${currentCategory.backgroundPhoto}`
+                : `${base}/imageforbackgroundhomepage.jpg`;
             }}
           />
           
@@ -619,7 +618,7 @@ function PackagesContent() {
                   {/* Package Photo */}
                   <div className="h-48 overflow-hidden">
                     <Image
-                      src={pkg.photo}
+                      src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}${pkg.photo}`}
                       alt={pkg.title}
                       width={800}
                       height={600}
