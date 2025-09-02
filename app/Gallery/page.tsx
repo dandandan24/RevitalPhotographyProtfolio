@@ -169,14 +169,14 @@ export default function Gallery() {
   const visiblePhotos = currentPhotos.slice(0, visiblePhotosCount); // Show only visible count
   
   // Distribute photos across responsive columns
-  const distributePhotos = (photos: Photo[]) => {
+  const distributePhotos = (photos: Photo[]): Photo[][] => {
     // For mobile, just return all photos in a single array
     if (isMobile) {
       return [photos];
     }
     
     // For desktop/tablet, distribute across 3 columns
-    const columns = [[], [], []];
+    const columns: Photo[][] = [[], [], []];
     photos.forEach((photo, index) => {
       columns[index % 3].push(photo);
     });
