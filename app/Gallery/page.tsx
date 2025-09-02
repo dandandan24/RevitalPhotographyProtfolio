@@ -487,7 +487,7 @@ export default function Gallery() {
           </div>
         </div>
         <div className="px-2 sm:px-4 pb-6 text-sm text-gray-500">
-          <span className="block text-left" dir="rtl">© כל הזכויות שמורות לרויטל פרצלינה</span>
+          <span className="block text-left" dir="rtl">כל הזכויות שמורות לרויטל פרצלינה</span>
         </div>
       </footer>
     </>
