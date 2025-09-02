@@ -33,6 +33,7 @@ jobs:
       - name: Build static site (Next.js export)
         env:
           NEXT_TELEMETRY_DISABLED: 1
+          NODE_ENV: production
         run: |
           npm run export
           test -d out

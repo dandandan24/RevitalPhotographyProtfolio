@@ -403,7 +403,7 @@ function PackagesContent() {
               if (isMobile && e.currentTarget.src === currentCategory.backgroundPhotoMobile) {
                 (e.currentTarget as HTMLImageElement).src = currentCategory.backgroundPhoto;
               } else {
-                (e.currentTarget as HTMLImageElement).src = '/imageforbackgroundhomepage.jpg';
+                (e.currentTarget as HTMLImageElement).src = `${process.env.NEXT_PUBLIC_BASE_PATH || ''}/imageforbackgroundhomepage.jpg`;
               }
             }}
           />
