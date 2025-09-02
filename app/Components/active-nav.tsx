@@ -9,7 +9,9 @@ interface ActiveNavProps {
 export default function ActiveNav({ href }: ActiveNavProps) {
   useEffect(() => {
     // Set active navigation state for current page
-    const currentLink = document.querySelector(`a[href="${href}"]`);
+    const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
+    const selector = `a[href="${href}"] , a[href="${basePath}${href}"]`;
+    const currentLink = document.querySelector(selector);
     if (currentLink) {
       currentLink.setAttribute('aria-current', 'page');
     }

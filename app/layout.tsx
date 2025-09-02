@@ -22,9 +22,10 @@ function NavButton({ title, href, isActive }: { title: string, href: string, isA
 }
 
 function Logo() {
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
   return (
     <Link href="/" className="flex items-center no-hover">
-      <Image src="/logo.png" alt="Revital Photography" width={180} height={64} priority className="h-12 w-auto" />
+      <Image src={`${basePath}/logo.png`} alt="Revital Photography" width={180} height={64} priority className="h-12 w-auto" />
     </Link>
   );
 }
@@ -35,7 +36,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const pathname = usePathname();
+  const pathname = usePathname() || '/';
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
+  const stripTrailingSlash = (p: string) => (p !== '/' && p.endsWith('/') ? p.slice(0, -1) : p);
+  const withoutBase = pathname.startsWith(basePath) ? pathname.slice(basePath.length) || '/' : pathname;
+  const normalizedPath = stripTrailingSlash(withoutBase) || '/';
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -135,13 +140,13 @@ export default function RootLayout({
           </button>
 
           {/* Desktop Navigation - Keep exactly as is for larger screens */}
-          <div className="hidden lg:flex justify-end space-x-16 pr-8 items-center min-w-[600px]">
-            <NavButton title="צור קשר" href="/Contact" isActive={pathname === "/Contact"} />
-            <NavButton title="המלצות" href="/Recommendations" isActive={pathname === "/Recommendations"} />
-            <NavButton title="חבילות צילום" href="/Packages" isActive={pathname === "/Packages"} />
-            <NavButton title="גלריה" href="/Gallery" isActive={pathname === "/Gallery"} />
-            <NavButton title="אודות" href="/About" isActive={pathname === "/About"} />
-            <NavButton title="דף הבית" href="/" isActive={pathname === "/"} />   
+          <div className="hidden lg:flex justify-end gap-16 pr-8 items-center min-w-[600px]">
+            <NavButton title="צור קשר" href="/Contact" isActive={normalizedPath === "/Contact"} />
+            <NavButton title="המלצות" href="/Recommendations" isActive={normalizedPath === "/Recommendations"} />
+            <NavButton title="חבילות צילום" href="/Packages" isActive={normalizedPath === "/Packages"} />
+            <NavButton title="גלריה" href="/Gallery" isActive={normalizedPath === "/Gallery"} />
+            <NavButton title="אודות" href="/About" isActive={normalizedPath === "/About"} />
+            <NavButton title="דף הבית" href="/" isActive={normalizedPath === "/"} />   
           </div>
 
           {/* Mobile Navigation Menu - Rendered via Portal */}

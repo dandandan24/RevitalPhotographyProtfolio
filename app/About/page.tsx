@@ -35,7 +35,7 @@ export default function About() {
         <div className="flex flex-row justify-end w-full relative">
           <div className="self-start mt-10 mr-15 -ml-15">
             <Image 
-              src="/StudioAboutImage.jpg" 
+              src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/StudioAboutImage.jpg`} 
               alt="about" 
               width={500}
               height={500}

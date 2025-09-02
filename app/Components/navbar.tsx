@@ -9,6 +9,26 @@ import path from "path";
 
 export default function Navbar() {
   const pathname = usePathname();
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
+  const stripTrailingSlash = (p: string) => (p !== '/' && p?.endsWith('/') ? p.slice(0, -1) : p);
+  const rawPath = pathname || '/';
+  const withoutBase = rawPath.startsWith(basePath) ? rawPath.slice(basePath.length) || '/' : rawPath;
+  const normalizedPath = stripTrailingSlash(withoutBase) || '/';
+
+  const isActivePath = (href: string): boolean => {
+    const addSlash = (p: string) => (p.endsWith('/') ? p : p + '/');
+    const rmSlash = stripTrailingSlash;
+    const candidates = [
+      href,
+      rmSlash(href),
+      addSlash(href),
+      basePath + href,
+      rmSlash(basePath + href),
+      addSlash(basePath + href),
+    ];
+    const current = rawPath;
+    return candidates.some(c => c === current);
+  };
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
 
@@ -31,7 +51,7 @@ export default function Navbar() {
       <div className="absolute top-6 left-6">
         <Link href="/" className="block">
           <Image 
-            src="/logo.png" 
+            src={`${basePath}/logo.png`} 
             alt="Logo" 
             width={120} 
             height={48} 
@@ -46,7 +66,7 @@ export default function Navbar() {
         <Link 
           href="/" 
           className={`text-2xl font-bold text-black !text-black transition-colors ${
-            pathname === "/" ? 'text-[#F1BDAF] border-b-2 border-[#F1BDAF] pb-1' : 'hover:text-[#F1BDAF]'
+            isActivePath('/') ? 'text-[#F1BDAF] border-b-2 border-[#F1BDAF] pb-1' : 'hover:text-[#F1BDAF]'
           }`}
           onClick={() => setIsMenuOpen(false)}
         >
@@ -55,7 +75,7 @@ export default function Navbar() {
         <Link 
           href="/Gallery" 
           className={`text-2xl font-bold text-black !text-black transition-colors ${
-            pathname === "/Gallery" ? 'text-[#F1BDAF] border-b-2 border-[#F1BDAF] pb-1' : 'hover:text-[#F1BDAF]'
+            isActivePath('/Gallery') ? 'text-[#F1BDAF] border-b-2 border-[#F1BDAF] pb-1' : 'hover:text-[#F1BDAF]'
           }`}
           onClick={() => setIsMenuOpen(false)}
         >
@@ -64,7 +84,7 @@ export default function Navbar() {
         <Link 
           href="/Packages" 
           className={`text-2xl font-bold text-black !text-black transition-colors ${
-            pathname === "/Packages" ? 'text-[#F1BDAF] border-b-2 border-[#F1BDAF] pb-1' : 'hover:text-[#F1BDAF]'
+            isActivePath('/Packages') ? 'text-[#F1BDAF] border-b-2 border-[#F1BDAF] pb-1' : 'hover:text-[#F1BDAF]'
           }`}
           onClick={() => setIsMenuOpen(false)}
         >
@@ -73,7 +93,7 @@ export default function Navbar() {
         <Link 
           href="/Recommendations" 
           className={`text-2xl font-bold text-black !text-black transition-colors ${
-            pathname === "/Recommendations" ? 'text-[#F1BDAF] border-b-2 border-[#F1BDAF] pb-1' : 'hover:text-[#F1BDAF]'
+            isActivePath('/Recommendations') ? 'text-[#F1BDAF] border-b-2 border-[#F1BDAF] pb-1' : 'hover:text-[#F1BDAF]'
           }`}
           onClick={() => setIsMenuOpen(false)}
         >
@@ -82,7 +102,7 @@ export default function Navbar() {
         <Link 
           href="/Contact" 
           className={`text-2xl font-bold text-black !text-black transition-colors ${
-            pathname === "/Contact" ? 'text-[#F1BDAF] border-b-2 border-[#F1BDAF] pb-1' : 'hover:text-[#F1BDAF]'
+            isActivePath('/Contact') ? 'text-[#F1BDAF] border-b-2 border-[#F1BDAF] pb-1' : 'hover:text-[#F1BDAF]'
           }`}
           onClick={() => setIsMenuOpen(false)}
         >
@@ -106,12 +126,12 @@ export default function Navbar() {
       </button>
 
       {/* Desktop Navigation - Keep exactly as is for larger screens */}
-      <div className="hidden lg:flex justify-end space-x-16 pr-8 items-center min-w-[600px]">
-        <NavButton title="צור קשר" href="/Contact" isActive={pathname === "/Contact"} />
-        <NavButton title="המלצות" href="/Recommendations" isActive={pathname === "/Recommendations"} />
-        <NavButton title="חבילות צילום" href="/Packages" isActive={pathname === "/Packages"} />
-        <NavButton title="גלריה" href="/Gallery" isActive={pathname === "/Gallery"} />
-        <NavButton title="דף הבית" href="/" isActive={pathname === "/"} />   
+      <div className="hidden lg:flex justify-end gap-16 pr-8 items-center min-w-[600px]">
+        <NavButton title="צור קשר" href="/Contact" isActive={isActivePath('/Contact')} />
+        <NavButton title="המלצות" href="/Recommendations" isActive={isActivePath('/Recommendations')} />
+        <NavButton title="חבילות צילום" href="/Packages" isActive={isActivePath('/Packages')} />
+        <NavButton title="גלריה" href="/Gallery" isActive={isActivePath('/Gallery')} />
+        <NavButton title="דף הבית" href="/" isActive={isActivePath('/')} />   
       </div>
 
       {/* Mobile Navigation Menu - Rendered via Portal */}
@@ -124,21 +144,29 @@ export default function Navbar() {
 }
 
 function Logo() {
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
   return (
     <Link href="/" className="flex items-center no-hover">
-      <Image src="/logo.png" alt="Revital Photography" width={180} height={64} priority className="h-12 w-auto" />
+      <Image src={`${basePath}/logo.png`} alt="Revital Photography" width={180} height={64} priority className="h-12 w-auto" />
     </Link>
   );
 }
 
 function NavButton({ title, href, isActive }: { title: string, href: string, isActive: boolean }) {
+  const pathname = usePathname() || '/';
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
+  const stripTrailingSlash = (p: string) => (p !== '/' && p.endsWith('/') ? p.slice(0, -1) : p);
+  const current = stripTrailingSlash(pathname.startsWith(basePath) ? pathname.slice(basePath.length) || '/' : pathname) || '/';
+  const target = stripTrailingSlash(href);
+  const active = current === target;
+
   return (
     <Link href={href} className={`text-xl font-bold text-gray-800 transition-all duration-200 ${
-      isActive 
+      active 
         ? 'border-b-2 border-[#F1BDAF] pb-1 text-[#F1BDAF]' 
         : 'hover:border-b-2 hover:border-[#F1BDAF] hover:pb-1'
     }`}>
       {title}
     </Link>
   );
-} 
+}
