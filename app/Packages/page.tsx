@@ -29,7 +29,7 @@ const categoryPackages: CategoryPackages[] = [
   {
     id: 'בייבי',
     name: 'בייבי',
-    backgroundPhoto: '/PackagesImages/PackageHeadImages/baby.jpg',
+    backgroundPhoto: '/PackagesImages/PackageHeadImages/baby.webp',
     backgroundPhotoMobile: '/PackagesImages/PackageHeadImagesMobile/baby.jpg', // Mobile-optimized version
     packages: [
       {
@@ -85,7 +85,7 @@ const categoryPackages: CategoryPackages[] = [
   {
     id: 'גיל מצווה',
     name: 'גיל מצווה',
-    backgroundPhoto: '/PackagesImages/PackageHeadImages/mitzva.jpg',
+    backgroundPhoto: '/PackagesImages/PackageHeadImages/mitzva.webp',
     backgroundPhotoMobile: '/PackagesImages/PackageHeadImagesMobile/mitzva.jpg', // You'll need to add this mobile image
     packages: [
       {
@@ -190,7 +190,7 @@ const categoryPackages: CategoryPackages[] = [
   {
     id: 'משפחה וילדים',
     name: 'משפחה וילדים',
-    backgroundPhoto: '/PackagesImages/PackageHeadImages/family.jpg',
+    backgroundPhoto: '/PackagesImages/PackageHeadImages/family.webp',
     backgroundPhotoMobile: '/PackagesImages/PackageHeadImagesMobile/family.jpg', // You'll need to add this mobile image
     packages: [
       {
@@ -246,7 +246,7 @@ const categoryPackages: CategoryPackages[] = [
   {
     id: 'תדמית',
     name: 'תדמית',
-    backgroundPhoto: '/PackagesImages/PackageHeadImages/character.jpg',
+    backgroundPhoto: '/PackagesImages/PackageHeadImages/character.webp',
     backgroundPhotoMobile: '/PackagesImages/PackageHeadImagesMobile/character.jpg', // You'll need to add this mobile image
     packages: [
       {
@@ -303,7 +303,7 @@ const categoryPackages: CategoryPackages[] = [
   {
     id: 'דורות',
     name: 'דורות',
-    backgroundPhoto: '/PackagesImages/PackageHeadImages/generations.jpg',
+    backgroundPhoto: '/PackagesImages/PackageHeadImages/generations.webp',
     backgroundPhotoMobile: '/PackagesImages/PackageHeadImagesMobile/generations.jpg', // You'll need to add this mobile image
     packages: [
       {
@@ -394,13 +394,11 @@ function PackagesContent() {
           <Image
             src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}${isMobile ? currentCategory.backgroundPhotoMobile : currentCategory.backgroundPhoto}`}
             alt=""
-            height={1440}
-            width={2560}
+            height={1000}
+            width={3600}
             style={{ objectPosition: 'center 30%' }}
             className="absolute inset-0 w-full h-full object-cover"
-            priority
-            quality={95}
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 2560px"
+            quality={100}
           />
           
           {/* Header Content */}
