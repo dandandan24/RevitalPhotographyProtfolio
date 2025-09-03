@@ -109,7 +109,7 @@ const categoryPackages: CategoryPackages[] = [
       {
         id: 'bat-mitzva-premium',
         name: 'חבילה מורחבת',
-        photo: '/PackagesImages/PackagesImages/mitzvaexpand.jpg',
+        photo: '/PackagesImages/PackagesImages/mitzvaExpandV2.jpg',
         title: 'חבילת גיל מצווה מורחבת',
         price: '2650₪',
         offers: [
@@ -354,7 +354,7 @@ function PackagesContent() {
   const searchParams = useSearchParams();
   const [selectedCategory, setSelectedCategory] = useState(() => {
     const category = searchParams.get('category');
-    return category && categoryPackages.find(cat => cat.id === category) ? category : 'בייבי';
+    return category && categoryPackages.find(cat => cat.id === category) ? category : 'גיל מצווה';
   });
   const [isMobile, setIsMobile] = useState(false);
 
