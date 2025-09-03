@@ -29,13 +29,13 @@ const categoryPackages: CategoryPackages[] = [
   {
     id: 'בייבי',
     name: 'בייבי',
-    backgroundPhoto: '/PackagesImages/PackageHeadImages/baby.jpg',
+    backgroundPhoto: '/PackagesImages/PackageHeadImages/baby.webp',
     backgroundPhotoMobile: '/PackagesImages/PackageHeadImagesMobile/baby.jpg', // Mobile-optimized version
     packages: [
       {
         id: 'baby-deluxe',
         name: 'חבילה פרימיום',
-        photo: '/PackagesImages/PackagesImages/babypremium.jpg',
+        photo: '/PackagesImages/PackagesImages/babypremium.webp',
         title: 'חבילת בייבי פרימיום',
         price: '2300₪',
         offers: [
@@ -53,7 +53,7 @@ const categoryPackages: CategoryPackages[] = [
       {
         id: 'baby-premium',
         name: 'חבילה מורחבת',
-        photo: '/PackagesImages/PackagesImages/babyexpand.jpg',
+        photo: '/PackagesImages/PackagesImages/babyexpand.webp',
         title: 'חבילת בייבי מורחבת',
         price: '1550₪',
         offers: [
@@ -68,7 +68,7 @@ const categoryPackages: CategoryPackages[] = [
       {
         id: 'baby-basic',
         name: 'חבילה בסיסית',
-        photo: '/PackagesImages/PackagesImages/babyBasic.jpg',
+        photo: '/PackagesImages/PackagesImages/babyBasic.webp',
         title: 'חבילת בייבי בסיסית',
         price: '1200₪',
         offers: [
@@ -85,13 +85,13 @@ const categoryPackages: CategoryPackages[] = [
   {
     id: 'גיל מצווה',
     name: 'גיל מצווה',
-    backgroundPhoto: '/PackagesImages/PackageHeadImages/mitzva.jpg',
+    backgroundPhoto: '/PackagesImages/PackageHeadImages/mitzva.webp',
     backgroundPhotoMobile: '/PackagesImages/PackageHeadImagesMobile/mitzva.jpg', // You'll need to add this mobile image
     packages: [
       {
         id: 'bat-mitzva-deluxe',
         name: 'חבילה פרימיום',
-        photo: '/PackagesImages/PackagesImages/mitzvaPremium.jpg',
+        photo: '/PackagesImages/PackagesImages/mitzvaPremium.webp',
         title: 'חבילת גיל מצווה פרימיום',
         price: '3250₪',
         offers: [
@@ -109,7 +109,7 @@ const categoryPackages: CategoryPackages[] = [
       {
         id: 'bat-mitzva-premium',
         name: 'חבילה מורחבת',
-        photo: '/PackagesImages/PackagesImages/mitzvaExpandV2.jpg',
+        photo: '/PackagesImages/PackagesImages/mitzvaExpandV2.webp',
         title: 'חבילת גיל מצווה מורחבת',
         price: '2650₪',
         offers: [
@@ -123,7 +123,7 @@ const categoryPackages: CategoryPackages[] = [
       {
         id: 'bat-mitzva-basic',
         name: 'חבילה בסיסית',
-        photo: '/PackagesImages/PackagesImages/mitzvaBasic.jpg',
+        photo: '/PackagesImages/PackagesImages/mitzvaBasic.webp',
         title: 'חבילת גיל מצווה בסיסית',
         price: '2350₪',
         offers: [
@@ -139,13 +139,13 @@ const categoryPackages: CategoryPackages[] = [
   {
     id: 'הריון',
     name: 'הריון',
-    backgroundPhoto: '/PackagesImages/PackageHeadImages/pregnancy.jpg',
+    backgroundPhoto: '/PackagesImages/PackageHeadImages/pregnancy.webp',
     backgroundPhotoMobile: '/PackagesImages/PackageHeadImagesMobile/pregnancy.jpg', // You'll need to add this mobile image
     packages: [
       {
         id: 'pregnancy-deluxe',
         name: 'חבילה פרימיום',
-        photo: '/PackagesImages/PackagesImages/pregnancyPremium.jpg',
+        photo: '/PackagesImages/PackagesImages/pregnancyPremium.webp',
         title: 'חבילת הריון פרימיום',
         price: '2600₪',
         offers: [
@@ -162,7 +162,7 @@ const categoryPackages: CategoryPackages[] = [
       {
         id: 'pregnancy-premium',
         name: 'חבילה מורחבת',
-        photo: '/PackagesImages/PackagesImages/pregnancyExpand.jpg',
+        photo: '/PackagesImages/PackagesImages/pregnancyExpand.webp',
         title: 'חבילת הריון מורחבת',
         price: '1800₪',
         offers: [
@@ -175,7 +175,7 @@ const categoryPackages: CategoryPackages[] = [
       {
         id: 'pregnancy-basic',
         name: 'חבילה בסיסית',
-        photo: '/PackagesImages/PackagesImages/pregnancyBasic.jpg',
+        photo: '/PackagesImages/PackagesImages/pregnancyBasic.webp',
         title: 'חבילת הריון בסיסית',
         price: '1500₪',
         offers: [
@@ -190,13 +190,13 @@ const categoryPackages: CategoryPackages[] = [
   {
     id: 'משפחה וילדים',
     name: 'משפחה וילדים',
-    backgroundPhoto: '/PackagesImages/PackageHeadImages/family.jpg',
+    backgroundPhoto: '/PackagesImages/PackageHeadImages/family.webp',
     backgroundPhotoMobile: '/PackagesImages/PackageHeadImagesMobile/family.jpg', // You'll need to add this mobile image
     packages: [
       {
         id: 'family-deluxe',
         name: 'חבילה פרימיום',
-        photo: '/PackagesImages/PackagesImages/familyPremium.jpg',
+        photo: '/PackagesImages/PackagesImages/familyPremium.webp',
         title: 'חבילת משפחה פרימיום',
         price: '2450₪',
         offers: [
@@ -214,7 +214,7 @@ const categoryPackages: CategoryPackages[] = [
       {
         id: 'family-premium',
         name: 'חבילה מורחבת',
-        photo: '/PackagesImages/PackagesImages/familyExpand.jpg',
+        photo: '/PackagesImages/PackagesImages/familyExpand.webp',
         title: 'חבילת משפחה מורחבת',
         price: '1950₪',
         offers: [
@@ -229,7 +229,7 @@ const categoryPackages: CategoryPackages[] = [
       {
         id: 'family-basic',
         name: 'חבילה בסיסית',
-        photo: '/PackagesImages/PackagesImages/familyBasic.jpg',
+        photo: '/PackagesImages/PackagesImages/familyBasic.webp',
         title: 'חבילת משפחה בסיסית',
         price: '1450₪',
         offers: [
@@ -246,13 +246,13 @@ const categoryPackages: CategoryPackages[] = [
   {
     id: 'תדמית',
     name: 'תדמית',
-    backgroundPhoto: '/PackagesImages/PackageHeadImages/character.jpg',
+    backgroundPhoto: '/PackagesImages/PackageHeadImages/character.webp',
     backgroundPhotoMobile: '/PackagesImages/PackageHeadImagesMobile/character.jpg', // You'll need to add this mobile image
     packages: [
       {
         id: 'business-deluxe',
         name: 'חבילה פרימיום',
-        photo: '/PackagesImages/PackagesImages/characterPremium.jpg',
+        photo: '/PackagesImages/PackagesImages/characterPremium.webp',
         title: 'חבילת תדמית פרימיום',
         price: '2500₪',
         offers: [
@@ -269,7 +269,7 @@ const categoryPackages: CategoryPackages[] = [
       {
         id: 'business-premium',
         name: 'חבילה מורחבת',
-        photo: '/PackagesImages/PackagesImages/characterExpand.jpg',
+        photo: '/PackagesImages/PackagesImages/characterExpand.webp',
         title: 'חבילת תדמית מורחבת',
         price: '1500₪',
         offers: [
@@ -286,7 +286,7 @@ const categoryPackages: CategoryPackages[] = [
       {
         id: 'business-basic',
         name: 'חבילה בסיסית',
-        photo: '/PackagesImages/PackagesImages/characterBasic.jpg',
+        photo: '/PackagesImages/PackagesImages/characterBasic.webp',
         title: 'חבילת תדמית בסיסית',
         price: '1100₪',
         offers: [
@@ -303,13 +303,13 @@ const categoryPackages: CategoryPackages[] = [
   {
     id: 'דורות',
     name: 'דורות',
-    backgroundPhoto: '/PackagesImages/PackageHeadImages/generations.jpg',
+      backgroundPhoto: '/PackagesImages/PackageHeadImages/generations.webp',
     backgroundPhotoMobile: '/PackagesImages/PackageHeadImagesMobile/generations.jpg', // You'll need to add this mobile image
     packages: [
       {
         id: 'generations-deluxe',
         name: 'חבילה פרימיום',
-        photo: '/PackagesImages/PackagesImages/generationsPremium.jpg',
+        photo: '/PackagesImages/PackagesImages/generationsPremium.webp',
         title: 'חבילת דורות פרימיום',
         price: '3000₪',
         offers: [
@@ -325,7 +325,7 @@ const categoryPackages: CategoryPackages[] = [
       {
         id: 'generations-premium',
         name: 'חבילה מורחבת',
-        photo: '/PackagesImages/PackagesImages/generationsExpand.jpg',
+        photo: '/PackagesImages/PackagesImages/generationsExpand.webp',
         title: 'חבילת דורות מורחבת',
         price: '2200₪',
         offers: [
@@ -337,7 +337,7 @@ const categoryPackages: CategoryPackages[] = [
       {
         id: 'generations-basic',
         name: 'חבילה בסיסית',
-        photo: '/PackagesImages/PackagesImages/generationsBasic.jpg',
+        photo: '/PackagesImages/PackagesImages/generationsBasic.webp',
         title: 'חבילת דורות בסיסית',
         price: '1800₪',
         offers: [
@@ -394,9 +394,9 @@ function PackagesContent() {
           <Image
             src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}${isMobile ? currentCategory.backgroundPhotoMobile : currentCategory.backgroundPhoto}`}
             alt=""
-            height = {700}
-            width = {2000}
-            style={{ objectPosition: 'center 40%' }}
+            height = {1440}
+            width = {2560}
+            style={{ objectPosition: 'center 30%' }}
             className="absolute inset-0 w-full h-full object-cover"
             priority
           />
@@ -614,8 +614,8 @@ function PackagesContent() {
                     <Image
                       src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}${pkg.photo}`}
                       alt={pkg.title}
-                      width={300}
-                      height={150}
+                      width={400}
+                      height={200}
                       className="w-full h-full object-cover object-center"
                       priority
                       quality={95}
