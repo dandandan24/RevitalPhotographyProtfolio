@@ -29,7 +29,7 @@ const categoryPackages: CategoryPackages[] = [
   {
     id: 'בייבי',
     name: 'בייבי',
-    backgroundPhoto: '/PackagesImages/PackageHeadImages/baby.webp',
+    backgroundPhoto: '/PackagesImages/PackageHeadImages/baby.jpg',
     backgroundPhotoMobile: '/PackagesImages/PackageHeadImagesMobile/baby.jpg', // Mobile-optimized version
     packages: [
       {
@@ -85,7 +85,7 @@ const categoryPackages: CategoryPackages[] = [
   {
     id: 'גיל מצווה',
     name: 'גיל מצווה',
-    backgroundPhoto: '/PackagesImages/PackageHeadImages/mitzva.webp',
+    backgroundPhoto: '/PackagesImages/PackageHeadImages/mitzva.jpg',
     backgroundPhotoMobile: '/PackagesImages/PackageHeadImagesMobile/mitzva.jpg', // You'll need to add this mobile image
     packages: [
       {
@@ -139,7 +139,7 @@ const categoryPackages: CategoryPackages[] = [
   {
     id: 'הריון',
     name: 'הריון',
-    backgroundPhoto: '/PackagesImages/PackageHeadImages/pregnancy.webp',
+    backgroundPhoto: '/PackagesImages/PackageHeadImages/pregnancy.jpg',
     backgroundPhotoMobile: '/PackagesImages/PackageHeadImagesMobile/pregnancy.jpg', // You'll need to add this mobile image
     packages: [
       {
@@ -190,7 +190,7 @@ const categoryPackages: CategoryPackages[] = [
   {
     id: 'משפחה וילדים',
     name: 'משפחה וילדים',
-    backgroundPhoto: '/PackagesImages/PackageHeadImages/family.webp',
+    backgroundPhoto: '/PackagesImages/PackageHeadImages/family.jpg',
     backgroundPhotoMobile: '/PackagesImages/PackageHeadImagesMobile/family.jpg', // You'll need to add this mobile image
     packages: [
       {
@@ -246,7 +246,7 @@ const categoryPackages: CategoryPackages[] = [
   {
     id: 'תדמית',
     name: 'תדמית',
-    backgroundPhoto: '/PackagesImages/PackageHeadImages/character.webp',
+    backgroundPhoto: '/PackagesImages/PackageHeadImages/character.jpg',
     backgroundPhotoMobile: '/PackagesImages/PackageHeadImagesMobile/character.jpg', // You'll need to add this mobile image
     packages: [
       {
@@ -303,7 +303,7 @@ const categoryPackages: CategoryPackages[] = [
   {
     id: 'דורות',
     name: 'דורות',
-      backgroundPhoto: '/PackagesImages/PackageHeadImages/generations.webp',
+    backgroundPhoto: '/PackagesImages/PackageHeadImages/generations.jpg',
     backgroundPhotoMobile: '/PackagesImages/PackageHeadImagesMobile/generations.jpg', // You'll need to add this mobile image
     packages: [
       {
@@ -394,11 +394,13 @@ function PackagesContent() {
           <Image
             src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}${isMobile ? currentCategory.backgroundPhotoMobile : currentCategory.backgroundPhoto}`}
             alt=""
-            height = {1440}
-            width = {2560}
+            height={1440}
+            width={2560}
             style={{ objectPosition: 'center 30%' }}
             className="absolute inset-0 w-full h-full object-cover"
             priority
+            quality={95}
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 2560px"
           />
           
           {/* Header Content */}
