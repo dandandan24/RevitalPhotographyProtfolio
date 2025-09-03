@@ -394,8 +394,8 @@ function PackagesContent() {
           <Image
             src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}${isMobile ? currentCategory.backgroundPhotoMobile : currentCategory.backgroundPhoto}`}
             alt=""
-            height = {1000}
-            width = {3000}
+            height = {700}
+            width = {2000}
             style={{ objectPosition: 'center 40%' }}
             className="absolute inset-0 w-full h-full object-cover"
             priority
@@ -614,8 +614,8 @@ function PackagesContent() {
                     <Image
                       src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}${pkg.photo}`}
                       alt={pkg.title}
-                      width={800}
-                      height={600}
+                      width={300}
+                      height={150}
                       className="w-full h-full object-cover object-center"
                       priority
                       quality={95}

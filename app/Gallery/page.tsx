@@ -435,8 +435,8 @@ export default function Gallery() {
                           <Image
                             src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}${photo.src}`}
                             alt={photo.alt}
-                            width={400}
-                            height={300}
+                            width={1}
+                            height={1}
                             className="w-full h-auto"
                             loading="lazy"
                             decoding="async"

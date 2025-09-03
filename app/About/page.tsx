@@ -38,8 +38,8 @@ export default function About() {
             <Image 
               src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/StudioAboutImage.jpg`} 
               alt="about" 
-              width={1000}
-              height={1000}
+              width={500}
+              height={500}
               className="w-auto 2xl:h-[800px] xl:h-[700px] object-cover shadow-2xl rounded-lg"
             />
           </div>
