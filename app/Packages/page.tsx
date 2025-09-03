@@ -35,7 +35,7 @@ const categoryPackages: CategoryPackages[] = [
       {
         id: 'baby-deluxe',
         name: 'חבילה פרימיום',
-        photo: '/PackagesImages/PackagesImages/babypremium.webp',
+        photo: '/PackagesImages/PackagesImages/babyPremium.webp',
         title: 'חבילת בייבי פרימיום',
         price: '2300₪',
         offers: [
@@ -53,7 +53,7 @@ const categoryPackages: CategoryPackages[] = [
       {
         id: 'baby-premium',
         name: 'חבילה מורחבת',
-        photo: '/PackagesImages/PackagesImages/babyexpand.webp',
+        photo: '/PackagesImages/PackagesImages/babyExpand.webp',
         title: 'חבילת בייבי מורחבת',
         price: '1550₪',
         offers: [
@@ -269,7 +269,7 @@ const categoryPackages: CategoryPackages[] = [
       {
         id: 'business-premium',
         name: 'חבילה מורחבת',
-        photo: '/PackagesImages/PackagesImages/characterExpand.webp',
+        photo: '/PackagesImages/PackagesImages/CharacterExpand.webp',
         title: 'חבילת תדמית מורחבת',
         price: '1500₪',
         offers: [
