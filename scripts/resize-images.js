@@ -13,7 +13,7 @@ if (!fs.existsSync(outputDir)) {
 
 // Define your sizes (width x height)
 const sizes = [
-  { width: 2500, height: 1250 },
+  { width: 3600, height: 1250 },
 ];
 
 // Get all image files from input directory
