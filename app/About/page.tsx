@@ -50,7 +50,7 @@ export default function About() {
             <h2 className="2xl:text-xl xl:text-lg text-gray-700 mb-2 text-center text-justify" dir="rtl">
             היי, אני רויטל פרצלינה, נשואה לרן ואמא ליעלי וגיאצ'וק המקסימים. <br></br>
 לפני מספר שנים הרגשתי שהגיע הרגע לשים את האהבה הגדולה שלי לצילום במרכז חיי המקצועיים.<br></br><br className="2xl:block " />
- בלימודיי הרחבתי את הניסיון שלי בצילום ושם הבנתי שאני הכי אוהבת לעבוד עם אנשים.
+ בלימודיי הרחבתי את הניסיון שלי בצילום ושם הבנתי שאני הכי אוהבת לפגוש אנשים.
 ההקפדה על הלוקיישן המתאים ועל ייעוץ סטיילינג שמייצרים הרמוניה ויזואלית הם חלק בלתי נפרד מהגישה המקצועית שלי. <br></br><br className="2xl:block" />
 בצילום אני אוהבת להתבונן על העולם מזווית שונה, לתפוס רגעים קסומים ולהעניק לכם זיכרונות שילוו אתכם לכל החיים. 
 אני מזמינה אתכם לחלוק איתי את הרגעים השמחים והמרגשים של חייכם, להפוך כל רגע לזיכרון ולתת לעצמכם ולקרובים לכם מתנה ייחודית ונצחית.
@@ -72,7 +72,7 @@ export default function About() {
                 </ProffesionCard>
               </div>
             </div>
-            <div className="w-full flex justify-center 2xl:mt-20 xl:mt-14">
+            <div className="w-full flex justify-center 2xl:mt-10 xl:mt-14">
               <Button asChild variant="standard" size="lg" className="w-50">
                 <Link href="/Contact">ליצירת זכרונות לכל החיים</Link>
               </Button>

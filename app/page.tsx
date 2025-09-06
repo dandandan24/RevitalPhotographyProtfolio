@@ -125,7 +125,9 @@ export default function Home() {
       <div className="animate-in fade-in duration-700">
       <div className="relative h-screen flex flex-col justify-start md:justify-center items-center md:items-end bg-gray-500 px-8 md:px-16 lg:px-32 bg-cover bg-contain md:bg-cover bg-no-repeat pt-20 md:pt-0 home-hero-section" style={{
         backgroundImage: `url('${(isMobile ? mobileBackgrounds : desktopBackgrounds)[bgIndex]}')`,
-        backgroundPosition: "left center"
+        backgroundPosition: isMobile ? 'center' : 'left center',
+        opacity: 1,
+        transition: 'opacity 800ms ease',
       }}>
         <div
           aria-hidden
@@ -133,22 +135,23 @@ export default function Home() {
           style={{
             backgroundImage: `url('${(isMobile ? mobileBackgrounds : desktopBackgrounds)[nextBgIndex]}')`,
             backgroundSize: 'cover',
-            backgroundPosition: 'left center',
+            backgroundPosition: isMobile ? 'center' : 'left center',
             transition: 'opacity 800ms ease',
             opacity: isFading ? 1 : 0,
+            willChange: 'opacity',
           }}
         />
-        <h1 className="text-2xl md:text-3xl lg:text-5xl font-bold text-white my-2 md:my-8 lg:my-10 drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)] text-center md:text-right" dir="rtl">ליצור <span className="text-[#F1BDAF] drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]">זכרונות</span> שנשארים</h1>
-        <h1 className="text-lg md:text-xl lg:text-3xl font-bold text-white drop-shadow-[0_1px_2px_rgba(0,0,0,1)] text-center md:text-right " dir="rtl">תהפכו את האירועים,<br></br>
-           החוויות והרגעים שלכם לזכרונות מלאי חיים<br></br>
-           שיישארו אתכם שנים רבות</h1>
-        <Button asChild variant="standard" size="xl" className="text-base md:text-lg font-bold drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)] mt-4">
-          <Link href="/Contact">לחוויה בלתי נשכחת</Link>
-        </Button>
+        {/* Text content - positioned above background layers */}
+        <div className="relative z-10 flex flex-col justify-start md:justify-center items-center md:items-end">
+          <h1 className="text-2xl md:text-3xl lg:text-5xl font-bold text-white my-2 md:my-8 lg:my-10 text-center md:text-right" style={{ textShadow: '0 2px 4px rgba(0,0,0,0.8)' }} dir="rtl"><span className="text-[#F1BDAF]" style={{ textShadow: '0 2px 4px rgba(0,0,0,0.8)' }}>החיים</span> מלאים <br></br><span className="text-[#F1BDAF]" style={{ textShadow: '0 2px 4px rgba(0,0,0,0.8)' }}>רגעים קסומים</span><br></br>כאן דואגים שהם <br></br>יישארו אתכם לתמיד</h1>
+          <Button asChild variant="standard" size="xl" className="text-base md:text-lg font-bold mt-4" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.8)' }}>
+            <Link href="/Contact">לחוויה בלתי נשכחת</Link>
+          </Button>
+        </div>
       </div>
       
       {/* Bouncing Arrow - Only visible on mobile, positioned at bottom */}
-      <div className="lg:hidden absolute bottom-20 left-1/2 transform -translate-x-1/2 text-center">
+      <div className="lg:hidden absolute bottom-10 left-1/2 transform -translate-x-1/2 text-center">
         <p className="text-white text-sm font-medium mb-2 drop-shadow-[0_1px_2px_rgba(0,0,0,1)]" dir="rtl">לקריאה עליי</p>
         <div className="animate-bounce flex justify-center">
           <div className="w-0 h-0 border-l-[8px] border-l-transparent border-r-[8px] border-r-transparent border-t-[12px] border-t-[#F1BDAF] border-t-2"></div>
@@ -177,7 +180,7 @@ export default function Home() {
           {/* About Text */}
           <div className="text-center mb-8">
             <p className="text-base text-gray-700 leading-relaxed" dir="rtl">
-              היי, אני רויטל פרצלינה, נשואה לרן ואמא ליעלי וגיאצ'וק המקסימים. לפני מספר שנים הרגשתי שהגיע הרגע לשים את האהבה הגדולה שלי לצילום במרכז חיי המקצועיים. במסגרת הלימודית הרחבתי את הניסיון שלי בצילום ושם הבנתי שאני בעצם הכי אוהבת לעבוד עם אנשים.
+              היי, אני רויטל פרצלינה, נשואה לרן ואמא ליעלי וגיאצ'וק המקסימים. לפני מספר שנים הרגשתי שהגיע הרגע לשים את האהבה הגדולה שלי לצילום במרכז חיי המקצועיים. במסגרת הלימודית הרחבתי את הניסיון שלי בצילום ושם הבנתי שאני בעצם הכי אוהבת לפגוש אנשים.
             </p>
             <p className="text-base text-gray-700 leading-relaxed mt-4" dir="rtl">
               מי שמכיר אותי יודע שאני אוהבת לטייל בטבע ולגלות מקומות יפים, שאסתטיקה מאוד חשובה לי בתהליך של הצילום. ההקפדה על הלוקיישן המתאים ביותר, ועל ייעוץ סטיילינג שיאפשרו לייצר הרמוניה ויזואלית, הם חלק בלתי נפרד מהגישה המקצועית שלי.

@@ -2,8 +2,8 @@ import sharp from 'sharp';
 import fs from 'fs';
 import path from 'path';
 
-const inputDir = '/Users/dan/Documents/WebImages/Packages/HeadPackage/';
-const outputDir = '/Users/dan/Documents/WebImages/Packages/HeadPackage/resized';
+const inputDir = '/Users/dan/Documents/WebImages/Packages/HeadPackage/gen/';
+const outputDir = '/Users/dan/Documents/WebImages/Packages/HeadPackage/gen/resized';
 
 // Create output directory if it doesn't exist
 if (!fs.existsSync(outputDir)) {

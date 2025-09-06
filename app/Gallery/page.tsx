@@ -71,17 +71,20 @@ export default function Gallery() {
         setGalleryData(data);
         
         // Set first category from code's categories array that has photos in JSON
-        const categories = ['הריון', 'תדמית', 'בייבי', 'משפחה', 'ילדים', 'גיל מצווה'];
+        const categories = ['תדמית', 'ילדים', 'משפחה', 'בייבי', 'הריון', 'גיל מצווה'];
         console.log('Code categories:', categories);
         
-        const firstCategoryWithPhotos = categories.find(category => 
-          data[category] && data[category].photos && data[category].photos.length > 0
-        );
+        // Set גיל מצווה as default if it has photos, otherwise use first available
+        const defaultCategory = data['גיל מצווה'] && data['גיל מצווה'].photos && data['גיל מצווה'].photos.length > 0 
+          ? 'גיל מצווה'
+          : categories.find(category => 
+              data[category] && data[category].photos && data[category].photos.length > 0
+            );
         
-        if (firstCategoryWithPhotos) {
-          setSelectedCategory(firstCategoryWithPhotos);
-          console.log('Selected category:', firstCategoryWithPhotos);
-          console.log('Category photos count:', data[firstCategoryWithPhotos].photos.length);
+        if (defaultCategory) {
+          setSelectedCategory(defaultCategory);
+          console.log('Selected category:', defaultCategory);
+          console.log('Category photos count:', data[defaultCategory].photos.length);
         } else {
           console.log('No categories with photos found, using first available category');
           // Fallback to first available category
@@ -163,9 +166,27 @@ export default function Gallery() {
       });
   }, [isMobile]);
 
-  const categories = ['הריון', 'תדמית', 'בייבי', 'משפחה', 'ילדים', 'גיל מצווה'];
+  // Shuffle array function for permanent photo order
+  const shuffleArray = (array: Photo[]): Photo[] => {
+    const shuffled = [...array];
+    // Use a seeded random for consistent results
+    let seed = 42; // Fixed seed for consistent shuffling
+    const seededRandom = () => {
+      seed = (seed * 9301 + 49297) % 233280;
+      return seed / 233280;
+    };
+    
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(seededRandom() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
+  };
+
+  const categories = ['תדמית', 'ילדים', 'משפחה', 'בייבי', 'הריון', 'גיל מצווה'];
   const allPhotos = galleryData[selectedCategory]?.photos || [];
-  const currentPhotos = allPhotos; // Show all photos in category
+  const shuffledPhotos = shuffleArray(allPhotos); // Permanent shuffle
+  const currentPhotos = shuffledPhotos; // Use permanently shuffled photos
   const visiblePhotos = currentPhotos.slice(0, visiblePhotosCount); // Show only visible count
   
   // Distribute photos across responsive columns
@@ -292,7 +313,7 @@ export default function Gallery() {
       <ActiveNav href="/Gallery" />
       <div className="min-h-screen bg-gray-50 animate-in fade-in duration-700">
         {/* Header and Category Navigation Combined */}
-        <div className="bg-white shadow-sm relative overflow-hidden">
+        <div className="bg-white shadow-sm relative overflow-hidden" style={{ backgroundImage: `url('${process.env.NEXT_PUBLIC_BASE_PATH || ''}/collage.png')`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }}>
           {/* Collage disabled per request to improve mobile performance */}
           
           {/* Header Content */}
@@ -303,7 +324,7 @@ export default function Gallery() {
 
           {/* Category Navigation */}
           <div className="border-b relative z-10">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" style={{ maxHeight: '80vh', overflowY: 'auto' }}>
               {/* Mobile Dropdown - Only visible on small screens */}
               <div className="lg:hidden py-4 flex justify-center">
                 <div className="relative w-56">
@@ -376,8 +397,8 @@ export default function Gallery() {
                 {selectedCategory === 'גיל מצווה' && (
                   <p className="text-lg text-gray-600" dir="rtl">
 אני אוהבת לצלם באור טבעי, תמונות טבעיות, שמשקפות ומעצימות את הייחודיות של הילדה!<br></br>
- יש לי גישה מיוחדת, אני גורמת לה להרגיש הכי בנוח שיש מול המצלמה.<br></br>
-  בסוף יום הצילומים אני עורכת את כל התמונות ברמה גבוהה ומעצבת אלבום מהמם עם תמונות בלתי נשכחות!ֿ                </p>
+ יש לי גישה מיוחדת, אשר גורמת לה להרגיש הכי בנוח שיש מול המצלמה.<br></br>
+  בסוף יום הצילומים אני עורכת את כל התמונות ברמה גבוהה ומעצבת אלבום מהמם עם תמונות בלתי נשכחות!            </p>
                 )}
                 {selectedCategory === 'ילדים' && (
                   <p className="text-lg text-gray-600" dir="rtl">
@@ -402,7 +423,8 @@ export default function Gallery() {
                  {selectedCategory === 'תדמית' && (
                   <p className="text-lg text-gray-600" dir="rtl">
 בעולם של היום, קשרים מתחילים לרוב בצורה ויזואלית והרושם הראשוני נוצר תוך שבריר שנייה.<br></br>
- ההצלחה מתחילה עם תמונות תדמית מקצועיות המציגות אתכם – בין אם זה לתמונת פרופיל מנצחת ברשתות, פרופיל מקצועי בלינקדין, או הצגת העסק שלך – הן הכרטיס ביקור שלך!                </p>
+ההצלחה מתחילה עם תמונות תדמית מקצועיות המציגות אתכם.<br></br>
+בין אם זה לתמונת פרופיל מנצחת ברשתות, פרופיל מקצועי בלינקדין, או הצגת העסק שלך – הן הכרטיס ביקור שלך!                </p>
                 )}
               </div>
               
@@ -473,6 +495,22 @@ export default function Gallery() {
           )}
 
           {/* Load More Button removed - showing all photos */}
+
+          {/* Floating Back to Top Button */}
+          <div className="fixed bottom-8 right-8 z-50">
+            <button 
+              onClick={() => {
+                window.scrollTo({
+                  top: 0,
+                  behavior: 'smooth'
+                });
+              }}
+              className="inline-flex items-center px-6 py-3 bg-[#F1BDAF] text-white font-semibold rounded-full hover:bg-[#E8A896] transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105"
+              dir="rtl"
+            >
+              ↑
+            </button>
+          </div>
         </div>
       </div>
 
@@ -537,7 +575,7 @@ export default function Gallery() {
           </div>
         </div>
         <div className="px-2 sm:px-4 pb-6 text-sm text-gray-500">
-          <span className="block text-left" dir="rtl">כל הזכויות שמורות לרויטל פרצלינה</span>
+          <span className="block text-left" dir="rtl"> © כל הזכויות שמורות לרויטל פרצלינה</span>
         </div>
       </footer>
     </>
