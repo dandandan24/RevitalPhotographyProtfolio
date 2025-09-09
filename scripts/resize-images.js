@@ -2,8 +2,8 @@ import sharp from 'sharp';
 import fs from 'fs';
 import path from 'path';
 
-const inputDir = '/Users/dan/Documents/WebImages/Packages/HeadPackage/gen/';
-const outputDir = '/Users/dan/Documents/WebImages/Packages/HeadPackage/gen/resized';
+const inputDir = '/Users/dan/Documents/WebImages/Packages/gen/';
+const outputDir = '/Users/dan/Documents/WebImages/Packages/gen/resized';
 
 // Create output directory if it doesn't exist
 if (!fs.existsSync(outputDir)) {
@@ -13,7 +13,7 @@ if (!fs.existsSync(outputDir)) {
 
 // Define your sizes (width x height)
 const sizes = [
-  { width: 3600, height: 1250 },
+  { width: 400, height: 200 },
 ];
 
 // Get all image files from input directory
