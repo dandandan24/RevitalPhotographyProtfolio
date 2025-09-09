@@ -53,26 +53,20 @@ export default function Gallery() {
 
   // Fetch gallery data and set initial category based on code's categories array
   useEffect(() => {
-    console.log('Loading gallery data...');
     const fetchUrl = `${process.env.NEXT_PUBLIC_BASE_PATH || ''}/gallery-data.json`;
-    console.log('Fetching from URL:', fetchUrl);
     
     fetch(fetchUrl)
       .then(response => {
-        console.log('Response status:', response.status);
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         return response.json();
       })
       .then((data: GalleryData) => {
-        console.log('Gallery data loaded:', data);
-        console.log('Available categories in JSON:', Object.keys(data));
         setGalleryData(data);
         
         // Set first category from code's categories array that has photos in JSON
         const categories = ['תדמית', 'ילדים', 'משפחה', 'בייבי', 'הריון', 'גיל מצווה'];
-        console.log('Code categories:', categories);
         
         // Set גיל מצווה as default if it has photos, otherwise use first available
         const defaultCategory = data['גיל מצווה'] && data['גיל מצווה'].photos && data['גיל מצווה'].photos.length > 0 
@@ -83,19 +77,14 @@ export default function Gallery() {
         
         if (defaultCategory) {
           setSelectedCategory(defaultCategory);
-          console.log('Selected category:', defaultCategory);
-          console.log('Category photos count:', data[defaultCategory].photos.length);
         } else {
-          console.log('No categories with photos found, using first available category');
           // Fallback to first available category
           const firstCategory = Object.keys(data)[0];
           if (firstCategory) {
             setSelectedCategory(firstCategory);
-            console.log('Fallback to first category:', firstCategory);
           } else {
             // Ultimate fallback
             setSelectedCategory('גיל מצווה');
-            console.log('Ultimate fallback to גיל מצווה');
           }
         }
         setLoading(false);
@@ -205,14 +194,7 @@ export default function Gallery() {
   };
   
   const photoColumns = distributePhotos(visiblePhotos);
-  
-  console.log('📸 Selected category:', selectedCategory);
-  console.log('📸 Gallery data keys:', Object.keys(galleryData));
-  console.log('📸 All photos count:', allPhotos.length);
-  console.log('📸 Current photos count:', currentPhotos.length);
-  console.log('📸 Visible photos count:', visiblePhotos.length);
-  console.log('📸 First photo:', allPhotos[0]);
-  
+
 
 
   const handleImageLoad = (uniquePhotoId: string) => {
@@ -466,7 +448,6 @@ export default function Gallery() {
                             placeholder="blur"
                             blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
                             onLoad={() => {
-                              console.log('✅ Image loaded:', photo.src);
                               handleImageLoad(`${selectedCategory}-${photo.id}`);
                             }}
                             onError={(e) => {
