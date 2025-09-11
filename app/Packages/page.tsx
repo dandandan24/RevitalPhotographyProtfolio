@@ -28,7 +28,7 @@ interface CategoryPackages {
 const categoryPackages: CategoryPackages[] = [
   {
     id: 'גיל מצווה',
-    name: 'גיל מצווה',
+    name: 'צילומי גיל מצווה',
     backgroundPhoto: '/PackagesImages/PackageHeadImages/mitzva.webp',
     backgroundPhotoMobile: '/PackagesImages/PackageHeadImagesMobile/mitzva.jpg', // You'll need to add this mobile image
     packages: [
@@ -53,7 +53,7 @@ const categoryPackages: CategoryPackages[] = [
       {
         id: 'bat-mitzva-premium',
         name: 'חבילה מורחבת',
-        photo: '/PackagesImages/PackagesImages/mitzvaExpandV2.webp',
+        photo: '/PackagesImages/PackagesImages/mitzvaExpandV2.jpg',
         title: 'חבילת גיל מצווה מורחבת',
         price: '2650₪',
         offers: [
@@ -82,7 +82,7 @@ const categoryPackages: CategoryPackages[] = [
   },
   {
     id: 'בייבי',
-    name: 'גיל שנה',
+    name: 'צילומי גיל שנה',
     backgroundPhoto: '/PackagesImages/PackageHeadImages/baby.webp',
     backgroundPhotoMobile: '/PackagesImages/PackageHeadImagesMobile/baby.jpg', // Mobile-optimized version
     packages: [
@@ -138,7 +138,7 @@ const categoryPackages: CategoryPackages[] = [
   },
   {
     id: 'הריון',
-    name: 'הריון',
+    name: 'צילומי הריון',
     backgroundPhoto: '/PackagesImages/PackageHeadImages/pregnancy.jpg',
     backgroundPhotoMobile: '/PackagesImages/PackageHeadImagesMobile/pregnancy.jpg', // You'll need to add this mobile image
     packages: [
@@ -189,7 +189,7 @@ const categoryPackages: CategoryPackages[] = [
   },
   {
     id: 'משפחה וילדים',
-    name: 'משפחה וילדים',
+    name: ' צילומי משפחה וילדים ',
     backgroundPhoto: '/PackagesImages/PackageHeadImages/family.webp',
     backgroundPhotoMobile: '/PackagesImages/PackageHeadImagesMobile/family.jpg', // You'll need to add this mobile image
     packages: [
@@ -244,7 +244,7 @@ const categoryPackages: CategoryPackages[] = [
   },
   {
     id: 'תדמית',
-    name: 'תדמית',
+    name: 'צילומי תדמית',
     backgroundPhoto: '/PackagesImages/PackageHeadImages/character.webp',
     backgroundPhotoMobile: '/PackagesImages/PackageHeadImagesMobile/character.jpg', // You'll need to add this mobile image
     packages: [
@@ -301,7 +301,7 @@ const categoryPackages: CategoryPackages[] = [
   },
   {
     id: 'דורות',
-    name: 'דורות',
+    name: 'צילומי דורות',
     backgroundPhoto: '/PackagesImages/PackageHeadImages/generations.webp',
     backgroundPhotoMobile: '/PackagesImages/PackageHeadImagesMobile/generations.jpg', // You'll need to add this mobile image
     packages: [
@@ -581,7 +581,7 @@ function PackagesContent() {
                 {/* Desktop text */}
                 <p className="hidden lg:block text-lg text-gray-600 mt-4" dir="rtl">
                 כל המשפחה מתאגדים למפגש מרגש שכולו חגיגה עם המון אהבה ושמחה. <br></br>
-                 סשן צילומים הוא הזדמנות נהדרת ליצור מזכרת מושלמת מלאת אושר להווה ולעתיד, שכל כולה מספרת את הסיפור המשפחתי שלכם והקשר המיוחד של השבט שנוצר.<br></br>
+                בצילומי דורות סשן צילומים הוא הזדמנות נהדרת ליצור מזכרת מושלמת מלאת אושר להווה ולעתיד, שכל כולה מספרת את הסיפור המשפחתי שלכם והקשר המיוחד של השבט שנוצר.<br></br>
                  בסשן אצלם את כולם ביחד, את המשפחות הגרעיניות בנפרד, את הסבים והסבתות עם הנכדים והנכדות, את ההורים והילדים, ובשאר הזמן תופסים רגעים חופשיים של שמחה וחיבור.                </p>
                 {/* Mobile text */}
                 <p className="lg:hidden text-lg text-gray-600 mt-4" dir="rtl">
