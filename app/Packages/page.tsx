@@ -268,7 +268,7 @@ const categoryPackages: CategoryPackages[] = [
       {
         id: 'business-premium',
         name: 'חבילה מורחבת',
-        photo: '/PackagesImages/PackagesImages/CharacterExpand.webp',
+        photo: '/PackagesImages/PackagesImages/characterExpand.jpg',
         title: 'חבילת תדמית מורחבת',
         price: '1500₪',
         offers: [

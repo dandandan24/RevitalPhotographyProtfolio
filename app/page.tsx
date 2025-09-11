@@ -45,6 +45,18 @@ export default function Home() {
     `${basePath}/imageforbackgroundhomepagemobile2.jpg`,
     `${basePath}/imageforbackgroundhomepagemobile3.jpg`,
   ];
+  // Per-image background positions. Adjust individual entries as needed.
+  // Desktop: shift only the second image further left; others remain as before.
+  const desktopPositions = [
+    'left center',      // 1st image (unchanged)
+    'left center',  // 2nd image (more left)
+    'left 50% center',      // 3rd image (unchanged)
+  ];
+  const mobilePositions = [
+    'center', // 1st image
+    'center', // 2nd image
+    'center', // 3rd image
+  ];
   const [isFading, setIsFading] = useState(false);
 
   useEffect(() => {
@@ -115,7 +127,7 @@ export default function Home() {
         setIsFading(false);
       }, 800);
       return () => clearTimeout(to);
-    }, 10000);
+    }, 3000);
     return () => clearInterval(timer);
   }, [isMobile, bgIndex]);
 
@@ -125,7 +137,7 @@ export default function Home() {
       <div className="animate-in fade-in duration-700">
       <div className="relative h-screen flex flex-col justify-start md:justify-center items-center md:items-end bg-gray-500 px-8 md:px-16 lg:px-32 bg-cover bg-contain md:bg-cover bg-no-repeat pt-20 md:pt-0 home-hero-section" style={{
         backgroundImage: `url('${(isMobile ? mobileBackgrounds : desktopBackgrounds)[bgIndex]}')`,
-        backgroundPosition: isMobile ? 'center' : 'left center',
+        backgroundPosition: isMobile ? mobilePositions[bgIndex] : desktopPositions[bgIndex],
         opacity: 1,
         transition: 'opacity 800ms ease',
       }}>
@@ -135,7 +147,7 @@ export default function Home() {
           style={{
             backgroundImage: `url('${(isMobile ? mobileBackgrounds : desktopBackgrounds)[nextBgIndex]}')`,
             backgroundSize: 'cover',
-            backgroundPosition: isMobile ? 'center' : 'left center',
+            backgroundPosition: isMobile ? mobilePositions[nextBgIndex] : desktopPositions[nextBgIndex],
             transition: 'opacity 800ms ease',
             opacity: isFading ? 1 : 0,
             willChange: 'opacity',
@@ -143,7 +155,14 @@ export default function Home() {
         />
         {/* Text content - positioned above background layers */}
         <div className="relative z-10 flex flex-col justify-start md:justify-center items-center md:items-end">
-          <h1 className="text-2xl md:text-3xl lg:text-5xl font-bold text-white my-2 md:my-8 lg:my-10 text-center md:text-right" style={{ textShadow: '0 2px 4px rgba(0,0,0,0.8)' }} dir="rtl"><span className="text-[#F1BDAF]" style={{ textShadow: '0 2px 4px rgba(0,0,0,0.8)' }}>החיים</span> מלאים <br></br><span className="text-[#F1BDAF]" style={{ textShadow: '0 2px 4px rgba(0,0,0,0.8)' }}>רגעים קסומים</span><br></br>כאן דואגים שהם <br></br>יישארו אתכם לתמיד</h1>
+          <Image
+            src="/homepagetext.png"
+            alt="Homepage headline"
+            width={900}
+            height={400}
+            priority
+            className="w-[50vw] max-w-[900px] md:w-[30vw] lg:w-[30vw] h-auto md:mt-0 mt-10"
+          />
           <Button asChild variant="standard" size="xl" className="text-base md:text-lg font-bold mt-4" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.8)' }}>
             <Link href="/Contact">לחוויה בלתי נשכחת</Link>
           </Button>
