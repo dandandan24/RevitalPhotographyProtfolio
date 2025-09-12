@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://revital-photography.com
+
+# Sitemaps
+Sitemap: https://revital-photography.com/sitemap.xml
