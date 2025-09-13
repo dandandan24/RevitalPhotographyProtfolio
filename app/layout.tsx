@@ -134,6 +134,11 @@ export default function RootLayout({
         <meta name="robots" content="index, follow" />
         <meta name="google-site-verification" content="_HgEXJjb8ibOVIFYhhSHz-5Jin9T5B-iN1BUE6ewMp0" />
         
+        {/* Favicon */}
+        <link rel="icon" href="/StudioAboutImage.jpg" type="image/jpeg" />
+        <link rel="shortcut icon" href="/StudioAboutImage.jpg" type="image/jpeg" />
+        <link rel="apple-touch-icon" href="/StudioAboutImage.jpg" />
+        
         {/* Open Graph tags for social media */}
         <meta property="og:title" content="רויטל פרצלינה || צלמת בוק בת מצווה | משפחה | הריון | תדמית" />
         <meta property="og:description" content="רויטל פרצלינה - צלמת מקצועית המתמחה בצילומי בוק בת מצווה, משפחה, הריון ותדמית. 11 שנות ניסיון, עיצוב אלבומים ועריכה ברמה גבוהה." />
@@ -216,7 +221,36 @@ export default function RootLayout({
                 "https://www.instagram.com/revitalphotography/",
                 "https://www.facebook.com/revitalphotography",
                 "https://www.tiktok.com/@revital_photography"
-              ]
+              ],
+              "potentialAction": {
+                "@type": "SearchAction",
+                "target": "https://revital-photography.com/Gallery?q={search_term_string}",
+                "query-input": "required name=search_term_string"
+              }
+            })
+          }}
+        />
+        
+        {/* Additional Website Schema for Sitelinks */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              "name": "רויטל פרצלינה - צלמת מקצועית",
+              "url": "https://revital-photography.com",
+              "description": "צלמת מקצועית המתמחה בצילומי בוק בת מצווה, משפחה, הריון ותדמית",
+              "potentialAction": {
+                "@type": "SearchAction",
+                "target": "https://revital-photography.com/Gallery?q={search_term_string}",
+                "query-input": "required name=search_term_string"
+              },
+              "mainEntity": {
+                "@type": "LocalBusiness",
+                "name": "רויטל פרצלינה - צלמת מקצועית",
+                "url": "https://revital-photography.com"
+              }
             })
           }}
         />
