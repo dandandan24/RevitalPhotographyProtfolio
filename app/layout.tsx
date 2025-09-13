@@ -127,7 +127,99 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        <title>רויטל פרצלינה || צלמת בוק בת מצווה | משפחה | הריון | תדמית</title>
+        <meta name="description" content="רויטל פרצלינה - צלמת מקצועית המתמחה בצילומי בוק בת מצווה, משפחה, הריון ותדמית. 11 שנות ניסיון, עיצוב אלבומים ועריכה ברמה גבוהה. צור קשר: 054-8788851" />
+        <meta name="keywords" content="צלמת, בוק בת מצווה, צילום משפחה, צילום הריון, צילום תדמית, אלבום תמונות, רויטל פרצלינה, צלמת יהוד, צילום מקצועי" />
+        <meta name="author" content="רויטל פרצלינה" />
+        <meta name="robots" content="index, follow" />
         <meta name="google-site-verification" content="_HgEXJjb8ibOVIFYhhSHz-5Jin9T5B-iN1BUE6ewMp0" />
+        
+        {/* Open Graph tags for social media */}
+        <meta property="og:title" content="רויטל פרצלינה || צלמת בוק בת מצווה | משפחה | הריון | תדמית" />
+        <meta property="og:description" content="רויטל פרצלינה - צלמת מקצועית המתמחה בצילומי בוק בת מצווה, משפחה, הריון ותדמית. 11 שנות ניסיון, עיצוב אלבומים ועריכה ברמה גבוהה." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://revital-photography.com" />
+        <meta property="og:image" content="https://revital-photography.com/logo.png" />
+        <meta property="og:locale" content="he_IL" />
+        
+        {/* Twitter Card tags */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="רויטל פרצלינה || צלמת בוק בת מצווה | משפחה | הריון | תדמית" />
+        <meta name="twitter:description" content="רויטל פרצלינה - צלמת מקצועית המתמחה בצילומי בוק בת מצווה, משפחה, הריון ותדמית. 11 שנות ניסיון, עיצוב אלבומים ועריכה ברמה גבוהה." />
+        <meta name="twitter:image" content="https://revital-photography.com/logo.png" />
+        
+        {/* Structured Data for Photography Business */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "LocalBusiness",
+              "name": "רויטל פרצלינה - צלמת מקצועית",
+              "description": "צלמת מקצועית המתמחה בצילומי בוק בת מצווה, משפחה, הריון ותדמית",
+              "url": "https://revital-photography.com",
+              "telephone": "054-8788851",
+              "email": "rparzelina@gmail.com",
+              "address": {
+                "@type": "PostalAddress",
+                "addressLocality": "יהוד",
+                "addressCountry": "IL"
+              },
+              "openingHours": [
+                "Mo-Fr 08:00-17:00",
+                "Sa 08:00-14:00"
+              ],
+              "serviceArea": {
+                "@type": "GeoCircle",
+                "geoMidpoint": {
+                  "@type": "GeoCoordinates",
+                  "latitude": 32.0333,
+                  "longitude": 34.8833
+                },
+                "geoRadius": "50000"
+              },
+              "hasOfferCatalog": {
+                "@type": "OfferCatalog",
+                "name": "שירותי צילום",
+                "itemListElement": [
+                  {
+                    "@type": "Offer",
+                    "itemOffered": {
+                      "@type": "Service",
+                      "name": "צילום בוק בת מצווה"
+                    }
+                  },
+                  {
+                    "@type": "Offer",
+                    "itemOffered": {
+                      "@type": "Service",
+                      "name": "צילום משפחה"
+                    }
+                  },
+                  {
+                    "@type": "Offer",
+                    "itemOffered": {
+                      "@type": "Service",
+                      "name": "צילום הריון"
+                    }
+                  },
+                  {
+                    "@type": "Offer",
+                    "itemOffered": {
+                      "@type": "Service",
+                      "name": "צילום תדמית"
+                    }
+                  }
+                ]
+              },
+              "sameAs": [
+                "https://www.instagram.com/revitalphotography/",
+                "https://www.facebook.com/revitalphotography",
+                "https://www.tiktok.com/@revital_photography"
+              ]
+            })
+          }}
+        />
       </head>
       <body>
         <nav className="flex justify-between w-full min-h-16 px-5 z-50 bg-white/90 backdrop-blur-md shadow-md items-center fixed top-0 left-0 right-0 lg:relative lg:top-auto lg:left-auto lg:right-auto">
