@@ -135,9 +135,9 @@ export default function RootLayout({
         <meta name="google-site-verification" content="_HgEXJjb8ibOVIFYhhSHz-5Jin9T5B-iN1BUE6ewMp0" />
         
         {/* Favicon */}
-        <link rel="icon" href="/StudioAboutImage.jpg" type="image/jpeg" />
-        <link rel="shortcut icon" href="/StudioAboutImage.jpg" type="image/jpeg" />
-        <link rel="apple-touch-icon" href="/StudioAboutImage.jpg" />
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+        <link rel="shortcut icon" href="/favicon.svg" type="image/svg+xml" />
+        <link rel="apple-touch-icon" href="/favicon.svg" />
         
         {/* Open Graph tags for social media */}
         <meta property="og:title" content="רויטל פרצלינה || צלמת בוק בת מצווה | משפחה | הריון | תדמית" />
