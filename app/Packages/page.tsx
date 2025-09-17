@@ -412,7 +412,7 @@ function PackagesContent() {
                   <select
                     value={selectedCategory}
                     onChange={(e) => setSelectedCategory(e.target.value)}
-                    className="w-full px-5 py-3 text-base font-medium text-white bg-white/10 backdrop-blur-sm border-2 border-[#F1BDAF] rounded-lg shadow-md appearance-none cursor-pointer hover:bg-[#F1BDAF]/10 transition-all duration-200 text-center"
+                    className="w-full px-5 py-3 text-base font-medium text-white bg-white/10 backdrop-blur-xl border-2 border-[#F1BDAF] rounded-lg shadow-md appearance-none cursor-pointer hover:bg-[#F1BDAF]/10 transition-all duration-200 text-center"
                     dir="rtl"
                   >
                     {categoryPackages.slice().reverse().map((category) => (

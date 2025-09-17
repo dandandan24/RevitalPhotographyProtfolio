@@ -315,7 +315,7 @@ export default function Gallery() {
                     onChange={(e) => {
                       handleCategoryChange(e.target.value);
                     }}
-                    className="w-full px-5 py-3 text-base font-bold text-white bg-white/10 backdrop-blur-sm border-2 border-[#F1BDAF] rounded-lg shadow-md appearance-none cursor-pointer hover:bg-[#F1BDAF]/10 transition-all duration-200 text-center"
+                    className="w-full px-5 py-3 text-base font-bold text-white bg-white/10 backdrop-blur-lg border-2 border-[#F1BDAF] rounded-lg shadow-md appearance-none cursor-pointer hover:bg-[#F1BDAF]/10 transition-all duration-200 text-center"
                     dir="rtl"
                     style={{
                       textShadow: '0 1px 2px rgba(0, 0, 0, 0.5)'
