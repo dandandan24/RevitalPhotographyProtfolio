@@ -315,7 +315,7 @@ export default function Gallery() {
                     onChange={(e) => {
                       handleCategoryChange(e.target.value);
                     }}
-                    className="w-full px-5 py-3 text-base font-bold text-white bg-white/10 backdrop-blur-lg border-2 border-[#F1BDAF] rounded-lg shadow-md appearance-none cursor-pointer hover:bg-[#F1BDAF]/10 transition-all duration-200 text-center"
+                    className="w-full px-5 py-3 text-base font-bold text-black bg-white/10 backdrop-blur-lg border-2 border-[#F1BDAF] rounded-lg shadow-md appearance-none cursor-pointer hover:bg-[#F1BDAF]/10 transition-all duration-200 text-center"
                     dir="rtl"
                     style={{
                       textShadow: '0 1px 2px rgba(0, 0, 0, 0.5)'
@@ -329,7 +329,7 @@ export default function Gallery() {
                   </select>
                   {/* Custom dropdown arrow */}
                   <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
-                    <svg className="w-4 h-4 text-[#F1BDAF]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-4 h-4 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                     </svg>
                   </div>
