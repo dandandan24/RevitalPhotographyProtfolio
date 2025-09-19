@@ -79,7 +79,7 @@ function ContactCard() {
                     from_email: email,
                     from_phone: phone,
                     message: message || 'לא צוינה הודעה',
-                    to_email: 'yaelparzel@gmail.com'
+                    to_email: 'rparzelina@gmail.com'
                 };
 
                 // Send email using EmailJS
